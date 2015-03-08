@@ -1,0 +1,70 @@
+Elm.Types = Elm.Types || {};
+Elm.Types.SmartDisplay = Elm.Types.SmartDisplay || {};
+Elm.Types.SmartDisplay.make = function (_elm) {
+   "use strict";
+   _elm.Types = _elm.Types || {};
+   _elm.Types.SmartDisplay = _elm.Types.SmartDisplay || {};
+   if (_elm.Types.SmartDisplay.values)
+   return _elm.Types.SmartDisplay.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Types.SmartDisplay";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var FramedList = {ctor: "FramedList"};
+   var ContainerList = {ctor: "ContainerList"};
+   var CheckBoxComparision = {ctor: "CheckBoxComparision"};
+   var ParagraphList = {ctor: "ParagraphList"};
+   var PlusMinus = {ctor: "PlusMinus"};
+   var PlusEqualVertical = {ctor: "PlusEqualVertical"};
+   var PlusEqualHorizontal = {ctor: "PlusEqualHorizontal"};
+   var CircleCone = {ctor: "CircleCone"};
+   var CircleHalf = {ctor: "CircleHalf"};
+   var CircleFull = {ctor: "CircleFull"};
+   var SmartItem = F2(function (a,
+   b) {
+      return {_: {}
+             ,body: b
+             ,route: a};
+   });
+   var SmartDisplay = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,items: c
+             ,sdType: b
+             ,width: a};
+   });
+   _elm.Types.SmartDisplay.values = {_op: _op
+                                    ,CircleFull: CircleFull
+                                    ,CircleHalf: CircleHalf
+                                    ,CircleCone: CircleCone
+                                    ,PlusEqualHorizontal: PlusEqualHorizontal
+                                    ,PlusEqualVertical: PlusEqualVertical
+                                    ,PlusMinus: PlusMinus
+                                    ,ParagraphList: ParagraphList
+                                    ,CheckBoxComparision: CheckBoxComparision
+                                    ,ContainerList: ContainerList
+                                    ,FramedList: FramedList
+                                    ,SmartDisplay: SmartDisplay
+                                    ,SmartItem: SmartItem};
+   return _elm.Types.SmartDisplay.values;
+};

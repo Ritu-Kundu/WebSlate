@@ -1,0 +1,145 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.Layouts = Elm.Themes.Layouts || {};
+Elm.Themes.Layouts.Split = Elm.Themes.Layouts.Split || {};
+Elm.Themes.Layouts.Split.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.Layouts = _elm.Themes.Layouts || {};
+   _elm.Themes.Layouts.Split = _elm.Themes.Layouts.Split || {};
+   if (_elm.Themes.Layouts.Split.values)
+   return _elm.Themes.Layouts.Split.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.Layouts.Split";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.Default = Elm.Themes.Layouts.Default.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var changePalletteMapping = _L.fromArray([{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "author"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Quaternary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "author"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Quaternary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "title"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Primary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "title"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Primary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "section"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Quaternary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "section"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Quaternary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "subsection"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Primary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "subsection"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Primary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsection"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.QuaternaryShading}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsection"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.QuaternaryShading}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsubsection"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.PrimaryShading}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsubsection"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.PrimaryShading}]);
+   var defLayOut = Themes.Layouts.Default.defaultLayoutInfo;
+   var footlineLayout = Types.Theme.Layout({_: {}
+                                           ,columns: _L.fromArray([{_: {}
+                                                                   ,colAlign: Types.Theme.TopAlign
+                                                                   ,id: 1
+                                                                   ,placement: Graphics.Element.midRight
+                                                                   ,width: 0.5}
+                                                                  ,{_: {}
+                                                                   ,colAlign: Types.Theme.TopAlign
+                                                                   ,id: 2
+                                                                   ,placement: Graphics.Element.midLeft
+                                                                   ,width: 0.5}])
+                                           ,inserts: _L.fromArray([{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "section"}
+                                                                  ,{_: {}
+                                                                   ,column: 2
+                                                                   ,id: "subsection"}])});
+   var headlineLayout = Types.Theme.Layout({_: {}
+                                           ,columns: _L.fromArray([{_: {}
+                                                                   ,colAlign: Types.Theme.TopAlign
+                                                                   ,id: 1
+                                                                   ,placement: Graphics.Element.midRight
+                                                                   ,width: 0.5}
+                                                                  ,{_: {}
+                                                                   ,colAlign: Types.Theme.TopAlign
+                                                                   ,id: 2
+                                                                   ,placement: Graphics.Element.midLeft
+                                                                   ,width: 0.5}])
+                                           ,inserts: _L.fromArray([{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "sectionnavigationvertical"}
+                                                                  ,{_: {}
+                                                                   ,column: 2
+                                                                   ,id: "subsectionnavigationvertical"}])});
+   var splitLayoutInfo = _U.replace([["headline"
+                                     ,headlineLayout]
+                                    ,["footline",footlineLayout]],
+   defLayOut);
+   _elm.Themes.Layouts.Split.values = {_op: _op
+                                      ,headlineLayout: headlineLayout
+                                      ,footlineLayout: footlineLayout
+                                      ,defLayOut: defLayOut
+                                      ,splitLayoutInfo: splitLayoutInfo
+                                      ,changePalletteMapping: changePalletteMapping};
+   return _elm.Themes.Layouts.Split.values;
+};

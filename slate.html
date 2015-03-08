@@ -1,0 +1,114 @@
+<html>
+ 
+  <head>
+    <title>Slate</title>
+    <script type="text/javascript" src="Converter/JSLIB/Elm-runtime.js"></script>
+    <script type="text/javascript" src="Converter/JSLIB/Underscore.js"></script>
+    <script type="text/javascript" src="Parser/Parser.js"></script>
+    <script type="text/javascript" src="Converter/Converter.js"></script>
+    <script type="text/javascript" src="Renderer/build/Slate.js"></script>
+    <script type="text/javascript" src="Parser/Reader.js"></script>
+    <style>
+    body {  
+	margin: 0;
+	padding: 0;
+    }
+    .wrapper {
+	margin: 0;
+    height: 100%;
+    width: 100%;
+	padding-bottom: 10px;
+	line-height: 1.8em;
+	font-family: normal small Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	color: #fff;
+	background: #818181;
+    }
+    a:link, a:visited { 
+    color: #fff; 
+    text-decoration: underline; 
+    font-weight: bold;
+    } 
+    a:active, a:hover { 
+    color: #fff; 
+    text-decoration: none;
+    }
+
+	.headwrapper {
+    clear: both;
+	width: 100%;
+	text-align: center;
+	height: 161px;
+	margin: 0 auto;
+    padding: 20px 20px 0 20px;;
+	background: #000000 url(Symbols/index/banner_bg.png) repeat-x;	
+	}
+    .headwrapper h2 {
+    position: relative;
+	width: 900px;
+	height: 90px;
+    padding-bottom: 10px;
+	background:url(Symbols/index/banner_img.gif) no-repeat;
+	padding-top: 25px;
+	margin-top: 10px;
+    margin-left: 150px;
+	font-size: 36px;
+	line-height: 40px;
+	text-align: center;	
+	color: #ffffff;
+    }
+	.ins {
+	font-size: 20px;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height: 28px;
+	font-weight: normal;
+	color: #ffffff;
+    margin: 0 0 0 30px;
+	padding: 0px;
+	list-style: square;
+	}
+	.fileUploader {
+	background: url(Symbols/index/footer_bg.jpg) repeat-x;
+	clear: both;
+	display: block;
+	height: 20px;
+    margin: 10px;
+	padding: 20px;
+	color: #fff;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+}
+    </style>
+  </head>
+  <body style="overflow: hidden">
+  	<div id ="instructions" class="wrapper"> 
+         <div class="headwrapper">
+  		<h2> Slate: Slide Making in Web-Age </h2>
+        </div>
+  		<p style="padding-left:10px;">
+  		To run the demo :
+        <ul class="ins"> 
+  		<li> Go to <a href="https://github.com/Ritu-Kundu/WebSlate" target="_blank"> Github repository </a> </li>
+  		<li> Copy the code in the file named myPres.slate which is located in Demo folder.</li>
+  		<li> Save the code in a file with a name like : demo.slate, using any word-editing software like notepad.</li>
+  		<li> Browse to the saved file and upload it.</li>
+  		<li> Presentation will be generated which can be navigated using arrow keys (Enter for animation).</li>
+  		<li> ReadMe.md (Github) will give further instructions.</li>
+  		<li> Documentation.pdf (Github) explains the tool in details.</li>
+        </ul>
+  		
+  			
+  		</p>
+   	<div id="SlateFileUploader" class="fileUploader" > 
+	<form action='#' onsubmit="return false;">
+		<input type='file' id='fileInput'>
+		<input type='button' id='btnLoad' value='Load' onclick=Reader.loadFile();>		
+	</form>
+    </div>
+    <div style="display:none" id="SlateError"> </div>
+    </div>
+  </body>
+       
+ </html>

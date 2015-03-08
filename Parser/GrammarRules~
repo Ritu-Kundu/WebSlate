@@ -1,0 +1,665 @@
+NOTE: 
+No space allowed between commands and curly parameters
+Space can be there in bracketted-parameters
+
+presentation 
+  = BEGIN PRES Ignore_ presentationSpec END PRES Ignore_ 
+
+presentationSpec 
+  = appearanceSpec? Ignore_ infoSpec? Ignore_ contentSpec Ignore_ 
+**********************************************************************
+appearanceSpec 
+  = BEGIN APPEARANCE Ignore_ 
+      appearanceElement+
+    END APPEARANCE Ignore_
+
+appearanceElement
+ = setCanvas/ setColor / setFont /
+   setGuideCanvas/ setGuideColor / setGuideFont /
+   useStyleTheme / useFontTheme / useLayoutTheme / 
+   setLayout
+----------------------------------------------------------------------
+setCanvas
+  = SET CANVAS LCURLY templateName RCURLY canvasOptions 
+                       canvasAddditionalOptions? Ignore_
+    
+setGuideCanvas
+  = SET GUIDE CANVAS LCURLY gguideName RCURLY canvasOptions 
+                       canvasAddditionalOptions? Ignore_
+ 
+canvasOptions
+  = LSQUARE canvasOption Ignore_ (COMMA canvasOption)* RSQUARE 
+
+canvasOption 
+  = BORDER EQ (THIN/MEDIUM/THICK/NONE/$Number) 
+                   (EXCLAIM (SOLID/DASHED/DOTTED))? Ignore_
+    / 
+    PADDING EQ 
+         (paddingThick?) EXCLAIM (paddingThick)? 
+    
+paddingThick
+  = THIN/THICK/MEDIUM/$Number 
+
+canvasAddditionalOptions 
+  = LSQUARE fo:canvasAddditionalOption+ Ignore_ RSQUARE
+
+canvasAddditionalOption 
+  = SHAPE EQ (CIRCLE/ TICK/ SQUARE/ RECTANGLE/ TRIANGLE) 
+
+templateName
+  = template ( _ IN _ container )? 
+
+template 
+  = "title"/ "subtitle"/ "author" / "date"/ "institute"/ "slide number"/
+    "title graphic"/ "section graphic"/ "subsection graphic"/ 
+    "slide title"/"slide subtitle"
+    "section"/ "subsection"/ "subsubsection"/ "shaded section"/ 
+    "shaded subsection"/ "shaded subsubsection"/
+     "headline"/ "footline" / "left sidebar" /"right sidebar"/ 
+     "miniframes" / "logo"/
+      
+     "block"/ "framebox"/ "imagebox"/ "alertedblock"/ "quiz"/
+     "block title"/ "normal"/ "highlight"/ "alert"/ 
+     "itemize item"/ "itemize subitem"/"itemize subsubitem"/ 
+     "enumerate item"/"enumerate subitem"/ "enumerate subsubitem"/ 
+     "description item"/ "description subitem"/ "description subsubitem"/
+     "caption"/ "caption nameandnumber"/ "toc"/ 
+
+     "navigational symbols"/ "dimmed navigational symbols"/ 
+     "modechange symbols"/ "dimmed modechange symbols"/ 
+     "current"/ "current subsection"/ "other section"/ "other subsection"/
+     "section projection"/ "shaded section projection"/
+     "subsection projection"/ "shaded subsection projection"/ 
+     "subsubsection projection"/ "shaded subsubsection projection"/
+     "itemize item projection"/ "itemize subitem projection"/ 
+     "itemize subsubitem projection"/ 
+     "enumerate item projection"/ "enumerate subitem projection"/ 
+     "enumerate subsubitem projection"/ 
+     "description item projection"/ "description subitem projection"/ 
+     "description subsubitem projection"
+
+container
+  = "headline"/ "footline" / "sidebar" /
+     "block" / "alertedblock" / "imagebox" / "toc"
+     "miniframes"
+
+guideName
+  = guide 
+guide
+  = "Outer" / "Inner" / "Outer Elements" / "Inner Elements" /
+    "Title Like" / "Normal Text" / "Alert Text" / "Highlight Text" /
+    "Item" / "Subitem"/ "Subsubitem" /
+    "Item Projection" / "Subitem Projection" / "Subsubitem Projection"
+     
+----------------------------------------------------------------------
+setColor
+  = SET COLOR LCURLY templateName RCURLY colorOptions 
+                       colorAddditionalOptions? Ignore_
+    
+setGuideColor
+  = SET GUIDE COLOR LCURLY guideName RCURLY colorOptions 
+                       colorAddditionalOptions? Ignore_
+ 
+colorOptions
+  = LSQUARE  colorOption Ignore_ (COMMA colorOption)* RSQUARE 
+
+colorOption 
+  = (BORDER/BG/FG) EQ colorString Ignore_
+    / 
+    PADDING EQ 
+         (colorString?) EXCLAIM (colorString)? 
+           EXCLAIM (colorString)? EXCLAIM (colorString)? Ignore_
+
+colorAddditionalOptions 
+  = LSQUARE colorAddditionalOption Ignore_  restcolorAddditionalOption* RSQUARE
+
+restcolorAddditionalOption 
+  = (COMMA c:colorAddditionalOption)
+colorAddditionalOption 
+  = FILL EQ colorString
+    /
+    ALPHA EQ $Float
+---------------------------------------------------------------------- 
+setFont
+  = SET FONT LCURLY templateName RCURLY fontOptions Ignore_
+
+setGuideFont
+  = SET GUIDE FONT LCURLY guideName RCURLY fontOptions Ignore_
+
+fontOptions
+  = LSQUARE fontOption Ignore_ (COMMA fontOption)* RSQUARE 
+
+fontOption 
+  = (SIZE) EQ (TINY/SCRIPTSIZE/FOOTNOTESIZE/VERYSMALL
+                  /SMALL/NORMALSIZE/LARGE/VERYLARGE/HUGE) Ignore_
+    / 
+    SHAPE EQ (NORMAL/BOLD/ITALIC/BOLDITALIC) Ignore_
+    / 
+    ALIGN EQ (LEFT/RIGHT/CENTER/JUSTIFY) Ignore_
+    / 
+    FAMILY EQ (StringLine) Ignore_
+   
+----------------------------------------------------------------------
+useStyleTheme
+  = USE STYLE THEME LCURLY styleThemeName RCURLY Ignore_
+ 
+useFontTheme
+  = USE FONT THEME LCURLY CommaSepString RCURLY Ignore_
+
+useLayoutTheme
+  = USE LAYOUT THEME LCURLY layoutThemeName RCURLY Ignore_
+styleThemeName
+  = "default" / "sober" / "striking"
+layoutThemeName
+ = simpleLayoutTheme / parametericLayoutTheme
+simpleLayoutTheme
+  = "infolines"/ "leftsidebar"/ "rightsidebar"/ "split"/ "tree" 
+parametericLayoutTheme
+  = "miniframes" _ WITH _
+    ("author-title"/"institute-title"/"author-institute-title"/"no-foot") 
+----------------------------------------------------------------------
+setLayout
+  = setLayout
+  = SET LAYOUT LCURLY componentNames RCURLY LCURLY Ignore_
+      layoutContent
+    RCURLY Ignore_
+
+layoutContent 
+  = columnedLayoutContent / (insert)*
+
+columnedLayoutContent
+  = BEGIN COLUMNS Ignore_ 
+      (layoutColumnContent)+
+    END COLUMNS Ignore_
+
+layoutColumnContent 
+  = BEGIN COLUMN columnOptions? LCURLY width RCURLY Ignore_
+     (insert)*
+    END COLUMN Ignore_
+insert 
+  = simpleInsert / parametericInsert
+
+simpleInsert
+ = INSERT LCURLY simpleInsertNames RCURLY Ignore_
+
+simpleInsertNames
+  = "navigation" / "navigation vertical"
+    "section navigation" / "section navigation vertical" /
+    "subsection navigation" / "subsection navigation vertical" /
+    "tree section" / "tree subsection" / 
+    "section" / "subsection" / "subsubsection"/
+    "logo" / "slide number" / "slide number and total" / 
+    "title" / "subtitle"/ "author" / "institute" / "date" / "image" /
+    "slide navigation"
+    "back forward" /
+    "support" / "zoom" / "quiz"
+parametericInsert
+  = INSERT LCURLY "toc" RCURLY tocOptions? Ignore_
+
+tocOptions 
+ = LSQUARE to:tocOption Ignore_ commaSepTOCOption* RSQUARE 
+    
+commaSepTOCOption 
+  = (COMMA t:tocOption) 
+tocOption 
+  = (PAUSESECTIONS/PAUSESUBSECTIONS) EQ (TRUE/FALSE) Ignore_
+    /
+    o:(SECTIONSTYLE) EQ (tocStyle EXCLAIM tocStyle) Ignore_
+    /
+    o:(SUBSECTIONSTYLE) EQ 
+          v:(tocStyle EXCLAIM tocStyle EXCLAIM tocStyle) Ignore_
+    
+tocStyle 
+  = SHOW / HIDE / SHADED 
+
+componentNames
+  = ("headline"/ "footline" / "right sidebar" / 
+    "left sidebar"/ "navigational symbols"/ "modechange symbols" /
+    "title slide" / "toc slide" / "atbeginsection slide" /
+    "atbeginsubsection slide")  
+ 
+  
+**********************************************************************
+infoSpec 
+  = BEGIN INFORMATION Ignore_ 
+      infoElement+
+    END INFORMATION Ignore_ 
+
+infoElement 
+  =   (infoElementType1 / infoElementType2) Ignore_ 
+infoElementType1
+  = BSLASH (TITLE/SUBTITLE/AUTHORS/INSTITUTE) inCurlyText 
+
+// Date is made up of character like filename:Numbers or . or /
+infoElementType2
+  = BSLASH (DATE/LOGO/TITLEGRAPHIC/SECTIONGRAPHIC/SUBSECTIONGRAPHIC) 
+    LCURLY FileName RCURLY 
+
+**********************************************************************
+contentSpec 
+  = BEGIN CONTENT Ignore_ (contentPart)+ END CONTENT Ignore_
+
+contentPart
+  = (section/subsection/subsubsection)* (slide/supportbin/quiz)+
+
+section 
+  = SECTION inCurlyText inCurlyText? Ignore_
+    
+subsection 
+  = SUBSECTION inCurlyText inCurlyText? Ignore_
+    
+subsubsection 
+  = SUBSUBSECTION inCurlyText inCurlyText? Ignore_
+----------------------------------------------------------------------    
+slide 
+  = BEGIN SLIDE slideOptions? inCurlyText? inCurlyText? Ignore_ 
+      slidecontent
+    END SLIDE Ignore_
+    
+slideOptions 
+  = LSQUARE slideOption Ignore_ (COMMA slideOption)* RSQUARE 
+    
+slideOption 
+  = PLAIN EQ (TRUE / FALSE) 
+    / SUPBIN EQ Label 
+
+slidecontent 
+  = columnedSlideContent 
+    / (slideElement)*
+----------------------------------------------------------------------            
+columnedSlideContent
+  = BEGIN COLUMNS Ignore_ 
+      (columnContent)*
+    END COLUMNS Ignore_
+    
+columnContent 
+  = BEGIN COLUMN columnOptions? LCURLY width RCURLY Ignore_
+     (slideElement)*
+    END COLUMN Ignore_
+                  
+columnOptions
+  = LSQUARE columnOption Ignore_ (COMMA columnOption)* RSQUARE 
+    
+columnOption 
+  = ALIGN EQ (B / T / C) 
+    / PLACEMENT EQ (LEFT/RIGHT/CENTER) 
+----------------------------------------------------------------------
+slideElement 
+  = block / imagebox / simpleTextbox / framebox / slateList
+----------------------------------------------------------------------
+block 
+  = BEGIN blockName splAnimation? Ignore_ 
+      blockTitle? Ignore_
+      simpleText Ignore_
+    END blockName Ignore_
+    
+blockName = BLOCK / ALERTBLOCK
+blockTitle 
+  = BSLASH TITLE inCurlyText Ignore_ 
+
+----------------------------------------------------------------------
+framebox 
+  = BEGIN FRAMEBOX splAnimation? Ignore_ 
+     simpleText Ignore_
+    END FRAMEBOX Ignore_
+----------------------------------------------------------------------
+imagebox 
+  = BEGIN IMAGEBOX splAnimation? imageOptions? Ignore_
+      BSLASH INCLUDEGRAPHICS LCURLY FileName RCURLY Ignore_
+      caption?
+    END IMAGEBOX Ignore_
+    
+caption 
+  = BSLASH CAPTION LCURLY stringText RCURLY Ignore_
+   
+imageOptions
+  = LSQUARE imageOption Ignore_ (COMMA imageOption)* RSQUARE 
+    
+imageOption 
+  = (WIDTH / HEIGHT / SCALE) EQ $Number 
+----------------------------------------------------------------------
+slateList 
+  = beginList listAnimation? Ignore_
+      listItems*
+    endist Ignore_
+    
+beginList 
+  = BEGIN listType 
+    
+endist 
+  = END listType
+     
+listType
+  = ENUMERATE / ITEMIZE / DESCRIPTION
+listItems 
+  = BSLASH ITEM splAnimation? listItemOption? _ simpleText?     
+    / slateList 
+listItemOption
+  = LSQUARE StringLine RSQUARE
+----------------------------------------------------------------------
+simpleTextbox  
+  = simpleText Ignore_
+    / oneParamAnimationCommands animation 
+                                    LCURLY simpleText RCURLY Ignore_
+      
+    / alt animation 
+          LCURLY simpleText RCURLY 
+          LCURLY simpleText RCURLY Ignore_
+      
+    / temporal a:animation 
+               LCURLY simpleText RCURLY 
+               LCURLY simpleText RCURLY 
+               LCURLY simpleText RCURLY Ignore_
+      
+oneParamAnimationCommands 
+  = (only / visible / invisible )
+only
+  = BSLASH ONLY  
+visible 
+  = BSLASH VISIBLE 
+invisible 
+  = BSLASH INVISIBLE  
+alt 
+  = BSLASH ALT  
+temporal 
+  = BSLASH TEMPORAL 
+----------------------------------------------------------------------       
+simpleText = textPart+
+textPart = stringText 
+           / inTextCommands animation? inCurlyText  Ignore_
+              
+inTextCommands 
+  = (alert / highlight / textit / textbf / underline / colorCommand)
+alert
+  = BSLASH ALERT  
+highlight 
+  = BSLASH HIGHLIGHT  
+textit 
+  = BSLASH TEXTIT  
+textbf 
+  = BSLASH TEXTBF 
+underline 
+  = BSLASH UNDERLINE  
+colorCommand 
+  = BSLASH COLOR LCURLY colorString RCURLY  
+----------------------------------------------------------------------       
+listAnimation 
+  = LANGLE $(PLUS HYPHEN) (BAR COVERED)? RANGLE 
+    / splAnimation
+splAnimation 
+  = LANGLE $(startAnimation 
+                 (COMMA startAnimation)*
+            ) 
+           (BAR COVERED)?
+    RANGLE 
+animation 
+  = LANGLE $(startAnimation 
+                 (COMMA startAnimation)*
+            ) 
+    RANGLE 
+startAnimation = Number HYPHEN Number/Number HYPHEN / Number/ HYPHEN Number 
+
+
+width = $Float PERCENT 
+colorString 
+  = namedColor
+    /colorCode 
+colorCode 
+  = $(("rgb" /"hsl") COLON Number COLON Number COLON Number) 
+    / $ (("rgba" /"hsla") COLON Number COLON Number COLON Number COLON Number)
+      
+namedColor 
+    = "red" / "orange"/ "yellow"/ "green"/ "blue"/ "purple" / 
+      "brown"/ "lightred"/ "lightorange"/ "lightyellow"/ "lightgreen" / 
+      "lightblue" / "lightbrown"/ "darkred"/ "darkorange"/ "darkyellow"/
+      "darkgreen"/ "darkblue"/ "darkpurple"/ "darkbrown" / "white"
+      "lightgrey" / "grey"/ "darkgrey"/ "lightcharcoal"
+      "charcoal"/ "darkcharcoal"/ "black"/"transparent"
+----------------------------------------------------------------------     
+inCurlyText
+  = LCURLY stringText RCURLY
+
+stringText = startText text 
+startText = &Letter {textMode=true;}
+text =  (inText)* 
+
+inText = &{return textMode;} inTextChar 
+inTextChar =       BSLASH BSLASH {return "\n";}
+                 / BSLASH w:SpecChar {return w;}
+                 / w:_ {return w;}
+                 / w:Letter
+                 / &RCURLY {textMode=false;return "";}
+                 / &BSLASH {textMode=false;return "";}
+---------------------------------------------------------------------- 
+supportbin 
+  = BEGIN SUPPORTBIN LCURLY Label RCURLY Ignore_ 
+      (slideElement)*
+    END SUPPORTBIN Ignore_
+----------------------------------------------------------------------
+quiz 
+  = BEGIN QUIZ LCURLY l:Label RCURLY Ignore_ 
+      question
+      correctanswers?
+      answeroption*
+      explanation?
+    END SUPPORTBIN Ignore_
+    
+question 
+  = QUESTION  LCURLY stringText RCURLY questionType? Ignore_
+     
+questionType
+  =LCURLY (SIMPLE/MCQ) RCURLY 
+
+correctanswers 
+  = CORRECTANSWERS LCURLY stringText RCURLY 
+    
+answeroption 
+  = ANSWEROPTION LCURLY stringText RCURLY 
+     LCURLY (TRUE/FALSE)RCURLY Ignore_ 
+explanation 
+  = EXPLANATION LCURLY stringText RCURLY Ignore_ 
+
+ 
+//////////////////////////////////////////////////////////
+/**
+* Define tokens
+*/
+
+
+TRUE = "true"
+FALSE = "false"
+
+/**** CONTAINERS ****/
+PRES = LCURLY "presentation" RCURLY 
+APPEARANCE = LCURLY "appearance" RCURLY 
+INFORMATION = LCURLY "information" RCURLY 
+CONTENT = LCURLY "content" RCURLY 
+
+SLIDE = LCURLY "slide" RCURLY 
+COLUMNS = LCURLY "columns" RCURLY 
+COLUMN = LCURLY "column" RCURLY 
+
+SUPPORTBIN = LCURLY "supportbin" RCURLY 
+QUIZ =  LCURLY "quiz" RCURLY
+BLOCK = LCURLY "block" RCURLY 
+ALERTBLOCK = LCURLY "alertedblock" RCURLY 
+FRAMEBOX = LCURLY "framebox" RCURLY 
+IMAGEBOX = LCURLY "imagebox" RCURLY 
+ENUMERATE = LCURLY "enumerate" RCURLY  
+ITEMIZE = LCURLY "itemize" RCURLY 
+DESCRIPTION = LCURLY "description" RCURLY  
+
+/**** Commands ****/
+BEGIN = BSLASH "begin" 
+END = BSLASH "end" 
+SET = BSLASH "set" 
+USE = BSLASH "use" 
+INSERT = BSLASH "insert" 
+STYLE = "style" 
+LAYOUT = "layout" 
+THEME = "theme" 
+WITH = "with" 
+
+IN = "in" 
+CANVAS = "canvas" 
+FONT = "font" 
+GUIDE = "guide"
+
+SECTION = BSLASH "section" 
+SUBSECTION = BSLASH "subsection" 
+SUBSUBSECTION = BSLASH "subsubsection"  
+
+TITLE = "title" 
+SUBTITLE = "subtitle"
+LOGO = "logo"
+AUTHORS = "authors"
+INSTITUTE = "institute"
+DATE = "date"
+TITLEGRAPHIC = "titlegraphic"
+SECTIONGRAPHIC = "sectiongraphic"
+SUBSECTIONGRAPHIC = "subsectiongraphic"
+ITEM = "item" 
+
+ONLY = "only"
+VISIBLE = "visible"
+INVISIBLE = "invisible"
+ALT = "alt"
+TEMPORAL = "temporal"
+
+ALERT = "alert"
+HIGHLIGHT = "highlight"
+TEXTIT = "textit"
+TEXTBF = "textbf"
+UNDERLINE = "underline"
+COLOR = "color"
+INCLUDEGRAPHICS = "includegraphics"
+CAPTION = "caption"
+
+QUESTION = BSLASH "question"  {return "";} 
+CORRECTANSWERS = BSLASH "correctanswers"  {return "";} 
+ANSWEROPTION = BSLASH "answeroption"  {return "";} 
+EXPLANATION = BSLASH "explanation"  {return "";} 
+
+
+/**** Color Options ****/
+BG = "bg" Ignore_ 
+FG = "fg" Ignore_ 
+ALPHA = "alpha" Ignore_ 
+FILL = "fill" Ignore_ 
+
+/**** Font Options ****/
+SIZE = "size" Ignore_ 
+SHAPE = "shape" Ignore_ 
+FAMILY = "family" Ignore_ 
+TINY="tiny"
+SCRIPTSIZE = "scriptsize"
+FOOTNOTESIZE = "footnotesize"
+VERYSMALL = "verysmall"
+SMALL = "small"
+NORMALSIZE = "normalsize"
+LARGE = "large"
+VERYLARGE = "verylarge"
+HUGE = "huge"
+BOLD = "bold"
+ITALIC = "italic"
+NORMAL = "normal"
+BOLDITALIC = "bolditalic"
+JUSTIFY = "justify"
+
+/**** Canvas Options ****/
+BORDER = "border" Ignore_ 
+PADDING = "padding" Ignore_ 
+SHAPE = "shape" Ignore_ 
+THIN = "thin"
+THICK = "thick"
+MEDIUM = "medium"
+NONE = "none"
+SOLID = "solid"
+DASHED = "dashed"
+DOTTED = "dotted"
+TRIANGLE = "triangle"
+CIRCLE = "circle"
+TICK ="tick"
+SQUARE = "square"
+RECTANGLE = "rectangle"
+
+/**** Column Options ****/
+ALIGN = "align" Ignore_ 
+PLACEMENT = "placement" Ignore_ 
+B = "b" Ignore_ 
+T = "t" Ignore_ 
+C = "c" Ignore_ 
+LEFT = "left" Ignore_ 
+RIGHT = "right" Ignore_ 
+CENTER = "center" Ignore_ 
+
+
+/**** TOC Options****/
+PAUSESECTIONS = "pausesections" Ignore_ 
+PAUSESUBSECTIONS = "pausesubsections" Ignore_ 
+SECTIONSTYLE = "sectionstyle" Ignore_ 
+SUBSECTIONSTYLE = "subsectionstyle" Ignore_ 
+
+SHOW =  "show"  
+HIDE = "hide"  
+SHADED = "shaded" 
+
+
+
+/**** Slide Options ****/
+PLAIN = "plain" Ignore_ 
+SUPBIN = "supportbin" Ignore_ 
+QUIZLABEL = "quiz" Ignore_ 
+
+/**** Quiz Options ****/
+SIMPLE = t:"simple" 
+MCQ = t:"mcq" 
+
+
+/**** Image Options****/
+WIDTH =  "width" Ignore_ 
+HEIGHT = "height" Ignore_ 
+SCALE = "scale" Ignore_ 
+
+
+
+/**** SPECIAL CHAR ****/
+EQ = "=" 
+COMMA = "," 
+LCURLY = "{" 
+RCURLY = "}" 
+LSQUARE = "[" 
+RSQUARE = "]" 
+LANGLE = "<" 
+RANGLE = ">" 
+BSLASH "BackSlash" = "\\" 
+
+PERCENT = "%"  
+COLON = ":"
+HYPHEN = "-"
+PLUS = "+"
+EXCLAIM = "!"
+
+/**
+* Define regexpressions
+*/
+
+Char = [a-z A-Z]
+
+White = [\  \t \r \n]
+SpecChar "Special" = [{ } < > \[ \] \\ ]
+NonLetter "NonLetter" = White / SpecChar
+Letter "letter" = !NonLetter c:.  {return c;}
+_ = White+ {return " ";}
+Ignore_ = White* {return "";}
+
+Digit = [0-9]
+Number = n:$(Digit+) 
+Float = f: $(a:Digit+ "."? b:Digit*) 
+LabelStartChar = Char / "_"
+LabelChar = LabelStartChar / Digit 
+Label = ls:LabelStartChar rest:LabelChar*  
+StringLine = $(Char/_)+  
+FileName = $(LabelChar / "/" / "\\"/ "."/ ",")+ 
+CommaSepString = $(Char/_/",")+ 
+

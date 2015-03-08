@@ -1,0 +1,224 @@
+\begin{presentation}
+\begin{appearance}
+\usestyletheme{sober}
+\setlayout{headline}{
+\insert{section navigation}
+}
+\end{appearance}
+
+\begin{content}
+\section{First section}
+\begin{supportbin}{abc}
+\begin{block}
+\title{SupportBlock 1}
+Hi, I am normal text
+
+\highlight{I am Highlighted Text}
+\color{yellow}{I am yellowed text}
+\end{block}
+\begin{enumerate}
+	\item enum1
+	\item enum2
+	\item
+		\begin{enumerate}
+			\item enum21
+			\item enum22
+				\begin{enumerate}
+					\item enum221
+					\item enum222
+				\end{enumerate}
+      \item enum23
+      \item enum24
+				\begin{enumerate}
+					\item enum241
+					\item enum242
+				\end{enumerate}
+      \item enum25
+		\end{enumerate}
+\end{enumerate}
+\end{supportbin}
+
+
+\begin{slide}{Static Text}
+
+\begin{block}
+\title{Block 1}
+Hi, I am normal text
+\textit{I am italic text}
+\textbf{I am bold text}
+\alert{I am alert text}
+\underline{I am Underlined Text}
+\highlight{I am Highlighted Text}
+\color{yellow}{I am yellowed text}
+\end{block}
+
+\begin{enumerate}
+	\item enum1
+	\item enum2
+	\item
+		\begin{enumerate}
+			\item enum21
+			\item enum22
+				\begin{enumerate}
+					\item enum221
+					\item enum222
+				\end{enumerate}
+      \item enum23
+      \item enum24
+				\begin{enumerate}
+					\item enum241
+					\item enum242
+				\end{enumerate}
+      \item enum25
+		\end{enumerate}
+\end{enumerate}
+\begin{block}
+\title{Block 1}
+Hi, I am normal text
+\textit{I am italic text}
+\textbf{I am bold text}
+\alert{I am alert text}
+\underline{I am Underlined Text}
+\highlight{I am Highlighted Text}
+\color{yellow}{I am yellowed text}
+\end{block}
+\end{slide}
+\section{second section}
+\begin{slide}{Columned Text}
+\begin{columns}
+\begin{column}{0.7%}
+\begin{block}
+\title{Block 1}
+Hi, I am normal text
+\\Text can be resized
+\textit{I am italic text\\}
+\textbf{I am bold text}
+\alert{I am alert text\\}
+\underline{I am Underlined Text}
+\highlight{I am Highlighted Text}
+\color{yellow}{I am yellowed text}
+\end{block}
+
+\begin{itemize}
+	\item enum1
+	\item enum2
+	\item
+		\begin{itemize}
+			\item enum21
+			\item enum22
+				\begin{itemize}
+					\item enum221
+					\item enum222
+				\end{itemize}
+      \item enum23
+      \item enum24
+				\begin{itemize}
+					\item enum241
+					\item enum242
+				\end{itemize}
+      \item enum25
+		\end{itemize}
+\end{itemize}
+
+
+\end{column}
+\end{columns}
+\end{slide}
+\section{third section}
+
+\begin{slide}[supportbin=abc]{Multi Columned Text}
+\begin{columns}
+\begin{column}[align=t]{0.5%}
+\begin{block}
+\title{Block 1}
+Hi, I am normal text
+\\Text can be resized
+
+\end{block}
+\end{column}
+\begin{column}[align=t]{0.5%}
+\begin{itemize}
+	\item<1-> enum1
+	\item<2-> enum2
+	\item
+		\begin{itemize}
+			\item<3-> enum21
+			\item<4-> enum22
+				\begin{enumerate}
+					\item<5-> enum221
+					\item<6-> enum222
+				\end{enumerate}
+      \item<7-> enum23
+      \item<8-> enum24
+				\begin{itemize}
+					\item<9-> enum241
+					\item<10-> enum242
+				\end{itemize}
+      \item<11-> enum25
+      
+		\end{itemize}
+\end{itemize}
+
+
+\end{column}
+\end{columns}
+\end{slide}
+
+\begin{slide}{Multi Columned Text}
+\begin{columns}
+\begin{column}[align=t]{0.5%}
+\begin{block}<1->
+\title{Block 1}
+Hi, I visible from 1
+\end{block}
+\begin{block}<3-7|covered>
+\title{Block 2}
+Hi, I visible from 3 to 7 else covered
+\end{block}
+\begin{block}<3-7>
+\title{Block 3}
+Hi, I visible from 3 to 7 only
+\end{block}
+\begin{block}<2-8>
+\title{Block 4}
+Hi, I visible from 2 to 8
+\end{block}
+\begin{block}<-3>
+\title{Block 5}
+Hi, I visible upto 3
+\end{block}
+\end{column}
+\begin{column}[align=t]{0.5%}
+\begin{itemize}
+	\item<1-> enum1
+	\item<2-> enum2
+	\item
+		\begin{itemize}
+			\item<3-> enum21
+			\item<4-> enum22
+				\begin{enumerate}
+					\item<5-> enum221
+					\item<6-> enum222
+				\end{enumerate}
+      \item<7-> enum23
+      \item<8-> enum24
+				\begin{itemize}
+					\item<9-> enum241
+					\item<10-> enum242
+				\end{itemize}
+      \item<11-> enum25
+      
+		\end{itemize}
+\end{itemize}
+
+
+\end{column}
+\end{columns}
+\end{slide}
+\begin{slide}{Slide with Image}
+\begin{imagebox}
+\includegraphics{/home/ritu/Slate/Parser/Symbols/Section.gif}
+\end{imagebox}
+\end{slide}
+\end{content}
+\end{presentation}

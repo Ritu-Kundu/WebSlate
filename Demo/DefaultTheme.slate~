@@ -1,0 +1,49 @@
+\begin{presentation}
+\begin{appearance}
+\usestyletheme{striking}
+\uselayouttheme{infolines}
+\end{appearance}
+
+\begin{information}
+	\title{SLATE: Slide-Making in the Web-Age}
+	\authors{Ritu Kundu}
+	\date{27th August, 2014}
+\end{information}
+
+\begin{content}
+	\section{Introduction}
+		\subsection{Motivation}
+			\begin{slide}{Why SLATE?}
+				\begin{block}
+					\title{Inspiration}
+						To be able to display presentation-document \\written in a language inspired from Latex, \\in a web-browser 
+            making use of its ability \\to render interactive and dynamic content 
+						 
+				\end{block}
+			\end{slide}
+		\subsection{Design Goals}
+			\subsubsection{Primary}
+				\begin{slide}{Primary Goals}
+					\begin{itemize}
+						\item Input should be coded in a language which is similar to Latex
+						\item Output should be able to be rendered in a web browser 
+                \\ because of its suitability to handle dynamic content 
+                \\and support for developing highly responsive applications
+					\end{itemize}
+				\end{slide}
+			\subsubsection{Secondary}
+	\section{Design}
+		\subsection{Language}
+		\subsection{Architecture}
+	\section{Implementation}
+		\subsection{Parser}
+		\subsection{Converter}
+		\subsection{Renderer}
+	\section{Conclusion}
+		\subsection{Extensions}
+		\subsection{Closing Remarks}
+			\begin{slide}
+			\end{slide}
+\end{content}
+
+\end{presentation}

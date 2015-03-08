@@ -1,0 +1,354 @@
+NOTE: Definition of stringText. FileName, color, animation are at the end
+
+presentation=
+{ appearanceInfo:<appearanceInfo>
+, presInfo:<presInfo>
+, content:<content> 
+, supportbin: <supportbinList>  
+, quizes: <quizList>
+};
+*****************************************************************
+appearanceInfo=
+{ themes: <defThemes>
+, guidingCanvas: <guidingCanvas>
+, guidingColors: <guidingColors>
+, guidingFonts: <guidingFonts>
+, templateCanvas: <templateCanvas>
+, templateColors: <templateColors>
+, templateFonts: <templateFonts>
+, templateLayout: <templateLayout>
+}
+------------------------------------------------------------------
+defThemes=
+{ layout: "" or ("infolines"/ "leftsidebar"/ "rightsidebar"/ "split" 
+                /"tree"/"miniframes:authortitle"
+                /"miniframes:institutetitle"/"miniframes:nofoot"
+                /"miniframes:authorinstitutetitle")
+, style: "" or ("default" / "sober" / "striking")
+, font: [""] or [String]
+}
+------------------------------------------------------------------
+guidingCanvas =
+{ id:<guide>
+, container: "none"
+, canvasInfo: <canvas>
+, options: <canvasOptions>
+}
+guide
+  = "Outer" / "Inner" / "OuterElements" / "InnerElements" /
+    "TitleLike" / "NormalText" / "AlertText" / "HighlightText" /
+    "Item" / "Subitem"/ "Subsubitem" /
+    "ItemProjection" / "SubitemProjection" / "SubsubitemProjection"
+canvas =
+{ border: "" or ("thin"/"thick"/"medium"/Number)
+, borderstyle: "" or ("solid"/"dashed"/"dotted")
+, leftpadding: "" or ("thin"/"thick"/"medium"/Number)
+, rightpadding: "" or ("thin"/"thick"/"medium"/Number)
+, toppadding: "" or ("thin"/"thick"/"medium"/Number)
+, bottompadding: "" or ("thin"/"thick"/"medium"/Number)
+}
+canvasOptions = [] or [<canvasOption>]
+canvasOption =
+{option: "shape"
+,value: "tick"/"circle"/"triangle"/"square"/"rectangle"
+} 
+------------------------------------------------------------------
+guidingColors =
+{ id:<guide>
+, container: "none"
+, colorInfo: <colorInfo>
+, options: <colorOptions>
+}
+colorInfo =
+{ bg: "" or <color>
+, fg:"" or <color>
+, border: "" or <color>
+, leftpadding: "" or <color>
+, rightpadding: "" or <color>
+, toppadding: "" or <color>
+, bottompadding: "" or <color>
+}
+colorOptions = [] or [<colorOption>]
+colorOption =
+{option: "fill" / "alpha"
+,value: <color> (for fill) / Float (for alpha)
+} 
+------------------------------------------------------------------
+guidingFonts =
+{ id:<guide>
+, container: "none"
+, fontInfo: <fontInfo>
+}
+fontInfo=
+{ size: "" or ("tiny"/"scriptsize"/"footnotesize"/"verysmall"
+               /"small"/"normalsize"/large"/"verylarge"/"huge")
+, shape: "" or ("bold"/"italic"/"bolditalic"/"normal")
+, align: "" or ("justify"/"left"/"right"/"center")
+, family: "" or (fontname consisting of characters and spaces)
+};
+------------------------------------------------------------------
+templateCanvas =
+{ id:<template>
+, container: <container>
+, canvas: <canvas>
+, options: <canvasOptions>
+}
+template 
+  = "title"/ "subtitle"/ "author" / "date"/ "institute"/ "slidenumber"/
+    "titlegraphic"/ "sectiongraphic"/ "subsectiongraphic"/ 
+    "slidetitle"/"slidesubtitle"
+    "section"/ "subsection"/ "subsubsection"/ "shadedsection"/ 
+    "shadedsubsection"/ "shadedsubsubsection"/
+     "headline"/ "footline" / "leftsidebar" /"rightsidebar"/ 
+     "miniframes" / "logo"/
+      
+     "block"/ "framebox"/ "imagebox"/ "alertedblock"/ "quiz"/
+     "blocktitle"/ "normal"/ "highlight"/ "alert"/ 
+     "itemizeitem"/ "itemizesubitem"/"itemizesubsubitem"/ 
+     "enumerate item"/"enumerate subitem"/ "enumeratesubsubitem"/ 
+     "descriptionitem"/ "descriptionsubitem"/ "descriptionsubsubitem"/
+     "caption"/ "captionnameandnumber"/ "toc"/ 
+
+     "navigational symbols"/ "dimmednavigationalsymbols"/ 
+     "modechangesymbols"/ "dimmedmodechangesymbols"/ 
+     "current"/ "currentsubsection"/ "othersection"/ "othersubsection"/
+     "sectionprojection"/ "shadedsectionprojection"/
+     "subsectionprojection"/ "shadedsubsectionprojection"/ 
+     "subsubsection projection"/ "shadedsubsubsectionprojection"/
+     "itemizeitemprojection"/ "itemizesubitemprojection"/ 
+     "itemizesubsubitemprojection"/ 
+     "enumerateitemprojection"/ "enumeratesubitemprojection"/ 
+     "enumeratesubsubitemprojection"/ 
+     "descriptionitemprojection"/ "descriptionsubitemprojection"/ 
+     "descriptionsubsubitemprojection"
+container
+  = "headline"/ "footline" / "sidebar" /
+     "block" / "alertedblock" / "imagebox" / "toc"
+     "miniframes"
+
+------------------------------------------------------------------
+templateColors =
+{ id:<template>
+, container: <container>
+, colorInfo: <colorInfo>
+, options: <colorOptions>
+}
+------------------------------------------------------------------
+templateFonts=
+{ id:<template>
+, container: <container>
+, fontInfo: <fontInfo>
+}
+------------------------------------------------------------------
+templateLayout = [] or [<templateLayoutRec>]
+templateLayoutRec
+{ id:<componentNames>
+, layoutContent: [<layoutContent>]
+}
+componentNames=
+    "headline"/ "footline" / "rightsidebar" / 
+    "leftsidebar"/ "navigational symbols"/ "modechangesymbols" /
+    "titleslide" / "tocslide" / "atbeginsectionslide" /
+    "atbeginsubsectionslide"
+layoutContent =
+{ width: "1" (or String having Float) 
+, columnAlign: "c" (or "t" or "b")
+, inColumnAlign: "center" (or "left" or "right" or "justify")
+, columnContent: <insert>
+}
+insert = [] or [<insertNames>]
+insertNames =
+    "navigation" / "navigationvertical"
+    "sectionnavigation" / "sectionnavigationvertical" /
+    "subsectionnavigation" / "subsectionnavigationvertical" /
+    "treesection" / "treesubsection" / 
+    "section" / "subsection" / "subsubsection"/
+    "logo" / "slidenumber" / "slidenumberandtotal" / 
+    "title" / "subtitle"/ "author" / "institute" / "date" /
+    "image" / "slidenavigation"/ "backforward" /
+    "support" / "zoom" / "quiz" /
+NOTE:"toc"is a special case -    
+"toc:" (followed by '-' seperated options.Options are:
+pausesections=true or false
+pausesubsections=trueor false
+sectionstyle=<tocstyle>!<tocstyle>
+subsectionstyle=<tocstyle>!<tocstyle>!<tocstyle>
+where tocstyle = show/hide/shaded)
+*****************************************************************
+presInfo=
+{ title: "" or <stringText>
+, subtitle: "" or <stringText>
+, authors:[] or [String]
+, institute:[] or [String]
+, date: "" or <stringText>
+, logo: "" or <Filename>
+, titlegraphic: "" or <Filename>
+, sectiongraphic: "" or <Filename>
+, subsectiongraphic: "" or <Filename>
+, sections:[] or [<section>]
+}
+section=
+{ id: String (x for section, x.y for subsetion
+             x.y.z for subsection where x,y,z are numbers)
+, shortName: <stringText>
+, longName: <stringText>
+}
+******************************************************************
+content= [<slide>]
+slide=
+{ id:Number
+, partOf:"" or String (x for section, x.y for subsetion
+                       x.y.z for subsection where x,y,z are numbers)
+, type: "normal" or "plain" 
+, title:  "" or <stringText>
+, subtitle: "" or <stringText>
+, supportbin: "" or <stringText>
+, slidecontent: <slidecontent>   
+}
+slidecontent = [] or []
+{ width: "1" (or String having Float) 
+, columnAlign: "c" (or "t" or "b")
+, inColumnAlign: "center" (or "left" or "right" or "justify")
+, columnContent: <insert>
+}
+insert = [] or [<slideElement>]
+slideElement
+  = <block> / <simpleTextbox> / <framebox> / <imagebox> / <slateList>
+------------------------------------------------------------------
+block =
+{ type: "block"
+, isAlerted: "false" / "true"
+, title: "" or <stringText>
+, body: <simpleText>
+, animationInfo: null or <splAnimation>
+}
+simpleText = [<textPart>]
+textPart= <normal>/<styled>
+normal=
+{ type: "normal"
+, stringText: <stringText>
+}
+styled=
+{ type: "highlight"/"bold"/"italic"/"underline"/<color>
+, stringText: <stringText>
+, animation: null or <animation>
+} 
+------------------------------------------------------------------
+
+simpleTextbox = <simple> /<oneParam>/<alt>/<temporal>
+simple = 
+{ animtype: "noAnimation"
+, text: <simpleText>
+, type: "simpleTextbox"
+}
+oneParam=
+{ animtype: "only"/"visible"/"invisible"
+, text: <simpleText>
+, animation: <animation>
+, type: "simpleTextbox"
+}
+alt=
+{ animtype: "alt"
+, text: <simpleText>
+, altText: <simpleText>
+, animation: <animation>
+, type: "simpleTextbox"
+}
+temporal=
+{ animtype: "temporal"
+, beforeText: <simpleText>
+, text: <simpleText>
+, afterText: <simpleText>
+, animation: <animation>
+, type: "simpleTextbox"
+ }
+
+------------------------------------------------------------------
+framebox=
+{ type: "framebox"
+, body: <simpleText>
+, animationInfo: null or  <splAnimation>
+}
+------------------------------------------------------------------
+imagebox =
+{ type: "imagebox"
+, caption: "" or <stringText>
+, imageFile: <FileName>
+, imageOptions: [] or [<imageOptions>]
+, animationInfo: null or <splAnimation>
+}
+imageOptions=
+{option: "width" / "height"/"scale"
+,value: Number as String
+}
+------------------------------------------------------------------
+slateList=
+{ type: "slateList"
+, listType: "itemize"/"enumerate"/"description"
+, items: [] or [<slateitem>]
+, animationInfo: null or <listanimation>
+}
+slateitem = slateList (upto 3 levels) or
+{ type: "simpleItem"
+, text: [] or <simpleText> 
+, animationInfo: null or <splAnimation>
+, listOption: <StringLine>
+} 
+
+------------------------------------------------------------------
+supportbinList = [<supportbin>]
+supportbin=
+{supportbinId:<Label>
+,content: <insert>
+}
+------------------------------------------------------------------
+quizList = [<quiz>]
+quiz=
+{id:<Label>
+, qtype: "simple" / "mcq"
+, question: <stringText>
+, options: <ansoptions>
+, correctAns: "" or <stringText>
+, explanation: "" or <stringText>
+}
+ansoptions = [] or [<ansop>]
+ansop=
+{option: <stringText>
+,isCorrect: "true"/"false"
+}
+******************************************************************
+******************************************************************
+listanimation = <splAnimation>
+{animation:"+-"
+,covered: true/flase
+} 
+splAnimation=
+{animation:<animation>
+,covered: true/flase
+}
+animation=
+Comma seperated list of(Number or Number-Number or Number- or -Number)
+
+color=
+rgb:Number:Number:Number or rgba:Number:Number:Number:Number
+hsl:Number:Number:Number or hsla:Number:Number:Number:Number
+"red" / "orange"/ "yellow"/ "green"/ "blue"/ "purple" / 
+"brown"/ "lightred"/ "lightorange"/ "lightyellow"/ "lightgreen" / 
+lightblue" / "lightbrown"/ "darkred"/ "darkorange"/ "darkyellow"/
+"darkgreen"/ "darkblue"/ "darkpurple"/ "darkbrown" / "white"
+"lightgrey" / "grey"/ "darkgrey"/ "lightcharcoal"
+"charcoal"/ "darkcharcoal"/ "black"/"transparent"
+
+
+
+stringText = 
+-Starts with a letter 
+  where a letter is anything except white space or special characters
+  where special characters are  [,],(,),<,>,\
+-Converts one or more white spaces to a single space.
+          Special character(except) preceeded by \ to special character
+          \\ to new line
+FileName = Combination of (Char or _ or digit or \ or / or .)
+StringLine =
+  Only chareacters and white spaces
+Label is a word that starts from Char or _ and then contains onle _ or Char or Digit

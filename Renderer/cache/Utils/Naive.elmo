@@ -1,0 +1,180 @@
+Elm.Utils = Elm.Utils || {};
+Elm.Utils.Naive = Elm.Utils.Naive || {};
+Elm.Utils.Naive.make = function (_elm) {
+   "use strict";
+   _elm.Utils = _elm.Utils || {};
+   _elm.Utils.Naive = _elm.Utils.Naive || {};
+   if (_elm.Utils.Naive.values)
+   return _elm.Utils.Naive.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Utils.Naive";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var getNamedColor = function (str) {
+      return function () {
+         switch (str)
+         {case "black":
+            return Color.black;
+            case "blue": return Color.blue;
+            case "brown":
+            return Color.brown;
+            case "charcoal":
+            return Color.charcoal;
+            case "darkblue":
+            return Color.darkBlue;
+            case "darkbrown":
+            return Color.darkBrown;
+            case "darkcharcoal":
+            return Color.darkCharcoal;
+            case "darkgreen":
+            return Color.darkGreen;
+            case "darkgrey":
+            return Color.darkGrey;
+            case "darkorange":
+            return Color.darkOrange;
+            case "darkpurple":
+            return Color.darkPurple;
+            case "darkred":
+            return Color.darkRed;
+            case "darkyellow":
+            return Color.darkYellow;
+            case "green":
+            return Color.green;
+            case "grey": return Color.grey;
+            case "lightblue":
+            return Color.lightBlue;
+            case "lightbrown":
+            return Color.lightBrown;
+            case "lightcharcoal":
+            return Color.lightCharcoal;
+            case "lightgreen":
+            return Color.lightGreen;
+            case "lightgrey":
+            return Color.lightGrey;
+            case "lightorange":
+            return Color.lightOrange;
+            case "lightpurple":
+            return Color.lightPurple;
+            case "lightred":
+            return Color.lightRed;
+            case "lightyellow":
+            return Color.lightYellow;
+            case "orange":
+            return Color.orange;
+            case "purple":
+            return Color.purple;
+            case "red": return Color.red;
+            case "white":
+            return Color.white;
+            case "yellow":
+            return Color.yellow;}
+         _E.Case($moduleName,
+         "between lines 40 and 69");
+      }();
+   };
+   var concreteInt = function (x) {
+      return function () {
+         switch (x.ctor)
+         {case "Just": return x._0;
+            case "Nothing": return 0;}
+         _E.Case($moduleName,
+         "between lines 18 and 20");
+      }();
+   };
+   var toConcreteInt = function (str) {
+      return function () {
+         var _v3 = String.toInt(str);
+         switch (_v3.ctor)
+         {case "Just": return _v3._0;
+            case "Nothing": return 0;}
+         _E.Case($moduleName,
+         "between lines 12 and 14");
+      }();
+   };
+   var toConcreteFloat = function (str) {
+      return function () {
+         var _v5 = String.toFloat(str);
+         switch (_v5.ctor)
+         {case "Just": return _v5._0;
+            case "Nothing": return 0;}
+         _E.Case($moduleName,
+         "between lines 8 and 10");
+      }();
+   };
+   var buildColorFromCode = function (str) {
+      return function () {
+         var substrList = A2(String.split,
+         ":",
+         str);
+         var intList = A2(List.map,
+         toConcreteInt,
+         List.tail(substrList));
+         var floatList = A2(List.map,
+         toConcreteFloat,
+         List.tail(substrList));
+         return function () {
+            var _v7 = List.head(substrList);
+            switch (_v7)
+            {case "hsl":
+               return A3(Color.hsl,
+                 List.head(floatList),
+                 List.head(List.tail(floatList)),
+                 List.last(floatList));
+               case "hsla":
+               return A4(Color.hsla,
+                 List.head(floatList),
+                 List.head(List.tail(floatList)),
+                 List.last(A2(List.take,
+                 3,
+                 floatList)),
+                 List.last(floatList));
+               case "rgb": return A3(Color.rgb,
+                 List.head(intList),
+                 List.head(List.tail(intList)),
+                 List.last(intList));
+               case "rgba":
+               return A4(Color.rgba,
+                 List.head(intList),
+                 List.head(List.tail(intList)),
+                 List.last(A2(List.take,
+                 3,
+                 intList)),
+                 List.last(floatList));}
+            _E.Case($moduleName,
+            "between lines 29 and 35");
+         }();
+      }();
+   };
+   var processColor = function (str) {
+      return A2(String.contains,
+      ":",
+      str) ? buildColorFromCode(str) : getNamedColor(str);
+   };
+   _elm.Utils.Naive.values = {_op: _op
+                             ,toConcreteFloat: toConcreteFloat
+                             ,toConcreteInt: toConcreteInt
+                             ,concreteInt: concreteInt
+                             ,buildColorFromCode: buildColorFromCode
+                             ,getNamedColor: getNamedColor
+                             ,processColor: processColor};
+   return _elm.Utils.Naive.values;
+};

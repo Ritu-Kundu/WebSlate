@@ -1,0 +1,267 @@
+Elm.Utils = Elm.Utils || {};
+Elm.Utils.TickTracker = Elm.Utils.TickTracker || {};
+Elm.Utils.TickTracker.make = function (_elm) {
+   "use strict";
+   _elm.Utils = _elm.Utils || {};
+   _elm.Utils.TickTracker = _elm.Utils.TickTracker || {};
+   if (_elm.Utils.TickTracker.values)
+   return _elm.Utils.TickTracker.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Utils.TickTracker";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var _op = {};
+   var filterOutLevel = F2(function (levels,
+   sectionList) {
+      return A2(List.filter,
+      function (x) {
+         return A2(List.any,
+         function (y) {
+            return _U.eq(List.length(x),
+            y);
+         },
+         levels);
+      },
+      sectionList);
+   });
+   var findSubtree = F2(function (rt,
+   treeList) {
+      return function () {
+         var len = List.length(rt) + 1;
+         var allchildren = A2(filterOutLevel,
+         _L.fromArray([len]),
+         treeList);
+         return {ctor: "::"
+                ,_0: rt
+                ,_1: A2(List.filter,
+                function (x) {
+                   return _U.eq(List.take(len - 1)(x),
+                   rt);
+                },
+                treeList)};
+      }();
+   });
+   var addAtBegin = F3(function (k,
+   v,
+   d) {
+      return function () {
+         var fun = function (old) {
+            return function () {
+               switch (old.ctor)
+               {case "Just":
+                  return Maybe.Just({ctor: "::"
+                                    ,_0: v
+                                    ,_1: old._0});
+                  case "Nothing":
+                  return Maybe.Nothing;}
+               _E.Case($moduleName,
+               "between lines 76 and 79");
+            }();
+         };
+         return A3(Dict.update,k,fun,d);
+      }();
+   });
+   var insertMarkerSlides = F3(function (marker,
+   sec,
+   slideDict) {
+      return A3(List.foldl,
+      F2(function (x,d) {
+         return A3(addAtBegin,
+         x,
+         marker,
+         d);
+      }),
+      slideDict,
+      sec);
+   });
+   var add = F3(function (k,v,d) {
+      return function () {
+         var func = function (old) {
+            return function () {
+               switch (old.ctor)
+               {case "Just":
+                  return Maybe.Just(_L.append(old._0,
+                    v));
+                  case "Nothing":
+                  return Maybe.Nothing;}
+               _E.Case($moduleName,
+               "between lines 69 and 72");
+            }();
+         };
+         return A3(Dict.update,k,func,d);
+      }();
+   });
+   var getSectionTick = F2(function (sectionIdList,
+   slideList) {
+      return function () {
+         var subsections = A2(filterOutLevel,
+         _L.fromArray([2]),
+         sectionIdList);
+         var sections = A2(filterOutLevel,
+         _L.fromArray([1]),
+         sectionIdList);
+         var firstTick = F2(function (rt,
+         tickD) {
+            return function () {
+               var func = F2(function (v,
+               old) {
+                  return function () {
+                     switch (old.ctor)
+                     {case "Just":
+                        return Maybe.Just(v);
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 47 and 50");
+                  }();
+               });
+               var updateWith = function (v) {
+                  return A3(Dict.update,
+                  rt,
+                  func(v),
+                  tickD);
+               };
+               var subtreeOfrt = A2(findSubtree,
+               rt,
+               sectionIdList);
+               var ticksOfsubtree = A2(List.map,
+               function (x) {
+                  return A2(Dict.getOrFail,
+                  x,
+                  tickD);
+               },
+               subtreeOfrt);
+               var validTicksOfSubtree = A2(List.filter,
+               function (x) {
+                  return !_U.eq(x,-100);
+               },
+               ticksOfsubtree);
+               return List.isEmpty(validTicksOfSubtree) ? updateWith(-100) : updateWith(List.head(validTicksOfSubtree));
+            }();
+         });
+         var onlyFirstTick = function (tickList) {
+            return List.isEmpty(tickList) ? -100 : List.head(tickList);
+         };
+         var sect = A2(List.zip,
+         sectionIdList,
+         A2(List.repeat,
+         List.length(sectionIdList),
+         _L.fromArray([])));
+         var sectionwiseSlidesDict = A2(List.foldl,
+         F2(function (_v6,d) {
+            return function () {
+               switch (_v6.ctor)
+               {case "_Tuple2":
+                  switch (_v6._0.ctor)
+                    {case "_Tuple2": return A3(add,
+                         _v6._0._0,
+                         _L.fromArray([_v6._1]),
+                         d);}
+                    break;}
+               _E.Case($moduleName,
+               "on line 34, column 58 to 75");
+            }();
+         }),
+         Dict.fromList(sect))(A2(List.zip,
+         slideList,
+         _L.range(0,
+         List.length(slideList) - 1)));
+         var tickDict = A2(Dict.map,
+         onlyFirstTick,
+         sectionwiseSlidesDict);
+         return A3(List.foldl,
+         firstTick,
+         A3(List.foldl,
+         firstTick,
+         tickDict,
+         subsections),
+         sections);
+      }();
+   });
+   var getTickList = F4(function (isMarkSection,
+   isMarkSubsection,
+   sectionIdList,
+   slideList) {
+      return function () {
+         var toSeparatedSlideIndex = function (_v12) {
+            return function () {
+               switch (_v12.ctor)
+               {case "_Tuple2":
+                  return A2(List.zip,
+                    A2(List.repeat,
+                    List.length(_v12._1),
+                    _v12._0),
+                    _v12._1);}
+               _E.Case($moduleName,
+               "between lines 24 and 26");
+            }();
+         };
+         var subsections = A2(filterOutLevel,
+         _L.fromArray([2]),
+         sectionIdList);
+         var sections = A2(filterOutLevel,
+         _L.fromArray([1]),
+         sectionIdList);
+         var sect = A2(List.zip,
+         sectionIdList,
+         A2(List.repeat,
+         List.length(sectionIdList),
+         _L.fromArray([])));
+         var sectionwiseSlidesDict = A3(List.foldl,
+         F2(function (_v16,d) {
+            return function () {
+               switch (_v16.ctor)
+               {case "_Tuple2": return A3(add,
+                    _v16._0,
+                    _L.fromArray([_v16._1]),
+                    d);}
+               _E.Case($moduleName,
+               "on line 12, column 51 to 66");
+            }();
+         }),
+         Dict.fromList(sect),
+         slideList);
+         var sectionsInserted = isMarkSection ? A3(insertMarkerSlides,
+         -1,
+         sections,
+         sectionwiseSlidesDict) : sectionwiseSlidesDict;
+         var subsectionsInserted = isMarkSubsection ? A3(insertMarkerSlides,
+         -2,
+         sections,
+         sectionsInserted) : sectionsInserted;
+         return A2(List.concatMap,
+         toSeparatedSlideIndex,
+         Dict.toList(subsectionsInserted));
+      }();
+   });
+   _elm.Utils.TickTracker.values = {_op: _op
+                                   ,getTickList: getTickList
+                                   ,getSectionTick: getSectionTick
+                                   ,add: add
+                                   ,addAtBegin: addAtBegin
+                                   ,insertMarkerSlides: insertMarkerSlides
+                                   ,filterOutLevel: filterOutLevel
+                                   ,findSubtree: findSubtree};
+   return _elm.Utils.TickTracker.values;
+};

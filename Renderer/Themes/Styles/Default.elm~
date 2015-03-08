@@ -1,0 +1,181 @@
+module Themes.Styling.Default where
+
+import Types.Theme as T
+import Themes.Base as B
+import Utils.Theme as U
+import Themes.MapStyling
+
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+defaultTheme: [String] -> Maybe Float -> T.Mapping -> T.StyleInfo
+defaultTheme fontFamily normalFontSize mapping = 
+  let setFontSize symbolicSize s = 
+       U.setTextSize s (U.getRealFontSize symbolicSize  normalFontSize)
+    
+      defaultTextStyle = 
+                   { typeface = fontFamily
+                   , height = normalFontSize
+                   , color = black
+                   , bold = False
+                   , italic  = False
+                   , line = Nothing
+                   }
+      defaultText = 
+              { style = defaultTextStyle
+              , align = leftAligned
+              }
+      defaultBackground = T.SingleColored white
+      defaultSinglePad = 
+                   { thickness = 5
+                   , fillcolor = T.Transparent
+                   }
+      defaultPadding =
+                 { left = defaultSinglePad
+                 , right = defaultSinglePad
+                 , top = defaultSinglePad
+                 , bottom = defaultSinglePad
+                 }
+      defaultStyling = 
+                 { border = T.None
+                 , text = defaultText
+                 , background = defaultBackground
+                 , padding =defaultPadding
+                 }
+      defaultSymbol = 
+                { general = defaultStyling
+                , symbolShape = T.Circle
+                , symbolFill = T.Transparent
+                , symbolAlpha = 1
+                }
+      blendedBlue = rgb 51 51 180
+
+      outer = setFontSize T.Tiny <| U.setTextColor defaultStyling blendedBlue
+      outerElements = setFontSize T.Small <| outer
+      inner = U.setTextColor defaultStyling blendedBlue   
+      innerElements = inner
+      titleLike = setFontSize T.Large <| outerElements 
+   
+      headFootPallette = 
+                   { primary = outer
+                   , secondary =  U.blendTextColor outer black 0.75
+                   , tertiary =  U.blendTextColor outer black 0.5
+                   , quaternary = U.setTextColor outer black
+                   }
+      sidebarPallette = 
+                   { primary = inner
+                   , secondary = outer
+                   , tertiary = outer
+                   , quaternary = outer
+                   }
+      sectionSidebar = sidebarPallette.secondary
+      subsectionSidebar = sidebarPallette.primary
+      subsubsectionSidebar = sidebarPallette.primary
+      shadingPallette = 
+                   { primary =  U.shadeTextColor sectionSidebar 0.4
+                   , secondary =  U.shadeTextColor subsectionSidebar 0.4
+                   , tertiary =  U.shadeTextColor subsubsectionSidebar 0.4
+                   , quaternary =  U.shadeTextColor sectionSidebar 0.4
+                   }
+
+      normalText = inner
+      alertText =  U.setTextColor normalText red
+      highlightText =  U.setTextBold normalText
+
+      item = innerElements
+      subitem = setFontSize T.Small <| item
+      subsubitem = setFontSize T.FootnoteSize <| subitem
+
+      itemProjection = 
+                { general =  setFontSize T.Tiny <| U.setTextColor defaultStyling white
+                , symbolShape = T.Triangle
+                , symbolFill = T.SingleColored item.text.style.color
+                , symbolAlpha = 1
+                 }                     
+      subitemProjection =  U.setSymbolShape itemProjection T.Square
+      subsubitemProjection =  U.setSymbolShape itemProjection T.Circle
+
+      button = 
+          { general =  setFontSize T.Tiny<| U.setTextColor innerElements white
+          , symbolFill = .background  (U.blendBackground innerElements
+                                               innerElements.text.style.color
+                                               0.4)
+          , symbolShape = T.Rectangle
+          , symbolAlpha = 1
+          }
+      generalSymbol = 
+                { general = outerElements
+                , symbolShape = T.Circle
+                , symbolFill = T.Transparent
+                , symbolAlpha = 0.4
+                }
+      shadedGeneralSymbol =   U.setSymbolAlpha generalSymbol 0.2         
+     
+      sectionProjection = itemProjection
+      shadedSectionProjection =   U.setSymbolAlpha sectionProjection 0.5
+                
+
+      miniframeSymbol =  
+                   { general = outer
+                    , symbolShape = T.Circle
+                    , symbolFill = T.Transparent
+                    , symbolAlpha = 1
+                    }
+       
+      shadedMiniframeSymbol =   U.setSymbolAlpha miniframeSymbol 0.5
+
+      symbolBoard = 
+         { miniframeSymbol = miniframeSymbol
+         , shadedMiniframeSymbol = shadedMiniframeSymbol
+         , generalSymbol = generalSymbol
+         , shadedGeneralSymbol = shadedGeneralSymbol
+         , sectionProjection = sectionProjection
+         , shadedSectionProjection = shadedSectionProjection         
+         , button = button 
+         }
+               
+      styleGuide = 
+         { outer = outer
+         , inner = inner
+         , outerElements = outerElements
+         , innerElements = innerElements
+         , titleLike = titleLike
+         , headFootPallette = headFootPallette
+         , sidebarPallette = sidebarPallette
+         , shadingPallette = shadingPallette
+         , normalText = normalText
+         , alertText = alertText
+         , highlightText = highlightText
+         , item = item
+         , subitem = subitem
+         , subsubitem = subsubitem
+         , itemProjection =itemProjection
+         , subitemProjection = subitemProjection
+         , subsubitemProjection = subsubitemProjection
+         , symbolBoard = symbolBoard
+         }
+
+      framebox = U.setBorder innerElements (T.Border (solid black))
+      styleLists = 
+            { outerList = []
+            , innerList = [(("framebox","none"),framebox)]
+            , symbolList = []
+            }
+     
+      updatedMapping = mapping
+      slideBackground = 
+                       { title = T.SingleColored white
+                       , section = T.SingleColored white
+                       , normal = T.SingleColored white
+                       , supportbin = T.SingleColored white
+                       }
+  in
+    Themes.MapStyling.toStyleInfo styleGuide updatedMapping slideBackground
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+

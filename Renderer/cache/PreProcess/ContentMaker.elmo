@@ -1,0 +1,1075 @@
+Elm.PreProcess = Elm.PreProcess || {};
+Elm.PreProcess.ContentMaker = Elm.PreProcess.ContentMaker || {};
+Elm.PreProcess.ContentMaker.make = function (_elm) {
+   "use strict";
+   _elm.PreProcess = _elm.PreProcess || {};
+   _elm.PreProcess.ContentMaker = _elm.PreProcess.ContentMaker || {};
+   if (_elm.PreProcess.ContentMaker.values)
+   return _elm.PreProcess.ContentMaker.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "PreProcess.ContentMaker";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.ElementMaker = Elm.Builders.ElementMaker.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var SmartDisplay = SmartDisplay || {};
+   SmartDisplay.SmartList = Elm.SmartDisplay.SmartList.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Naive = Elm.Types.Naive.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.SmartDisplay = Elm.Types.SmartDisplay.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Content = Elm.Utils.Content.make(_elm);
+   var Utils = Utils || {};
+   Utils.Naive = Elm.Utils.Naive.make(_elm);
+   var _op = {};
+   var processColumnInfo = F2(function (w,
+   naiveColumnInfo) {
+      return {_: {}
+             ,colAlign: function () {
+                var _v1 = naiveColumnInfo.columnAlign;
+                switch (_v1)
+                {case "b":
+                   return Types.Theme.BottomAlign;
+                   case "c":
+                   return Types.Theme.CenterAlign;
+                   case "t":
+                   return Types.Theme.TopAlign;}
+                _E.Case($moduleName,
+                "between lines 420 and 424");
+             }()
+             ,id: naiveColumnInfo.id
+             ,placement: function () {
+                var _v0 = naiveColumnInfo.inColumnAlign;
+                switch (_v0)
+                {case "center":
+                   return Graphics.Element.middle;
+                   case "left":
+                   return Graphics.Element.midLeft;
+                   case "right":
+                   return Graphics.Element.midRight;}
+                _E.Case($moduleName,
+                "between lines 416 and 420");
+             }()
+             ,width: Utils.Naive.toConcreteFloat(naiveColumnInfo.width) * Basics.toFloat(w)};
+   });
+   var scaleElem = F3(function (w,
+   placement,
+   elem) {
+      return function () {
+         var scaleFactor = Basics.toFloat(w) / Basics.toFloat(Graphics.Element.widthOf(elem));
+         var newH = Basics.truncate(scaleFactor * Basics.toFloat(Graphics.Element.heightOf(elem)));
+         return _U.cmp(Graphics.Element.widthOf(elem),
+         w) > 0 ? A3(Graphics.Collage.collage,
+         w,
+         newH,
+         _L.fromArray([Graphics.Collage.scale(scaleFactor)(Graphics.Collage.toForm(elem))])) : A4(Graphics.Element.container,
+         w,
+         Graphics.Element.heightOf(elem),
+         placement,
+         elem);
+      }();
+   });
+   var getRoute = function (string) {
+      return List.map(Utils.Naive.toConcreteInt)(A2(String.split,
+      ".",
+      string));
+   };
+   var getSlideType = function (string) {
+      return function () {
+         switch (string)
+         {case "normal":
+            return Types.Slate.NormalSlide;
+            case "plain":
+            return Types.Slate.PlainSlide;
+            case "section":
+            return Types.Slate.SectionSlide;
+            case "subsection":
+            return Types.Slate.SubsectionSlide;
+            case "supportbin":
+            return Types.Slate.SupportbinSlide;
+            case "title":
+            return Types.Slate.TitleSlide;}
+         _E.Case($moduleName,
+         "between lines 389 and 395");
+      }();
+   };
+   var getItemMarkerStyling = F2(function (itemType,
+   styleInfo) {
+      return function () {
+         switch (itemType)
+         {case "descriptionitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "descriptionitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "descriptionsubitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "descriptionsubitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "descriptionsubsubitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "descriptionsubsubitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "enumerateitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "enumerateitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "enumeratesubitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "enumeratesubitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "enumeratesubsubitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "enumeratesubsubitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "itemizeitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "itemizeitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "itemizesubitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "itemizesubitemprojection"
+              ,_1: "none"},
+              styleInfo);
+            case "itemizesubsubitem":
+            return A2(Utils.Content.getSymbolStyling,
+              {ctor: "_Tuple2"
+              ,_0: "itemizesubsubitemprojection"
+              ,_1: "none"},
+              styleInfo);}
+         _E.Case($moduleName,
+         "between lines 375 and 384");
+      }();
+   });
+   var getItemStyling = F2(function (itemType,
+   styleInfo) {
+      return function () {
+         switch (itemType)
+         {case "descriptionitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "descriptionitem"
+              ,_1: "none"},
+              styleInfo);
+            case "descriptionsubitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "descriptionsubitem"
+              ,_1: "none"},
+              styleInfo);
+            case "descriptionsubsubitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "descriptionsubsubitem"
+              ,_1: "none"},
+              styleInfo);
+            case "enumerateitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "enumerateitem"
+              ,_1: "none"},
+              styleInfo);
+            case "enumeratesubitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "enumeratesubitem"
+              ,_1: "none"},
+              styleInfo);
+            case "enumeratesubsubitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "enumeratesubsubitem"
+              ,_1: "none"},
+              styleInfo);
+            case "itemizeitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "itemizeitem"
+              ,_1: "none"},
+              styleInfo);
+            case "itemizesubitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "itemizesubitem"
+              ,_1: "none"},
+              styleInfo);
+            case "itemizesubsubitem":
+            return A2(Utils.Content.getStyling,
+              {ctor: "_Tuple2"
+              ,_0: "itemizesubsubitem"
+              ,_1: "none"},
+              styleInfo);}
+         _E.Case($moduleName,
+         "between lines 362 and 371");
+      }();
+   });
+   var listToRawColumnContent = F4(function (theme,
+   w,
+   placement,
+   naiveSlateList) {
+      return function () {
+         var toItemElement = function (_v5) {
+            return function () {
+               switch (_v5.ctor)
+               {case "_Tuple2":
+                  switch (_v5._0.ctor)
+                    {case "_Tuple2":
+                       return function () {
+                            var firstElem = List.isEmpty(_v5._0._1) ? Graphics.Element.empty : function (_) {
+                               return _.element;
+                            }(List.head(_v5._0._1));
+                            var otherLife = function () {
+                               switch (_v5._1)
+                               {case "covered":
+                                  return A2(Graphics.Element.spacer,
+                                    Graphics.Element.widthOf(firstElem),
+                                    Graphics.Element.heightOf(firstElem));
+                                  case "dead":
+                                  return Graphics.Element.empty;}
+                               _E.Case($moduleName,
+                               "between lines 341 and 344");
+                            }();
+                            return {_: {}
+                                   ,body: _v5._0._1
+                                   ,containerColumn: naiveSlateList.layout.containerColumn
+                                   ,inColumnnPos: _L.fromArray([naiveSlateList.layout.inColumnnPos
+                                                               ,_v5._0._0])
+                                   ,otherLife: otherLife};
+                         }();}
+                    break;}
+               _E.Case($moduleName,
+               "between lines 338 and 349");
+            }();
+         };
+         var levels = A2(List.map,
+         function (x) {
+            return List.length(getRoute(x.id));
+         },
+         naiveSlateList.items);
+         var offsetWidth = Basics.truncate(theme.symbolSize.itemProjection.offset * Basics.toFloat(w));
+         var toItemMarkers = function (naiveListItem) {
+            return function () {
+               var markerText = _U.eq(naiveListItem.itemInfo,
+               "") ? Maybe.Nothing : Maybe.Just(naiveListItem.itemInfo);
+               var markerStyling = A2(getItemMarkerStyling,
+               naiveListItem.itemType,
+               theme.style);
+               var marker = A3(Builders.ElementMaker.buildSymbol,
+               markerStyling,
+               theme.symbolSize.itemProjection,
+               markerText);
+               return A3(Builders.ElementMaker.buildCompleteElement,
+               {ctor: "_Tuple2"
+               ,_0: Graphics.Element.widthOf(marker)
+               ,_1: Graphics.Element.heightOf(marker)},
+               markerStyling.general,
+               marker);
+            }();
+         };
+         var slateMarkers = A2(List.map,
+         toItemMarkers,
+         naiveSlateList.items);
+         var toSlateItemText = function (naiveListItem) {
+            return function () {
+               var bodyStyling = A2(getItemStyling,
+               naiveListItem.itemType,
+               theme.style);
+               var toBodyText = A2(Builders.ElementMaker.buildSlateText,
+               theme.style,
+               bodyStyling);
+               var bodyTexts = A2(List.map,
+               toBodyText,
+               naiveListItem.body);
+               var maxWidth = List.isEmpty(bodyTexts) ? 0 : List.maximum(A2(List.map,
+               Graphics.Element.widthOf,
+               bodyTexts));
+               var maxHeight = List.isEmpty(bodyTexts) ? 0 : List.maximum(A2(List.map,
+               Graphics.Element.heightOf,
+               bodyTexts));
+               var toItemBody = A2(Builders.ElementMaker.buildCompleteElement,
+               {ctor: "_Tuple2"
+               ,_0: maxWidth
+               ,_1: maxHeight},
+               bodyStyling);
+               var rawElemBody = A2(List.map,
+               function (_v12) {
+                  return function () {
+                     switch (_v12.ctor)
+                     {case "_Tuple2": return {_: {}
+                                             ,animation: _v12._1
+                                             ,element: A3(scaleElem,
+                                             w,
+                                             Graphics.Element.midLeft,
+                                             _v12._0)};}
+                     _E.Case($moduleName,
+                     "on line 306, column 45 to 87");
+                  }();
+               },
+               A2(List.zip,
+               A2(List.map,
+               toItemBody,
+               bodyTexts),
+               A2(List.map,
+               function (_) {
+                  return _.animation;
+               },
+               naiveListItem.body)));
+               return {ctor: "_Tuple2"
+                      ,_0: maxWidth
+                      ,_1: rawElemBody};
+            }();
+         };
+         var slateMaxWidthNItemBodyTexts = A2(List.map,
+         toSlateItemText,
+         naiveSlateList.items);
+         var maxItemWidth = List.maximum(A2(List.map,
+         Basics.fst,
+         slateMaxWidthNItemBodyTexts));
+         var toSlateItem = function (_v16) {
+            return function () {
+               switch (_v16.ctor)
+               {case "_Tuple2":
+                  switch (_v16._0.ctor)
+                    {case "_Tuple2":
+                       return function () {
+                            var toItemSingle = function (itm) {
+                               return {_: {}
+                                      ,animation: itm.animation
+                                      ,element: A5(Builders.ElementMaker.buildTabbedElement,
+                                      {ctor: "_Tuple2"
+                                      ,_0: maxItemWidth
+                                      ,_1: Graphics.Element.heightOf(itm.element)},
+                                      _v16._1,
+                                      offsetWidth,
+                                      _v16._0._0,
+                                      itm.element)};
+                            };
+                            return A2(List.map,
+                            toItemSingle,
+                            _v16._0._1);
+                         }();}
+                    break;}
+               _E.Case($moduleName,
+               "between lines 329 and 335");
+            }();
+         };
+         var slateItemBodyTexts = Basics.snd(List.unzip(slateMaxWidthNItemBodyTexts));
+         return List.map(toItemElement)(A2(List.zip,
+         A2(List.zip,
+         _L.range(1,
+         List.length(naiveSlateList.items)),
+         List.map(toSlateItem)(A2(List.zip,
+         A2(List.zip,
+         slateMarkers,
+         slateItemBodyTexts),
+         levels))),
+         A2(List.map,
+         function (_) {
+            return _.otherLife;
+         },
+         naiveSlateList.items)));
+      }();
+   });
+   var getSDType = function (str) {
+      return function () {
+         switch (str)
+         {case "checkboxcomparision":
+            return Types.SmartDisplay.CheckBoxComparision;
+            case "circlecone":
+            return Types.SmartDisplay.CircleCone;
+            case "circlefull":
+            return Types.SmartDisplay.CircleFull;
+            case "circlehalf":
+            return Types.SmartDisplay.CircleHalf;
+            case "containerlist":
+            return Types.SmartDisplay.ContainerList;
+            case "framedlist":
+            return Types.SmartDisplay.FramedList;
+            case "paragraphlist":
+            return Types.SmartDisplay.ParagraphList;
+            case "plusequalhorizontal":
+            return Types.SmartDisplay.PlusEqualHorizontal;
+            case "plusequalvetical":
+            return Types.SmartDisplay.PlusEqualVertical;
+            case "plusminus":
+            return Types.SmartDisplay.PlusMinus;}
+         _E.Case($moduleName,
+         "between lines 280 and 290");
+      }();
+   };
+   var processItems = function (item) {
+      return {_: {}
+             ,body: item.body
+             ,route: getRoute(item.id)};
+   };
+   var smartListToRawColumnContent = F3(function (w,
+   placement,
+   naiveSmartList) {
+      return function () {
+         var smartDisplay = {_: {}
+                            ,items: A2(List.map,
+                            processItems,
+                            naiveSmartList.items)
+                            ,sdType: getSDType(naiveSmartList.sdType)
+                            ,width: w};
+         var smartListRawElem = {_: {}
+                                ,animation: naiveSmartList.animation
+                                ,element: A2(scaleElem,
+                                w,
+                                placement)(SmartDisplay.SmartList.getSmartDisplay(smartDisplay))};
+         var firstElem = smartListRawElem.element;
+         var otherLife = function () {
+            var _v23 = naiveSmartList.otherLife;
+            switch (_v23)
+            {case "covered":
+               return A2(Graphics.Element.spacer,
+                 Graphics.Element.widthOf(firstElem),
+                 Graphics.Element.heightOf(firstElem));
+               case "dead":
+               return Graphics.Element.empty;}
+            _E.Case($moduleName,
+            "between lines 262 and 265");
+         }();
+         return {_: {}
+                ,body: _L.fromArray([smartListRawElem])
+                ,containerColumn: naiveSmartList.layout.containerColumn
+                ,inColumnnPos: _L.fromArray([naiveSmartList.layout.inColumnnPos])
+                ,otherLife: otherLife};
+      }();
+   });
+   var processImageOptions = F2(function (opt,
+   pic) {
+      return function () {
+         var _v24 = opt.option;
+         switch (_v24)
+         {case "height":
+            return _U.eq(opt.value,
+              "") ? pic : A2(Graphics.Element.height,
+              Utils.Naive.toConcreteInt(opt.value),
+              pic);
+            case "scale":
+            return _U.eq(opt.value,
+              "") ? pic : function () {
+                 var scalefactor = Utils.Naive.toConcreteInt(opt.value);
+                 var w = Graphics.Element.widthOf(pic);
+                 var h = Graphics.Element.heightOf(pic);
+                 return A3(Graphics.Element.size,
+                 w * scalefactor,
+                 h * scalefactor,
+                 pic);
+              }();
+            case "width":
+            return _U.eq(opt.value,
+              "") ? pic : A2(Graphics.Element.width,
+              Utils.Naive.toConcreteInt(opt.value),
+              pic);}
+         _E.Case($moduleName,
+         "between lines 242 and 250");
+      }();
+   });
+   var imageboxToRawColumnContent = F4(function (theme,
+   w,
+   placement,
+   naiveImageBox) {
+      return function () {
+         var getD = function (optName) {
+            return function () {
+               var opt = A2(List.filter,
+               function (x) {
+                  return _U.eq(x.option,
+                  optName);
+               },
+               naiveImageBox.imageOptions);
+               return List.isEmpty(opt) ? w : Utils.Naive.toConcreteInt(function (_) {
+                  return _.value;
+               }(List.head(opt)));
+            }();
+         };
+         var imgW = getD("width");
+         var imgH = getD("height");
+         var captionStyling = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "caption"
+         ,_1: "imagebox"},
+         theme.style);
+         var bodyStyling = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "imagebox"
+         ,_1: "none"},
+         theme.style);
+         var body = function (img) {
+            return A3(Builders.ElementMaker.buildCompleteElement,
+            {ctor: "_Tuple2"
+            ,_0: Graphics.Element.widthOf(img)
+            ,_1: Graphics.Element.heightOf(img)},
+            bodyStyling,
+            img);
+         };
+         var imageFileName = _L.append("UserImages/",
+         naiveImageBox.imageFile);
+         var pic = body(A3(Graphics.Element.fittedImage,
+         imgW,
+         imgH,
+         imageFileName));
+         var caption = _U.eq(naiveImageBox.caption,
+         "") ? Graphics.Element.empty : function () {
+            var wCap = Graphics.Element.widthOf(pic);
+            var captionText = A2(Builders.ElementMaker.buildText,
+            captionStyling,
+            naiveImageBox.caption);
+            var hCap = Graphics.Element.heightOf(captionText);
+            var scaledCaption = A3(Graphics.Collage.collage,
+            w,
+            hCap,
+            _L.fromArray([Graphics.Collage.scale(Basics.toFloat(wCap) / Basics.toFloat(Graphics.Element.widthOf(captionText)))(Graphics.Collage.toForm(captionText))]));
+            return A3(Builders.ElementMaker.buildCompleteElement,
+            {ctor: "_Tuple2"
+            ,_0: wCap
+            ,_1: hCap},
+            captionStyling,
+            scaledCaption);
+         }();
+         var toImage = {_: {}
+                       ,animation: naiveImageBox.animation
+                       ,element: A2(scaleElem,
+                       w,
+                       placement)(A2(Graphics.Element.below,
+                       caption,
+                       pic))};
+         var firstElem = toImage.element;
+         var otherLife = function () {
+            var _v25 = naiveImageBox.otherLife;
+            switch (_v25)
+            {case "covered":
+               return A2(Graphics.Element.spacer,
+                 Graphics.Element.widthOf(firstElem),
+                 Graphics.Element.heightOf(firstElem));
+               case "dead":
+               return Graphics.Element.empty;}
+            _E.Case($moduleName,
+            "between lines 230 and 233");
+         }();
+         return {_: {}
+                ,body: _L.fromArray([toImage])
+                ,containerColumn: naiveImageBox.layout.containerColumn
+                ,inColumnnPos: _L.fromArray([naiveImageBox.layout.inColumnnPos])
+                ,otherLife: otherLife};
+      }();
+   });
+   var simpleTextBoxToRawColumnContent = F4(function (theme,
+   w,
+   placement,
+   naiveTextBox) {
+      return function () {
+         var bodyStyling = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "normal"
+         ,_1: "none"},
+         theme.style);
+         var toBodyText = A2(Builders.ElementMaker.buildSlateText,
+         theme.style,
+         bodyStyling);
+         var bodyTexts = A2(List.map,
+         toBodyText,
+         naiveTextBox.body);
+         var maxWidth = List.isEmpty(bodyTexts) ? 0 : List.maximum(A2(List.map,
+         Graphics.Element.widthOf,
+         bodyTexts));
+         var maxHeight = List.isEmpty(bodyTexts) ? 0 : List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         bodyTexts));
+         var toBoxBody = A2(Builders.ElementMaker.buildCompleteElement,
+         {ctor: "_Tuple2"
+         ,_0: maxWidth
+         ,_1: maxHeight},
+         bodyStyling);
+         var rawElemBody = A2(List.map,
+         function (_v26) {
+            return function () {
+               switch (_v26.ctor)
+               {case "_Tuple2": return {_: {}
+                                       ,animation: _v26._1
+                                       ,element: A2(scaleElem,
+                                       w,
+                                       placement)(_v26._0)};}
+               _E.Case($moduleName,
+               "between lines 180 and 181");
+            }();
+         },
+         A2(List.zip,
+         A2(List.map,
+         toBoxBody,
+         bodyTexts),
+         A2(List.map,
+         function (_) {
+            return _.animation;
+         },
+         naiveTextBox.body)));
+         var firstElem = List.isEmpty(rawElemBody) ? Graphics.Element.empty : function (_) {
+            return _.element;
+         }(List.head(rawElemBody));
+         var otherLife = function () {
+            var _v30 = naiveTextBox.otherLife;
+            switch (_v30)
+            {case "covered":
+               return A2(Graphics.Element.spacer,
+                 Graphics.Element.widthOf(firstElem),
+                 Graphics.Element.heightOf(firstElem));
+               case "dead":
+               return Graphics.Element.empty;}
+            _E.Case($moduleName,
+            "between lines 187 and 191");
+         }();
+         return {_: {}
+                ,body: rawElemBody
+                ,containerColumn: naiveTextBox.layout.containerColumn
+                ,inColumnnPos: _L.fromArray([naiveTextBox.layout.inColumnnPos])
+                ,otherLife: otherLife};
+      }();
+   });
+   var frameboxToRawColumnContent = F4(function (theme,
+   w,
+   placement,
+   naiveFrameBox) {
+      return function () {
+         var bodyStyling = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "framebox"
+         ,_1: "none"},
+         theme.style);
+         var toBodyText = A2(Builders.ElementMaker.buildSlateText,
+         theme.style,
+         bodyStyling);
+         var bodyTexts = A2(List.map,
+         toBodyText,
+         naiveFrameBox.body);
+         var maxWidth = List.isEmpty(bodyTexts) ? 0 : List.maximum(A2(List.map,
+         Graphics.Element.widthOf,
+         bodyTexts));
+         var maxHeight = List.isEmpty(bodyTexts) ? 0 : List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         bodyTexts));
+         var toBoxBody = A2(Builders.ElementMaker.buildCompleteElement,
+         {ctor: "_Tuple2"
+         ,_0: maxWidth
+         ,_1: maxHeight},
+         bodyStyling);
+         var rawElemBody = A2(List.map,
+         function (_v31) {
+            return function () {
+               switch (_v31.ctor)
+               {case "_Tuple2": return {_: {}
+                                       ,animation: _v31._1
+                                       ,element: A2(scaleElem,
+                                       w,
+                                       placement)(_v31._0)};}
+               _E.Case($moduleName,
+               "between lines 151 and 152");
+            }();
+         },
+         A2(List.zip,
+         A2(List.map,
+         toBoxBody,
+         bodyTexts),
+         A2(List.map,
+         function (_) {
+            return _.animation;
+         },
+         naiveFrameBox.body)));
+         var firstElem = List.isEmpty(rawElemBody) ? Graphics.Element.empty : function (_) {
+            return _.element;
+         }(List.head(rawElemBody));
+         var otherLife = function () {
+            var _v35 = naiveFrameBox.otherLife;
+            switch (_v35)
+            {case "covered":
+               return A2(Graphics.Element.spacer,
+                 Graphics.Element.widthOf(firstElem),
+                 Graphics.Element.heightOf(firstElem));
+               case "dead":
+               return Graphics.Element.empty;}
+            _E.Case($moduleName,
+            "between lines 158 and 161");
+         }();
+         return {_: {}
+                ,body: rawElemBody
+                ,containerColumn: naiveFrameBox.layout.containerColumn
+                ,inColumnnPos: _L.fromArray([naiveFrameBox.layout.inColumnnPos])
+                ,otherLife: otherLife};
+      }();
+   });
+   var blockToRawColumnContent = F4(function (theme,
+   w,
+   placement,
+   naiveBlock) {
+      return function () {
+         var bodyStyling = _U.eq(naiveBlock.isAlerted,
+         "true") ? A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "alertedblock"
+         ,_1: "none"},
+         theme.style) : A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "block"
+         ,_1: "none"},
+         theme.style);
+         var toBodyText = A2(Builders.ElementMaker.buildSlateText,
+         theme.style,
+         bodyStyling);
+         var bodyTexts = A2(List.map,
+         toBodyText,
+         naiveBlock.body);
+         var maxHeight = List.isEmpty(bodyTexts) ? 0 : List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         bodyTexts));
+         var titleStyling = _U.eq(naiveBlock.isAlerted,
+         "true") ? A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "blocktitle"
+         ,_1: "alertedblock"},
+         theme.style) : A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "blocktitle"
+         ,_1: "block"},
+         theme.style);
+         var titleText = A2(Builders.ElementMaker.buildText,
+         titleStyling,
+         naiveBlock.title);
+         var maxWidth = List.isEmpty(bodyTexts) ? Graphics.Element.widthOf(titleText) : A2(Basics.max,
+         Graphics.Element.widthOf(titleText),
+         List.maximum(A2(List.map,
+         Graphics.Element.widthOf,
+         bodyTexts)));
+         var toBlockBody = A2(Builders.ElementMaker.buildCompleteElement,
+         {ctor: "_Tuple2"
+         ,_0: maxWidth
+         ,_1: maxHeight},
+         bodyStyling);
+         var title = A3(Builders.ElementMaker.buildCompleteElement,
+         {ctor: "_Tuple2"
+         ,_0: maxWidth
+         ,_1: Graphics.Element.heightOf(titleText)},
+         titleStyling,
+         titleText);
+         var rawElemBody = A2(List.map,
+         function (_v36) {
+            return function () {
+               switch (_v36.ctor)
+               {case "_Tuple2": return {_: {}
+                                       ,animation: _v36._1
+                                       ,element: A2(scaleElem,
+                                       w,
+                                       placement)(A2(Graphics.Element.flow,
+                                       Graphics.Element.down,
+                                       _L.fromArray([title
+                                                    ,_v36._0])))};}
+               _E.Case($moduleName,
+               "between lines 122 and 123");
+            }();
+         },
+         A2(List.zip,
+         A2(List.map,
+         toBlockBody,
+         bodyTexts),
+         A2(List.map,
+         function (_) {
+            return _.animation;
+         },
+         naiveBlock.body)));
+         var firstElem = List.isEmpty(rawElemBody) ? Graphics.Element.empty : function (_) {
+            return _.element;
+         }(List.head(rawElemBody));
+         var otherLife = function () {
+            var _v40 = naiveBlock.otherLife;
+            switch (_v40)
+            {case "covered":
+               return A2(Graphics.Element.spacer,
+                 Graphics.Element.widthOf(firstElem),
+                 Graphics.Element.heightOf(firstElem));
+               case "dead":
+               return Graphics.Element.empty;}
+            _E.Case($moduleName,
+            "between lines 129 and 132");
+         }();
+         return {_: {}
+                ,body: rawElemBody
+                ,containerColumn: naiveBlock.layout.containerColumn
+                ,inColumnnPos: _L.fromArray([naiveBlock.layout.inColumnnPos])
+                ,otherLife: otherLife};
+      }();
+   });
+   var toSupportbinSlide = F3(function (theme,
+   w,
+   naiveSupportbin) {
+      return function () {
+         var slatelistToRaw = function (naive) {
+            return A4(listToRawColumnContent,
+            theme,
+            w,
+            Graphics.Element.middle,
+            naive);
+         };
+         var simplify = function (raw) {
+            return List.isEmpty(raw.body) ? Graphics.Element.empty : function (_) {
+               return _.element;
+            }(List.head(raw.body));
+         };
+         var blockToRaw = function (naive) {
+            return simplify(A4(blockToRawColumnContent,
+            theme,
+            w,
+            Graphics.Element.middle,
+            naive));
+         };
+         var blockList = A2(List.map,
+         blockToRaw,
+         naiveSupportbin.slideContent.blocks);
+         var textboxToRaw = function (naive) {
+            return simplify(A4(simpleTextBoxToRawColumnContent,
+            theme,
+            w,
+            Graphics.Element.middle,
+            naive));
+         };
+         var textboxList = A2(List.map,
+         textboxToRaw,
+         naiveSupportbin.slideContent.simpletextboxes);
+         var framboxToRaw = function (naive) {
+            return simplify(A4(frameboxToRawColumnContent,
+            theme,
+            w,
+            Graphics.Element.middle,
+            naive));
+         };
+         var frameboxList = A2(List.map,
+         framboxToRaw,
+         naiveSupportbin.slideContent.frameboxes);
+         var imageboxToRaw = function (naive) {
+            return simplify(A4(imageboxToRawColumnContent,
+            theme,
+            w,
+            Graphics.Element.middle,
+            naive));
+         };
+         var imageboxList = A2(List.map,
+         imageboxToRaw,
+         naiveSupportbin.slideContent.imageboxes);
+         var smartlistToRaw = function (naive) {
+            return simplify(A3(smartListToRawColumnContent,
+            w,
+            Graphics.Element.middle,
+            naive));
+         };
+         var rawSmartList = A2(List.map,
+         smartlistToRaw,
+         naiveSupportbin.slideContent.smartLists);
+         var slatelistList = List.map(function (x) {
+            return Graphics.Element.flow(Graphics.Element.down)(A2(List.map,
+            simplify,
+            x));
+         })(A2(List.map,
+         slatelistToRaw,
+         naiveSupportbin.slideContent.slateLists));
+         var elementList = _L.append(blockList,
+         _L.append(textboxList,
+         _L.append(frameboxList,
+         _L.append(imageboxList,
+         _L.append(slatelistList,
+         rawSmartList)))));
+         return {_: {}
+                ,content: elementList
+                ,supportbinId: naiveSupportbin.id};
+      }();
+   });
+   var toSupportbinContent = F3(function (naiveSupportbinList,
+   theme,
+   w) {
+      return A2(List.map,
+      A2(toSupportbinSlide,theme,w),
+      naiveSupportbinList);
+   });
+   var toContentSlide = F3(function (theme,
+   w,
+   naiveSlide) {
+      return function () {
+         var cols = A2(List.map,
+         processColumnInfo(w),
+         naiveSlide.columns);
+         var getCol = function (id) {
+            return List.head(A2(List.filter,
+            function (x) {
+               return _U.eq(x.id,id);
+            },
+            cols));
+         };
+         var getColWidth = function (id) {
+            return Basics.truncate(function (_) {
+               return _.width;
+            }(getCol(id)));
+         };
+         var slatelistToRaw = function (naive) {
+            return A4(listToRawColumnContent,
+            theme,
+            getColWidth(naive.layout.containerColumn),
+            Graphics.Element.midLeft,
+            naive);
+         };
+         var rawSlatelistList = A2(List.concatMap,
+         slatelistToRaw,
+         naiveSlide.slideContent.slateLists);
+         var getColPlacement = function (id) {
+            return function (_) {
+               return _.placement;
+            }(getCol(id));
+         };
+         var blockToRaw = function (naive) {
+            return A4(blockToRawColumnContent,
+            theme,
+            getColWidth(naive.layout.containerColumn),
+            getColPlacement(naive.layout.containerColumn),
+            naive);
+         };
+         var rawBlockList = A2(List.map,
+         blockToRaw,
+         naiveSlide.slideContent.blocks);
+         var textboxToRaw = function (naive) {
+            return A4(simpleTextBoxToRawColumnContent,
+            theme,
+            getColWidth(naive.layout.containerColumn),
+            getColPlacement(naive.layout.containerColumn),
+            naive);
+         };
+         var rawTextboxList = A2(List.map,
+         textboxToRaw,
+         naiveSlide.slideContent.simpletextboxes);
+         var framboxToRaw = function (naive) {
+            return A4(frameboxToRawColumnContent,
+            theme,
+            getColWidth(naive.layout.containerColumn),
+            getColPlacement(naive.layout.containerColumn),
+            naive);
+         };
+         var rawFrameboxList = A2(List.map,
+         framboxToRaw,
+         naiveSlide.slideContent.frameboxes);
+         var imageboxToRaw = function (naive) {
+            return A4(imageboxToRawColumnContent,
+            theme,
+            getColWidth(naive.layout.containerColumn),
+            getColPlacement(naive.layout.containerColumn),
+            naive);
+         };
+         var rawImageboxList = A2(List.map,
+         imageboxToRaw,
+         naiveSlide.slideContent.imageboxes);
+         var smartlistToRaw = function (naive) {
+            return A3(smartListToRawColumnContent,
+            getColWidth(naive.layout.containerColumn),
+            getColPlacement(naive.layout.containerColumn),
+            naive);
+         };
+         var rawSmartList = A2(List.map,
+         smartlistToRaw,
+         naiveSlide.slideContent.smartLists);
+         var rawList = _L.append(rawBlockList,
+         _L.append(rawTextboxList,
+         _L.append(rawFrameboxList,
+         _L.append(rawImageboxList,
+         _L.append(rawSlatelistList,
+         rawSmartList)))));
+         var partitionedList = A2(Utils.Content.rawColumnContentToColumnContent,
+         rawList,
+         List.length(cols));
+         var slateCol = List.map(function (_v41) {
+            return function () {
+               switch (_v41.ctor)
+               {case "_Tuple2": return {_: {}
+                                       ,colAlign: _v41._0
+                                       ,content: _v41._1};}
+               _E.Case($moduleName,
+               "on line 49, column 34 to 58");
+            }();
+         })(A2(List.zip,
+         A2(List.map,
+         function (_) {
+            return _.colAlign;
+         },
+         cols),
+         partitionedList));
+         return {_: {}
+                ,partOf: getRoute(naiveSlide.partOf)
+                ,quiz: naiveSlide.quiz
+                ,slideContent: slateCol
+                ,slideId: naiveSlide.id
+                ,slideType: getSlideType(naiveSlide.slideType)
+                ,subtitle: naiveSlide.slideSubtitle
+                ,supportbin: naiveSlide.supportbin
+                ,title: naiveSlide.slideTitle};
+      }();
+   });
+   var toContent = F3(function (naiveSlideList,
+   theme,
+   w) {
+      return A2(List.map,
+      A2(toContentSlide,theme,w),
+      naiveSlideList);
+   });
+   _elm.PreProcess.ContentMaker.values = {_op: _op
+                                         ,toContent: toContent
+                                         ,toContentSlide: toContentSlide
+                                         ,toSupportbinContent: toSupportbinContent
+                                         ,toSupportbinSlide: toSupportbinSlide
+                                         ,blockToRawColumnContent: blockToRawColumnContent
+                                         ,frameboxToRawColumnContent: frameboxToRawColumnContent
+                                         ,simpleTextBoxToRawColumnContent: simpleTextBoxToRawColumnContent
+                                         ,imageboxToRawColumnContent: imageboxToRawColumnContent
+                                         ,processImageOptions: processImageOptions
+                                         ,smartListToRawColumnContent: smartListToRawColumnContent
+                                         ,processItems: processItems
+                                         ,getSDType: getSDType
+                                         ,listToRawColumnContent: listToRawColumnContent
+                                         ,getItemStyling: getItemStyling
+                                         ,getItemMarkerStyling: getItemMarkerStyling
+                                         ,getSlideType: getSlideType
+                                         ,getRoute: getRoute
+                                         ,scaleElem: scaleElem
+                                         ,processColumnInfo: processColumnInfo};
+   return _elm.PreProcess.ContentMaker.values;
+};

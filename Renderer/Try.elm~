@@ -1,0 +1,12 @@
+import SmartDisplay.CircularList as SDC
+import Types.SmartDisplay (..)
+
+items = [{route=[1],body="Objectives"},{route=[1,1],body="I am 1.1"}, {route=[1,2],body="I am 1.2"}, {route=[1,3],body="!I am 1.3"},
+          {route=[2],body="Achievements"},{route=[2, 1],body="I am 1.4"},{route=[2,2],body="I am 3"}]
+smartInput = { width = 400
+                    , height = 400
+                    , sdType = PlusEqualVertical
+                    , items = items
+                    }
+
+main = SDC.getSmartDisplayFL smartInput

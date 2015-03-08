@@ -1,0 +1,140 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.Layouts = Elm.Themes.Layouts || {};
+Elm.Themes.Layouts.Default = Elm.Themes.Layouts.Default || {};
+Elm.Themes.Layouts.Default.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.Layouts = _elm.Themes.Layouts || {};
+   _elm.Themes.Layouts.Default = _elm.Themes.Layouts.Default || {};
+   if (_elm.Themes.Layouts.Default.values)
+   return _elm.Themes.Layouts.Default.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.Layouts.Default";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var changePalletteMapping = _L.fromArray([]);
+   var defaulttocOptions = {_: {}
+                           ,currentSection: Types.Theme.Show
+                           ,currentSubsectionOfCurrentSection: Types.Theme.Show
+                           ,otherSection: Types.Theme.Shade
+                           ,otherSubsectionOfCurrentSection: Types.Theme.Show
+                           ,pauseSections: false
+                           ,pauseSubsections: false
+                           ,subsectionOfOtherSection: Types.Theme.Hide};
+   var modechangesymbolsLayout = Types.Theme.Layout({_: {}
+                                                    ,columns: _L.fromArray([{_: {}
+                                                                            ,colAlign: Types.Theme.TopAlign
+                                                                            ,id: 1
+                                                                            ,placement: Graphics.Element.middle
+                                                                            ,width: 1}])
+                                                    ,inserts: _L.fromArray([{_: {}
+                                                                            ,column: 1
+                                                                            ,id: "supportbin"}
+                                                                           ,{_: {}
+                                                                            ,column: 1
+                                                                            ,id: "zoom"}
+                                                                           ,{_: {}
+                                                                            ,column: 1
+                                                                            ,id: "scribble"}
+                                                                           ,{_: {}
+                                                                            ,column: 1
+                                                                            ,id: "quiz"}])});
+   var navigationalsymbolsLayout = Types.Theme.Layout({_: {}
+                                                      ,columns: _L.fromArray([{_: {}
+                                                                              ,colAlign: Types.Theme.TopAlign
+                                                                              ,id: 1
+                                                                              ,placement: Graphics.Element.middle
+                                                                              ,width: 1}])
+                                                      ,inserts: _L.fromArray([{_: {}
+                                                                              ,column: 1
+                                                                              ,id: "slidenavigation"}
+                                                                             ,{_: {}
+                                                                              ,column: 1
+                                                                              ,id: "subsectionnavigation"}
+                                                                             ,{_: {}
+                                                                              ,column: 1
+                                                                              ,id: "sectionnavigation"}
+                                                                             ,{_: {}
+                                                                              ,column: 1
+                                                                              ,id: "backforward"}])});
+   var titlePageLayout = Types.Theme.Layout({_: {}
+                                            ,columns: _L.fromArray([{_: {}
+                                                                    ,colAlign: Types.Theme.TopAlign
+                                                                    ,id: 1
+                                                                    ,placement: Graphics.Element.middle
+                                                                    ,width: 1}])
+                                            ,inserts: _L.fromArray([{_: {}
+                                                                    ,column: 1
+                                                                    ,id: "title"}
+                                                                   ,{_: {}
+                                                                    ,column: 1
+                                                                    ,id: "subtitle"}
+                                                                   ,{_: {}
+                                                                    ,column: 1
+                                                                    ,id: "author"}
+                                                                   ,{_: {}
+                                                                    ,column: 1
+                                                                    ,id: "institute"}
+                                                                   ,{_: {}
+                                                                    ,column: 1
+                                                                    ,id: "date"}
+                                                                   ,{_: {}
+                                                                    ,column: 1
+                                                                    ,id: "image"}])});
+   var footlineLayout = Types.Theme.Layout({_: {}
+                                           ,columns: _L.fromArray([{_: {}
+                                                                   ,colAlign: Types.Theme.TopAlign
+                                                                   ,id: 1
+                                                                   ,placement: Graphics.Element.topRight
+                                                                   ,width: 1}])
+                                           ,inserts: _L.fromArray([{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "logo"}])});
+   var defaultLayoutInfo = {_: {}
+                           ,atBeginSectionSlide: {ctor: "_Tuple2"
+                                                 ,_0: Types.Theme.Empty
+                                                 ,_1: defaulttocOptions}
+                           ,atBeginSubsectionSlide: {ctor: "_Tuple2"
+                                                    ,_0: Types.Theme.Empty
+                                                    ,_1: defaulttocOptions}
+                           ,footline: footlineLayout
+                           ,headline: Types.Theme.Empty
+                           ,leftSidebar: Types.Theme.Empty
+                           ,modechangeSymbols: modechangesymbolsLayout
+                           ,navigationalSymbols: navigationalsymbolsLayout
+                           ,rightSidebar: Types.Theme.Empty
+                           ,titleSlide: titlePageLayout
+                           ,tocSlide: {ctor: "_Tuple2"
+                                      ,_0: Types.Theme.Empty
+                                      ,_1: defaulttocOptions}};
+   _elm.Themes.Layouts.Default.values = {_op: _op
+                                        ,footlineLayout: footlineLayout
+                                        ,titlePageLayout: titlePageLayout
+                                        ,navigationalsymbolsLayout: navigationalsymbolsLayout
+                                        ,modechangesymbolsLayout: modechangesymbolsLayout
+                                        ,defaulttocOptions: defaulttocOptions
+                                        ,defaultLayoutInfo: defaultLayoutInfo
+                                        ,changePalletteMapping: changePalletteMapping};
+   return _elm.Themes.Layouts.Default.values;
+};

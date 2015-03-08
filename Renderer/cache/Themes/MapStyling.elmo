@@ -1,0 +1,186 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.MapStyling = Elm.Themes.MapStyling || {};
+Elm.Themes.MapStyling.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.MapStyling = _elm.Themes.MapStyling || {};
+   if (_elm.Themes.MapStyling.values)
+   return _elm.Themes.MapStyling.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.MapStyling";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var toStyleInfo = F3(function (stylingGuide,
+   mapping,
+   slideBG) {
+      return function () {
+         var button = stylingGuide.symbolBoard.button;
+         var shadedSectionProjection = stylingGuide.symbolBoard.shadedSectionProjection;
+         var sectionProjection = stylingGuide.symbolBoard.sectionProjection;
+         var shadedGeneralSymbol = stylingGuide.symbolBoard.shadedGeneralSymbol;
+         var generalSymbol = stylingGuide.symbolBoard.generalSymbol;
+         var shadedMiniframeSymbol = stylingGuide.symbolBoard.shadedMiniframeSymbol;
+         var miniframeSymbol = stylingGuide.symbolBoard.miniframeSymbol;
+         var subsubitemProjection = stylingGuide.subsubitemProjection;
+         var subitemProjection = stylingGuide.subitemProjection;
+         var itemProjection = stylingGuide.itemProjection;
+         var toSymbolStyle = function (parent) {
+            return function () {
+               switch (parent.ctor)
+               {case "Button": return button;
+                  case "GeneralSymbol":
+                  return generalSymbol;
+                  case "ItemProjection":
+                  return itemProjection;
+                  case "MiniframeSymbol":
+                  return miniframeSymbol;
+                  case "SectionProjection":
+                  return sectionProjection;
+                  case "ShadedGeneralSymbol":
+                  return shadedGeneralSymbol;
+                  case "ShadedMiniframeSymbol":
+                  return shadedMiniframeSymbol;
+                  case "ShadedSectionProjection":
+                  return shadedSectionProjection;
+                  case "SubitemProjection":
+                  return subitemProjection;
+                  case "SubsubitemProjection":
+                  return subsubitemProjection;}
+               _E.Case($moduleName,
+               "between lines 104 and 117");
+            }();
+         };
+         var subsubitem = stylingGuide.subsubitem;
+         var subitem = stylingGuide.subitem;
+         var item = stylingGuide.item;
+         var highlightText = stylingGuide.highlightText;
+         var alertText = stylingGuide.alertText;
+         var normalText = stylingGuide.normalText;
+         var quaternaryTocShading = stylingGuide.shadingTocPallette.quaternary;
+         var tertiaryTocShading = stylingGuide.shadingTocPallette.tertiary;
+         var secondaryTocShading = stylingGuide.shadingTocPallette.secondary;
+         var primaryTocShading = stylingGuide.shadingTocPallette.primary;
+         var quaternarySidebarShading = stylingGuide.shadingSidebarPallette.quaternary;
+         var tertiarySidebarShading = stylingGuide.shadingSidebarPallette.tertiary;
+         var secondarySidebarShading = stylingGuide.shadingSidebarPallette.secondary;
+         var primarySidebarShading = stylingGuide.shadingSidebarPallette.primary;
+         var quaternaryShading = stylingGuide.shadingPallette.quaternary;
+         var tertiaryShading = stylingGuide.shadingPallette.tertiary;
+         var secondaryShading = stylingGuide.shadingPallette.secondary;
+         var primaryShading = stylingGuide.shadingPallette.primary;
+         var quaternarySidebar = stylingGuide.sidebarPallette.quaternary;
+         var tertiarySidebar = stylingGuide.sidebarPallette.tertiary;
+         var secondarySidebar = stylingGuide.sidebarPallette.secondary;
+         var primarySidebar = stylingGuide.sidebarPallette.primary;
+         var quaternary = stylingGuide.headFootPallette.quaternary;
+         var tertiary = stylingGuide.headFootPallette.tertiary;
+         var secondary = stylingGuide.headFootPallette.secondary;
+         var primary = stylingGuide.headFootPallette.primary;
+         var titleLike = stylingGuide.titleLike;
+         var innerElements = stylingGuide.innerElements;
+         var outerElements = stylingGuide.outerElements;
+         var inner = stylingGuide.inner;
+         var outer = stylingGuide.outer;
+         var toStyle = function (parent) {
+            return function () {
+               switch (parent.ctor)
+               {case "AlertText":
+                  return alertText;
+                  case "HighlightText":
+                  return highlightText;
+                  case "Inner": return inner;
+                  case "InnerElements":
+                  return innerElements;
+                  case "Item": return item;
+                  case "NormalText":
+                  return normalText;
+                  case "Outer": return outer;
+                  case "OuterElements":
+                  return outerElements;
+                  case "Primary": return primary;
+                  case "PrimaryShading":
+                  return primaryShading;
+                  case "PrimarySidebar":
+                  return primarySidebar;
+                  case "PrimarySidebarShading":
+                  return primarySidebarShading;
+                  case "PrimaryTocShading":
+                  return primaryTocShading;
+                  case "Quaternary":
+                  return quaternary;
+                  case "QuaternaryShading":
+                  return quaternaryShading;
+                  case "QuaternarySidebar":
+                  return quaternarySidebar;
+                  case "QuaternarySidebarShading":
+                  return quaternarySidebarShading;
+                  case "QuaternaryTocShading":
+                  return quaternaryTocShading;
+                  case "Secondary":
+                  return secondary;
+                  case "SecondaryShading":
+                  return secondaryShading;
+                  case "SecondarySidebar":
+                  return secondarySidebar;
+                  case "SecondarySidebarShading":
+                  return secondarySidebarShading;
+                  case "SecondaryTocShading":
+                  return secondaryTocShading;
+                  case "Subitem": return subitem;
+                  case "Subsubitem":
+                  return subsubitem;
+                  case "Tertiary":
+                  return tertiary;
+                  case "TertiaryShading":
+                  return tertiaryShading;
+                  case "TertiarySidebar":
+                  return tertiarySidebar;
+                  case "TertiarySidebarShading":
+                  return tertiarySidebarShading;
+                  case "TertiaryTocShading":
+                  return tertiaryTocShading;
+                  case "TitleLike":
+                  return titleLike;}
+               _E.Case($moduleName,
+               "between lines 70 and 103");
+            }();
+         };
+         return {_: {}
+                ,inner: A2(Dict.map,
+                toStyle,
+                mapping.inner)
+                ,outer: A2(Dict.map,
+                toStyle,
+                mapping.outer)
+                ,slideBackground: slideBG
+                ,symbol: A2(Dict.map,
+                toSymbolStyle,
+                mapping.symbol)};
+      }();
+   });
+   _elm.Themes.MapStyling.values = {_op: _op
+                                   ,toStyleInfo: toStyleInfo};
+   return _elm.Themes.MapStyling.values;
+};

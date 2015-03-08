@@ -1,0 +1,114 @@
+Elm.Types = Elm.Types || {};
+Elm.Types.Intermediate = Elm.Types.Intermediate || {};
+Elm.Types.Intermediate.make = function (_elm) {
+   "use strict";
+   _elm.Types = _elm.Types || {};
+   _elm.Types.Intermediate = _elm.Types.Intermediate || {};
+   if (_elm.Types.Intermediate.values)
+   return _elm.Types.Intermediate.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Types.Intermediate";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var RawPad = F8(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g,
+   h) {
+      return {_: {}
+             ,bottomColor: g
+             ,bottomThick: c
+             ,leftColor: e
+             ,leftThick: a
+             ,rightColor: f
+             ,rightThick: b
+             ,topColor: h
+             ,topThick: d};
+   });
+   var RawSinglePad = F2(function (a,
+   b) {
+      return {_: {}
+             ,fill: b
+             ,thickness: a};
+   });
+   var Raw = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return function (m) {
+                                          return function (n) {
+                                             return {_: {}
+                                                    ,bg: j
+                                                    ,borderColor: h
+                                                    ,borderDashing: i
+                                                    ,borderWidth: g
+                                                    ,font: a
+                                                    ,fontAlign: f
+                                                    ,fontBold: d
+                                                    ,fontColor: b
+                                                    ,fontItalic: e
+                                                    ,fontSize: c
+                                                    ,padding: k
+                                                    ,shape: m
+                                                    ,shapeAlpha: l
+                                                    ,shapeFill: n};
+                                          };
+                                       };
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var NewStyle = function (a) {
+      return {ctor: "NewStyle"
+             ,_0: a};
+   };
+   var NoChange = {ctor: "NoChange"};
+   _elm.Types.Intermediate.values = {_op: _op
+                                    ,NoChange: NoChange
+                                    ,NewStyle: NewStyle
+                                    ,Raw: Raw
+                                    ,RawSinglePad: RawSinglePad
+                                    ,RawPad: RawPad};
+   return _elm.Types.Intermediate.values;
+};

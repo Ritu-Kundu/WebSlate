@@ -1,0 +1,434 @@
+Elm.Builders = Elm.Builders || {};
+Elm.Builders.ElementMaker = Elm.Builders.ElementMaker || {};
+Elm.Builders.ElementMaker.make = function (_elm) {
+   "use strict";
+   _elm.Builders = _elm.Builders || {};
+   _elm.Builders.ElementMaker = _elm.Builders.ElementMaker || {};
+   if (_elm.Builders.ElementMaker.values)
+   return _elm.Builders.ElementMaker.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Builders.ElementMaker";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Naive = Elm.Types.Naive.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Content = Elm.Utils.Content.make(_elm);
+   var Utils = Utils || {};
+   Utils.Naive = Elm.Utils.Naive.make(_elm);
+   var Utils = Utils || {};
+   Utils.Theme = Elm.Utils.Theme.make(_elm);
+   var _op = {};
+   var drawFill = F3(function (w,
+   h,
+   fill) {
+      return function () {
+         var solidFrame = function (f) {
+            return A3(Graphics.Collage.collage,
+            w,
+            h,
+            _L.fromArray([f]));
+         };
+         var frame = A2(Graphics.Collage.rect,
+         Basics.toFloat(w),
+         Basics.toFloat(h));
+         return function () {
+            switch (fill.ctor)
+            {case "Grad":
+               return solidFrame(A2(Graphics.Collage.gradient,
+                 fill._0,
+                 frame));
+               case "SingleColored":
+               return solidFrame(A2(Graphics.Collage.filled,
+                 fill._0,
+                 frame));
+               case "Transparent":
+               return A2(Graphics.Element.spacer,
+                 w,
+                 h);}
+            _E.Case($moduleName,
+            "between lines 87 and 90");
+         }();
+      }();
+   });
+   var buildCanvas = F4(function (w,
+   h,
+   borderstyle,
+   fillstyle) {
+      return function () {
+         var filled = A3(drawFill,
+         w,
+         h,
+         fillstyle);
+         var bordered = function () {
+            switch (borderstyle.ctor)
+            {case "Border":
+               return function () {
+                    var newHeight = Basics.toFloat(h) - borderstyle._0.width;
+                    var newWidth = Basics.toFloat(w) - borderstyle._0.width;
+                    return A3(Graphics.Collage.collage,
+                    w,
+                    h,
+                    _L.fromArray([A2(Graphics.Collage.outlined,
+                    borderstyle._0,
+                    A2(Graphics.Collage.rect,
+                    newWidth,
+                    newHeight))]));
+                 }();
+               case "None":
+               return Graphics.Element.empty;}
+            _E.Case($moduleName,
+            "between lines 95 and 106");
+         }();
+         return Graphics.Element.layers(_L.fromArray([filled
+                                                     ,bordered]));
+      }();
+   });
+   var buildPadding = F3(function (w,
+   h,
+   padding) {
+      return function () {
+         var singlePad = F2(function (posPad,
+         pad) {
+            return A4(Graphics.Element.container,
+            w,
+            h,
+            posPad,
+            pad);
+         });
+         var leftPad = singlePad(Graphics.Element.topLeft)(A3(drawFill,
+         padding.left.thickness,
+         h,
+         padding.left.fillcolor));
+         var rightPad = singlePad(Graphics.Element.topRight)(A3(drawFill,
+         padding.right.thickness,
+         h,
+         padding.right.fillcolor));
+         var topPad = singlePad(Graphics.Element.midTop)(A3(drawFill,
+         w,
+         padding.top.thickness,
+         padding.top.fillcolor));
+         var bottomPad = singlePad(Graphics.Element.midBottom)(A3(drawFill,
+         w,
+         padding.bottom.thickness,
+         padding.bottom.fillcolor));
+         return Graphics.Element.layers(_L.fromArray([leftPad
+                                                     ,rightPad
+                                                     ,topPad
+                                                     ,bottomPad]));
+      }();
+   });
+   var buildCompleteElement = F3(function (_v6,
+   styling,
+   elem) {
+      return function () {
+         switch (_v6.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var positionedElem = A4(Graphics.Element.container,
+                 _v6._0,
+                 _v6._1,
+                 Graphics.Element.middle,
+                 elem);
+                 var borderThickness = function () {
+                    var _v10 = styling.border;
+                    switch (_v10.ctor)
+                    {case "Border":
+                       return Basics.truncate(_v10._0.width);
+                       case "None": return 0;}
+                    _E.Case($moduleName,
+                    "between lines 138 and 141");
+                 }();
+                 var bPad = styling.padding.bottom.thickness;
+                 var tPad = styling.padding.top.thickness;
+                 var withPadHeight = _v6._1 + tPad + bPad;
+                 var totalHeight = withPadHeight + borderThickness * 2;
+                 var relativePadTopPos = Basics.toFloat(borderThickness) / Basics.toFloat(totalHeight);
+                 var relativeElementTopPos = relativePadTopPos + Basics.toFloat(tPad) / Basics.toFloat(totalHeight);
+                 var rPad = styling.padding.right.thickness;
+                 var lPad = styling.padding.left.thickness;
+                 var withPadWidth = _v6._0 + lPad + rPad;
+                 var totalWidth = withPadWidth + borderThickness * 2;
+                 var relativePadLeftPos = Basics.toFloat(borderThickness) / Basics.toFloat(totalWidth);
+                 var canvas = A4(buildCanvas,
+                 totalWidth,
+                 totalHeight,
+                 styling.border,
+                 styling.background);
+                 var padding = A3(buildPadding,
+                 withPadWidth,
+                 withPadHeight,
+                 styling.padding);
+                 var placedPadding = A4(Graphics.Element.container,
+                 totalWidth,
+                 totalHeight,
+                 A2(Graphics.Element.topLeftAt,
+                 Graphics.Element.relative(relativePadLeftPos),
+                 Graphics.Element.relative(relativePadTopPos)),
+                 padding);
+                 var textWidth = withPadWidth - lPad - rPad;
+                 var relativeElementLeftPos = relativePadLeftPos + Basics.toFloat(lPad) / Basics.toFloat(totalWidth);
+                 var placedElem = A4(Graphics.Element.container,
+                 totalWidth,
+                 totalHeight,
+                 A2(Graphics.Element.topLeftAt,
+                 Graphics.Element.relative(relativeElementLeftPos),
+                 Graphics.Element.relative(relativeElementTopPos)),
+                 positionedElem);
+                 return Graphics.Element.layers(_L.fromArray([canvas
+                                                             ,placedPadding
+                                                             ,placedElem]));
+              }();}
+         _E.Case($moduleName,
+         "between lines 134 and 167");
+      }();
+   });
+   var buildTabbedElement = F5(function (_v12,
+   level,
+   offset,
+   marker,
+   item) {
+      return function () {
+         switch (_v12.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var markerWidth = Graphics.Element.widthOf(marker);
+                 var offsetWidth = offset;
+                 var emptySpacerWidth = markerWidth + offsetWidth;
+                 var remainingWidth = _v12._0 - level * emptySpacerWidth;
+                 var resizedElem = A3(Graphics.Collage.collage,
+                 remainingWidth,
+                 _v12._1,
+                 _L.fromArray([Graphics.Collage.scale(Basics.toFloat(remainingWidth) / Basics.toFloat(Graphics.Element.widthOf(item)))(Graphics.Collage.toForm(item))]));
+                 var emptySpacer = Graphics.Element.opacity(0)(A2(Graphics.Element.spacer,
+                 (level - 1) * emptySpacerWidth,
+                 _v12._1));
+                 return A3(Graphics.Element.container,
+                 _v12._0,
+                 _v12._1,
+                 Graphics.Element.middle)(A2(Graphics.Element.flow,
+                 Graphics.Element.right,
+                 _L.fromArray([emptySpacer
+                              ,A4(Graphics.Element.container,
+                              markerWidth,
+                              _v12._1,
+                              Graphics.Element.midTop,
+                              marker)
+                              ,A2(Graphics.Element.spacer,
+                              offsetWidth,
+                              _v12._1)
+                              ,resizedElem])));
+              }();}
+         _E.Case($moduleName,
+         "between lines 63 and 78");
+      }();
+   });
+   var buildSlateText = F3(function (styleInfo,
+   styling,
+   slateText) {
+      return function () {
+         var partNStyleList = A2(List.zip,
+         slateText.parts,
+         slateText.inlinestyle);
+         var group = F2(function (partNStyle,
+         partList) {
+            return A2(String.startsWith,
+            "\n",
+            Basics.fst(partNStyle)) ? _L.append(partList,
+            _L.fromArray([_L.fromArray([partNStyle])])) : function () {
+               var newLast = _L.append(List.last(partList),
+               _L.fromArray([partNStyle]));
+               var newListInitial = A2(List.take,
+               List.length(partList) - 1,
+               partList);
+               return _L.append(newListInitial,
+               _L.fromArray([newLast]));
+            }();
+         });
+         var groupedList = A2(List.foldl,
+         group,
+         _L.fromArray([_L.fromArray([List.head(partNStyleList)])]))(List.tail(partNStyleList));
+         var applyEffect = F2(function (effect,
+         txt) {
+            return function () {
+               switch (effect)
+               {case "bold":
+                  return Text.bold(txt);
+                  case "italic":
+                  return Text.italic(txt);
+                  case "underline":
+                  return A2(Text.line,
+                    Text.Under,
+                    txt);}
+               return txt;
+            }();
+         });
+         var coloredStyling = function (c) {
+            return A2(Utils.Theme.setTextColor,
+            styling,
+            c);
+         };
+         var highlightStying = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "highlight"
+         ,_1: "none"},
+         styleInfo);
+         var alertStying = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "alert"
+         ,_1: "none"},
+         styleInfo);
+         var inlineStyleToStyle = function (str) {
+            return function () {
+               switch (str)
+               {case "alert":
+                  return alertStying;
+                  case "bold": return styling;
+                  case "highlight":
+                  return highlightStying;
+                  case "italic": return styling;
+                  case "normal": return styling;
+                  case "underline":
+                  return styling;}
+               return coloredStyling(Utils.Naive.processColor(str));
+            }();
+         };
+         var partToElem = function (partNStyle) {
+            return styling.text.align(applyEffect(Basics.snd(partNStyle))(A2(Text.style,
+            function (_) {
+               return _.style;
+            }(function (_) {
+               return _.text;
+            }(inlineStyleToStyle(Basics.snd(partNStyle)))),
+            Text.toText(Basics.fst(partNStyle)))));
+         };
+         return List.isEmpty(slateText.parts) ? Graphics.Element.empty : Graphics.Element.flow(Graphics.Element.down)(A2(List.map,
+         function (x) {
+            return Graphics.Element.flow(Graphics.Element.right)(A2(List.map,
+            partToElem,
+            x));
+         },
+         groupedList));
+      }();
+   });
+   var buildText = F2(function (styling,
+   s) {
+      return function () {
+         var styledText = styling.text.align(Text.style(styling.text.style)(Text.toText(s)));
+         return styledText;
+      }();
+   });
+   var buildSymbol = F3(function (symbolStyle,
+   symbolSizing,
+   tex) {
+      return function () {
+         var normalStyle = symbolStyle.general;
+         var h = symbolSizing.height;
+         var floatHeight = Basics.toFloat(h) * symbolSizing.coverage;
+         var w = symbolSizing.width;
+         var floatWidth = Basics.toFloat(w) * symbolSizing.coverage;
+         var getShapeFrame = function () {
+            var _v18 = symbolStyle.symbolShape;
+            switch (_v18.ctor)
+            {case "Circle":
+               return Graphics.Collage.circle(floatHeight);
+               case "Rectangle":
+               return A2(Graphics.Collage.rect,
+                 floatWidth,
+                 floatHeight);
+               case "Square":
+               return A2(Graphics.Collage.rect,
+                 floatHeight,
+                 floatHeight);
+               case "Tick":
+               return A2(Graphics.Collage.rect,
+                 2,
+                 floatHeight);
+               case "Triangle":
+               return A2(Graphics.Collage.ngon,
+                 3,
+                 floatHeight);}
+            _E.Case($moduleName,
+            "between lines 179 and 185");
+         }();
+         var getShape = function () {
+            var _v19 = symbolStyle.symbolFill;
+            switch (_v19.ctor)
+            {case "Grad":
+               return A2(Graphics.Collage.gradient,
+                 _v19._0,
+                 getShapeFrame);
+               case "SingleColored":
+               return A2(Graphics.Collage.filled,
+                 _v19._0,
+                 getShapeFrame);
+               case "Transparent":
+               return A2(Graphics.Collage.outlined,
+                 Graphics.Collage.solid(normalStyle.text.style.color),
+                 getShapeFrame);}
+            _E.Case($moduleName,
+            "between lines 185 and 190");
+         }();
+         var markerSymbol = A3(Graphics.Collage.collage,
+         w,
+         h,
+         _L.fromArray([getShape]));
+         var markerText = function () {
+            switch (tex.ctor)
+            {case "Just":
+               return function () {
+                    var textElem = A2(buildText,
+                    normalStyle,
+                    tex._0);
+                    return A3(Graphics.Collage.collage,
+                    w,
+                    h,
+                    _L.fromArray([Graphics.Collage.scale(floatHeight / Basics.toFloat(Graphics.Element.heightOf(textElem)))(Graphics.Collage.toForm(textElem))]));
+                 }();
+               case "Nothing":
+               return Graphics.Element.empty;}
+            _E.Case($moduleName,
+            "between lines 191 and 199");
+         }();
+         var marker = A2(buildCompleteElement,
+         {ctor: "_Tuple2",_0: w,_1: h},
+         normalStyle)(Graphics.Element.layers(_L.fromArray([markerSymbol
+                                                           ,markerText])));
+         return A2(Graphics.Element.opacity,
+         symbolStyle.symbolAlpha,
+         marker);
+      }();
+   });
+   _elm.Builders.ElementMaker.values = {_op: _op
+                                       ,buildText: buildText
+                                       ,buildSlateText: buildSlateText
+                                       ,buildTabbedElement: buildTabbedElement
+                                       ,drawFill: drawFill
+                                       ,buildCanvas: buildCanvas
+                                       ,buildPadding: buildPadding
+                                       ,buildCompleteElement: buildCompleteElement
+                                       ,buildSymbol: buildSymbol};
+   return _elm.Builders.ElementMaker.values;
+};

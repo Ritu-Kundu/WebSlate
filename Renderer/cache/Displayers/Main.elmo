@@ -1,0 +1,403 @@
+Elm.Displayers = Elm.Displayers || {};
+Elm.Displayers.Main = Elm.Displayers.Main || {};
+Elm.Displayers.Main.make = function (_elm) {
+   "use strict";
+   _elm.Displayers = _elm.Displayers || {};
+   _elm.Displayers.Main = _elm.Displayers.Main || {};
+   if (_elm.Displayers.Main.values)
+   return _elm.Displayers.Main.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Displayers.Main";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.Context = Elm.Builders.Context.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Displayers = Displayers || {};
+   Displayers.ContentSlide = Elm.Displayers.ContentSlide.make(_elm);
+   var Displayers = Displayers || {};
+   Displayers.QuizSlide = Elm.Displayers.QuizSlide.make(_elm);
+   var Displayers = Displayers || {};
+   Displayers.SectionishSlide = Elm.Displayers.SectionishSlide.make(_elm);
+   var Displayers = Displayers || {};
+   Displayers.SupportbinSlide = Elm.Displayers.SupportbinSlide.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var PreProcess = PreProcess || {};
+   PreProcess.ContentMaker = Elm.PreProcess.ContentMaker.make(_elm);
+   var PreProcess = PreProcess || {};
+   PreProcess.ThemeMaker = Elm.PreProcess.ThemeMaker.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Naive = Elm.Types.Naive.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Displayer = Elm.Utils.Displayer.make(_elm);
+   var Utils = Utils || {};
+   Utils.Naive = Elm.Utils.Naive.make(_elm);
+   var Utils = Utils || {};
+   Utils.TickTracker = Elm.Utils.TickTracker.make(_elm);
+   var _op = {};
+   var getTickList = F3(function (theme,
+   sectionIdList,
+   slideList) {
+      return function () {
+         var isMarkSubsection = function () {
+            var _v0 = Basics.fst(theme.layout.atBeginSubsectionSlide);
+            switch (_v0.ctor)
+            {case "Empty": return false;
+               case "Layout": return true;}
+            _E.Case($moduleName,
+            "between lines 182 and 185");
+         }();
+         var isMarkSection = function () {
+            var _v2 = Basics.fst(theme.layout.atBeginSectionSlide);
+            switch (_v2.ctor)
+            {case "Empty": return false;
+               case "Layout": return true;}
+            _E.Case($moduleName,
+            "between lines 179 and 182");
+         }();
+         var tickList = List.isEmpty(sectionIdList) ? slideList : A4(Utils.TickTracker.getTickList,
+         isMarkSection,
+         isMarkSubsection,
+         sectionIdList,
+         slideList);
+         var tickListAfterToc = function () {
+            var _v4 = Basics.fst(theme.layout.tocSlide);
+            switch (_v4.ctor)
+            {case "Empty": return tickList;
+               case "Layout":
+               return List.isEmpty(sectionIdList) ? tickList : {ctor: "::"
+                                                               ,_0: {ctor: "_Tuple2"
+                                                                    ,_0: _L.fromArray([])
+                                                                    ,_1: -10}
+                                                               ,_1: tickList};}
+            _E.Case($moduleName,
+            "between lines 188 and 193");
+         }();
+         return {ctor: "::"
+                ,_0: {ctor: "_Tuple2"
+                     ,_0: _L.fromArray([])
+                     ,_1: -20}
+                ,_1: tickListAfterToc};
+      }();
+   });
+   var getComponentSize = F5(function (layoutInfo,
+   componenSizeInfo,
+   w,
+   h,
+   componentType) {
+      return function () {
+         var getX = F3(function (layout,
+         relX,
+         x) {
+            return function () {
+               switch (layout.ctor)
+               {case "Empty": return 0;}
+               return Basics.truncate(relX * Basics.toFloat(x));
+            }();
+         });
+         return function () {
+            switch (componentType)
+            {case "footline":
+               return {ctor: "_Tuple2"
+                      ,_0: w
+                      ,_1: A3(getX,
+                      layoutInfo.footline,
+                      componenSizeInfo.footlineHeight,
+                      h)};
+               case "headline":
+               return {ctor: "_Tuple2"
+                      ,_0: w
+                      ,_1: A3(getX,
+                      layoutInfo.headline,
+                      componenSizeInfo.headlineHeight,
+                      h)};
+               case "leftSidebar":
+               return {ctor: "_Tuple2"
+                      ,_0: A3(getX,
+                      layoutInfo.leftSidebar,
+                      componenSizeInfo.leftSidebarWidth,
+                      w)
+                      ,_1: h};
+               case "navigationSymbol":
+               return {ctor: "_Tuple2"
+                      ,_0: w
+                      ,_1: Basics.truncate(componenSizeInfo.navigationSymbolHeight * Basics.toFloat(h))};
+               case "rightSidebar":
+               return {ctor: "_Tuple2"
+                      ,_0: A3(getX,
+                      layoutInfo.rightSidebar,
+                      componenSizeInfo.rightSidebarWidth,
+                      w)
+                      ,_1: h};
+               case "title":
+               return {ctor: "_Tuple2"
+                      ,_0: Basics.truncate(componenSizeInfo.slideTitleWidth * Basics.toFloat(w))
+                      ,_1: Basics.truncate(componenSizeInfo.slideTitleHeight * Basics.toFloat(h))};}
+            _E.Case($moduleName,
+            "between lines 166 and 174");
+         }();
+      }();
+   });
+   var getConcreteComponentSize = F3(function (getSize,
+   w,
+   h) {
+      return function () {
+         var footlineSize = A3(getSize,
+         w,
+         h,
+         "footline");
+         var headlineSize = A3(getSize,
+         w,
+         h,
+         "headline");
+         var sideBarheight = h - Basics.snd(headlineSize) - Basics.snd(footlineSize);
+         var leftSidebarSize = A3(getSize,
+         w,
+         sideBarheight,
+         "leftSidebar");
+         var rightSidebarSize = A3(getSize,
+         w,
+         sideBarheight,
+         "rightSidebar");
+         var bodySize = {ctor: "_Tuple2"
+                        ,_0: w - Basics.fst(leftSidebarSize) - Basics.fst(rightSidebarSize)
+                        ,_1: sideBarheight};
+         var titleSize = A3(getSize,
+         Basics.fst(bodySize),
+         Basics.snd(bodySize),
+         "title");
+         var navSymbolSize = A3(getSize,
+         Basics.fst(bodySize),
+         Basics.snd(bodySize),
+         "navigationSymbol");
+         var contentSize = {ctor: "_Tuple2"
+                           ,_0: Basics.fst(bodySize)
+                           ,_1: Basics.snd(bodySize) - Basics.snd(navSymbolSize) - Basics.snd(titleSize)};
+         return {_: {}
+                ,content: contentSize
+                ,footline: footlineSize
+                ,headline: headlineSize
+                ,leftSidebar: leftSidebarSize
+                ,navigationSymbol: navSymbolSize
+                ,rightSidebar: rightSidebarSize
+                ,slideTitle: titleSize};
+      }();
+   });
+   var displayZoomed = function (context) {
+      return function () {
+         var closeSign = A3(Graphics.Element.fittedImage,
+         30,
+         30,
+         "Symbols/Close.gif");
+         var onCloseMode = function () {
+            var _v8 = context.mode;
+            switch (_v8.ctor)
+            {case "InZoomMode":
+               return Types.Context.BeginZoomMode;
+               case "SupportBinZoomMode":
+               return Types.Context.BeginSupportBinMode;}
+            _E.Case($moduleName,
+            "between lines 110 and 113");
+         }();
+         var closeButton = A5(Graphics.Input.customButton,
+         Builders.Context.modeClicks.handle,
+         onCloseMode,
+         closeSign,
+         Graphics.Element.opacity(0.5)(closeSign),
+         closeSign);
+         var w = context.windowWidth;
+         var base = Graphics.Element.color(Color.lightCharcoal)(A4(Graphics.Element.container,
+         w,
+         35,
+         Graphics.Element.topRight,
+         closeButton));
+         var h = context.windowHeight;
+         var elem = context.zoomElem;
+         var scaleFactor = Basics.toFloat(w) / Basics.toFloat(Graphics.Element.widthOf(elem));
+         var scaledElem = A3(Graphics.Collage.collage,
+         w,
+         Basics.truncate(scaleFactor * Basics.toFloat(Graphics.Element.heightOf(elem))),
+         _L.fromArray([Graphics.Collage.scale(scaleFactor)(Graphics.Collage.toForm(elem))]));
+         var positionedElem = A4(Graphics.Element.container,
+         w,
+         h - 35,
+         Graphics.Element.midTop,
+         scaledElem);
+         return A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([base
+                      ,scaledElem]));
+      }();
+   };
+   var showPresentation = F2(function (presentation,
+   context) {
+      return function () {
+         var quizList = presentation.quizes;
+         var h = context.windowHeight;
+         var w = context.windowWidth;
+         var sectionList = A2(List.map,
+         PreProcess.ThemeMaker.naiveToThemeSection,
+         presentation.presInfo.sections);
+         var naivePresInfo = presentation.presInfo;
+         var presInfo = _U.remove("sections",
+         naivePresInfo);
+         var theme = PreProcess.ThemeMaker.toTheme(presentation.themeInfo);
+         var geSize = A2(getComponentSize,
+         theme.layout,
+         theme.componentSize);
+         var concreteSizeInfo = A3(getConcreteComponentSize,
+         geSize,
+         w,
+         h);
+         var contentSlideList = A3(PreProcess.ContentMaker.toContent,
+         presentation.slides,
+         theme,
+         Basics.fst(concreteSizeInfo.content));
+         var supportbinList = A3(PreProcess.ContentMaker.toSupportbinContent,
+         presentation.supportbin,
+         theme,
+         Basics.fst(concreteSizeInfo.content));
+         var slideTickList = A2(getTickList,
+         theme,
+         A2(List.map,
+         function (_) {
+            return _.route;
+         },
+         sectionList))(A2(List.zip,
+         A2(List.map,
+         function (_) {
+            return _.partOf;
+         },
+         contentSlideList),
+         A2(List.map,
+         function (_) {
+            return _.slideId;
+         },
+         contentSlideList)));
+         var slideRouteAndIndex = A2(Utils.Displayer.getNthFromList,
+         context.currentSlideIndex,
+         slideTickList);
+         var currentInfoForOuter = {_: {}
+                                   ,currentSlideNumber: String.show(Basics.snd(slideRouteAndIndex))
+                                   ,maxSlideNumber: String.show(List.length(contentSlideList))
+                                   ,route: Basics.fst(slideRouteAndIndex)};
+         var tickDict = A2(Utils.TickTracker.getSectionTick,
+         A2(List.map,
+         function (_) {
+            return _.route;
+         },
+         sectionList),
+         slideTickList);
+         var displaySectionish = function (slideType) {
+            return A8(Displayers.SectionishSlide.display,
+            context,
+            concreteSizeInfo,
+            currentInfoForOuter,
+            theme,
+            presInfo,
+            sectionList,
+            tickDict,
+            slideType);
+         };
+         return _U.eq(Basics.snd(slideRouteAndIndex),
+         -20) ? displaySectionish("titleslide") : _U.eq(Basics.snd(slideRouteAndIndex),
+         -10) ? displaySectionish("tocslide") : _U.eq(Basics.snd(slideRouteAndIndex),
+         -1) ? displaySectionish("section") : _U.eq(Basics.snd(slideRouteAndIndex),
+         -2) ? displaySectionish("subsection") : function () {
+            var csId = Basics.snd(slideRouteAndIndex);
+            var contentSlide = function () {
+               var cs = A2(List.filter,
+               function (x) {
+                  return _U.eq(x.slideId,csId);
+               },
+               contentSlideList);
+               return List.isEmpty(cs) ? List.head(contentSlideList) : List.head(cs);
+            }();
+            var supportbin = function () {
+               var sb = A2(List.filter,
+               function (x) {
+                  return _U.eq(x.supportbinId,
+                  contentSlide.supportbin);
+               },
+               supportbinList);
+               return List.isEmpty(sb) ? {_: {}
+                                         ,content: _L.fromArray([])
+                                         ,supportbinId: ""} : List.head(sb);
+            }();
+            var quiz = function () {
+               var ql = A2(List.filter,
+               function (x) {
+                  return _U.eq(x.id,
+                  contentSlide.quiz);
+               },
+               quizList);
+               return List.isEmpty(ql) ? {_: {}
+                                         ,correctAns: _L.fromArray([])
+                                         ,explanation: ""
+                                         ,id: ""
+                                         ,options: _L.fromArray([])
+                                         ,qtype: ""
+                                         ,question: ""} : List.head(ql);
+            }();
+            return function () {
+               var _v9 = context.mode;
+               switch (_v9.ctor)
+               {case "BeginSupportBinMode":
+                  return A3(Displayers.SupportbinSlide.display,
+                    supportbin,
+                    context,
+                    concreteSizeInfo);
+                  case "InZoomMode":
+                  return displayZoomed(context);
+                  case "QuizMode":
+                  return A3(Displayers.QuizSlide.display,
+                    quiz,
+                    context,
+                    concreteSizeInfo);
+                  case "SupportBinZoomMode":
+                  return displayZoomed(context);}
+               return A8(Displayers.ContentSlide.display,
+               contentSlide,
+               context,
+               concreteSizeInfo,
+               currentInfoForOuter,
+               theme,
+               presInfo,
+               sectionList,
+               tickDict);
+            }();
+         }();
+      }();
+   });
+   _elm.Displayers.Main.values = {_op: _op
+                                 ,showPresentation: showPresentation
+                                 ,displayZoomed: displayZoomed
+                                 ,getConcreteComponentSize: getConcreteComponentSize
+                                 ,getComponentSize: getComponentSize
+                                 ,getTickList: getTickList};
+   return _elm.Displayers.Main.values;
+};

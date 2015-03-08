@@ -1,0 +1,551 @@
+Elm.Types = Elm.Types || {};
+Elm.Types.Theme = Elm.Types.Theme || {};
+Elm.Types.Theme.make = function (_elm) {
+   "use strict";
+   _elm.Types = _elm.Types || {};
+   _elm.Types.Theme = _elm.Types.Theme || {};
+   if (_elm.Types.Theme.values)
+   return _elm.Types.Theme.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Types.Theme";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var Section = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,longName: c
+             ,route: a
+             ,shortName: b};
+   });
+   var PresInfo = F9(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g,
+   h,
+   i) {
+      return {_: {}
+             ,authors: c
+             ,date: e
+             ,institute: d
+             ,logo: f
+             ,presSubTitle: b
+             ,presTitle: a
+             ,sectionGraphic: h
+             ,subsectionGraphic: i
+             ,titleGraphic: g};
+   });
+   var Theme = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,componentSize: b
+             ,layout: d
+             ,style: a
+             ,symbolSize: c};
+   });
+   var StyleInfo = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,inner: b
+             ,outer: a
+             ,slideBackground: d
+             ,symbol: c};
+   });
+   var StyleLists = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,inner: b
+             ,outer: a
+             ,symbol: c};
+   });
+   var StyleGuide = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return function (k) {
+                                    return function (l) {
+                                       return function (m) {
+                                          return function (n) {
+                                             return function (o) {
+                                                return function (p) {
+                                                   return function (q) {
+                                                      return function (r) {
+                                                         return function (s) {
+                                                            return function (t) {
+                                                               return {_: {}
+                                                                      ,alertText: l
+                                                                      ,headFootPallette: f
+                                                                      ,highlightText: m
+                                                                      ,inner: b
+                                                                      ,innerElements: d
+                                                                      ,item: n
+                                                                      ,itemProjection: q
+                                                                      ,normalText: k
+                                                                      ,outer: a
+                                                                      ,outerElements: c
+                                                                      ,shadingPallette: h
+                                                                      ,shadingSidebarPallette: i
+                                                                      ,shadingTocPallette: j
+                                                                      ,sidebarPallette: g
+                                                                      ,subitem: o
+                                                                      ,subitemProjection: r
+                                                                      ,subsubitem: p
+                                                                      ,subsubitemProjection: s
+                                                                      ,symbolBoard: t
+                                                                      ,titleLike: e};
+                                                            };
+                                                         };
+                                                      };
+                                                   };
+                                                };
+                                             };
+                                          };
+                                       };
+                                    };
+                                 };
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var SymbolBoard = F7(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g) {
+      return {_: {}
+             ,button: g
+             ,generalSymbol: c
+             ,miniframeSymbol: a
+             ,sectionProjection: e
+             ,shadedGeneralSymbol: d
+             ,shadedMiniframeSymbol: b
+             ,shadedSectionProjection: f};
+   });
+   var Pallette = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,primary: a
+             ,quaternary: d
+             ,secondary: b
+             ,tertiary: c};
+   });
+   var Mapping = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,inner: b
+             ,outer: a
+             ,symbol: c};
+   });
+   var SeparatedParentList = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,inner: b
+             ,outer: a
+             ,symbol: c};
+   });
+   var Button = {ctor: "Button"};
+   var ShadedSectionProjection = {ctor: "ShadedSectionProjection"};
+   var SectionProjection = {ctor: "SectionProjection"};
+   var ShadedGeneralSymbol = {ctor: "ShadedGeneralSymbol"};
+   var GeneralSymbol = {ctor: "GeneralSymbol"};
+   var ShadedMiniframeSymbol = {ctor: "ShadedMiniframeSymbol"};
+   var MiniframeSymbol = {ctor: "MiniframeSymbol"};
+   var SubsubitemProjection = {ctor: "SubsubitemProjection"};
+   var SubitemProjection = {ctor: "SubitemProjection"};
+   var ItemProjection = {ctor: "ItemProjection"};
+   var Subsubitem = {ctor: "Subsubitem"};
+   var Subitem = {ctor: "Subitem"};
+   var Item = {ctor: "Item"};
+   var QuaternaryTocShading = {ctor: "QuaternaryTocShading"};
+   var TertiaryTocShading = {ctor: "TertiaryTocShading"};
+   var SecondaryTocShading = {ctor: "SecondaryTocShading"};
+   var PrimaryTocShading = {ctor: "PrimaryTocShading"};
+   var QuaternarySidebarShading = {ctor: "QuaternarySidebarShading"};
+   var TertiarySidebarShading = {ctor: "TertiarySidebarShading"};
+   var SecondarySidebarShading = {ctor: "SecondarySidebarShading"};
+   var PrimarySidebarShading = {ctor: "PrimarySidebarShading"};
+   var QuaternaryShading = {ctor: "QuaternaryShading"};
+   var TertiaryShading = {ctor: "TertiaryShading"};
+   var SecondaryShading = {ctor: "SecondaryShading"};
+   var PrimaryShading = {ctor: "PrimaryShading"};
+   var QuaternarySidebar = {ctor: "QuaternarySidebar"};
+   var TertiarySidebar = {ctor: "TertiarySidebar"};
+   var SecondarySidebar = {ctor: "SecondarySidebar"};
+   var PrimarySidebar = {ctor: "PrimarySidebar"};
+   var Quaternary = {ctor: "Quaternary"};
+   var Tertiary = {ctor: "Tertiary"};
+   var Secondary = {ctor: "Secondary"};
+   var Primary = {ctor: "Primary"};
+   var HighlightText = {ctor: "HighlightText"};
+   var AlertText = {ctor: "AlertText"};
+   var NormalText = {ctor: "NormalText"};
+   var TitleLike = {ctor: "TitleLike"};
+   var InnerElements = {ctor: "InnerElements"};
+   var OuterElements = {ctor: "OuterElements"};
+   var Inner = {ctor: "Inner"};
+   var Outer = {ctor: "Outer"};
+   var NoFoot = {ctor: "NoFoot"};
+   var AuthorInstituteTitle = {ctor: "AuthorInstituteTitle"};
+   var InstituteTitle = {ctor: "InstituteTitle"};
+   var AuthorTitle = {ctor: "AuthorTitle"};
+   var RightSidebar = {ctor: "RightSidebar"};
+   var LeftSidebar = {ctor: "LeftSidebar"};
+   var LayoutInfo = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return {_: {}
+                                        ,atBeginSectionSlide: g
+                                        ,atBeginSubsectionSlide: h
+                                        ,footline: b
+                                        ,headline: a
+                                        ,leftSidebar: c
+                                        ,modechangeSymbols: f
+                                        ,navigationalSymbols: e
+                                        ,rightSidebar: d
+                                        ,titleSlide: j
+                                        ,tocSlide: i};
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var TocOptions = F7(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g) {
+      return {_: {}
+             ,currentSection: c
+             ,currentSubsectionOfCurrentSection: e
+             ,otherSection: d
+             ,otherSubsectionOfCurrentSection: f
+             ,pauseSections: a
+             ,pauseSubsections: b
+             ,subsectionOfOtherSection: g};
+   });
+   var Shade = {ctor: "Shade"};
+   var Hide = {ctor: "Hide"};
+   var Show = {ctor: "Show"};
+   var Vertical = {ctor: "Vertical"};
+   var Horizontal = {ctor: "Horizontal"};
+   var Layout = function (a) {
+      return {ctor: "Layout"
+             ,_0: a};
+   };
+   var Empty = {ctor: "Empty"};
+   var LayoutDetails = F2(function (a,
+   b) {
+      return {_: {}
+             ,columns: a
+             ,inserts: b};
+   });
+   var Insert = F2(function (a,b) {
+      return {_: {}
+             ,column: b
+             ,id: a};
+   });
+   var Column = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,colAlign: d
+             ,id: a
+             ,placement: c
+             ,width: b};
+   });
+   var CenterAlign = {ctor: "CenterAlign"};
+   var BottomAlign = {ctor: "BottomAlign"};
+   var TopAlign = {ctor: "TopAlign"};
+   var Huge = {ctor: "Huge"};
+   var VeryLarge = {ctor: "VeryLarge"};
+   var Large = {ctor: "Large"};
+   var NormalSize = {ctor: "NormalSize"};
+   var Small = {ctor: "Small"};
+   var VerySmall = {ctor: "VerySmall"};
+   var FootnoteSize = {ctor: "FootnoteSize"};
+   var ScriptSize = {ctor: "ScriptSize"};
+   var Tiny = {ctor: "Tiny"};
+   var ComponentSizeInfo = F9(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g,
+   h,
+   i) {
+      return {_: {}
+             ,footlineHeight: d
+             ,headlineHeight: c
+             ,itemTab: i
+             ,leftSidebarWidth: a
+             ,navigationSymbolHeight: e
+             ,rightSidebarWidth: b
+             ,slideTitleHeight: g
+             ,slideTitleWidth: f
+             ,textWidth: h};
+   });
+   var SymbolSizeInfo = F5(function (a,
+   b,
+   c,
+   d,
+   e) {
+      return {_: {}
+             ,button: e
+             ,generalSymbol: a
+             ,itemProjection: d
+             ,miniframe: b
+             ,sectionProjection: c};
+   });
+   var SymbolSizing = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,coverage: c
+             ,height: b
+             ,offset: d
+             ,width: a};
+   });
+   var Sizing = F2(function (a,b) {
+      return {_: {}
+             ,placement: b
+             ,width: a};
+   });
+   var SlideBackground = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,normal: c
+             ,section: b
+             ,supportbin: d
+             ,title: a};
+   });
+   var SymbolStyling = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,general: a
+             ,symbolAlpha: d
+             ,symbolFill: c
+             ,symbolShape: b};
+   });
+   var Rectangle = {ctor: "Rectangle"};
+   var Tick = {ctor: "Tick"};
+   var Triangle = {ctor: "Triangle"};
+   var Square = {ctor: "Square"};
+   var Circle = {ctor: "Circle"};
+   var PaddingStyle = F2(function (a,
+   b) {
+      return {_: {}
+             ,fillcolor: b
+             ,thickness: a};
+   });
+   var AllPaddingStyle = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,bottom: d
+             ,left: a
+             ,right: b
+             ,top: c};
+   });
+   var Grad = F2(function (a,b) {
+      return {ctor: "Grad"
+             ,_0: a
+             ,_1: b};
+   });
+   var SingleColored = function (a) {
+      return {ctor: "SingleColored"
+             ,_0: a};
+   };
+   var Transparent = {ctor: "Transparent"};
+   var TextStyle = F2(function (a,
+   b) {
+      return {_: {}
+             ,align: b
+             ,style: a};
+   });
+   var None = {ctor: "None"};
+   var Border = function (a) {
+      return {ctor: "Border"
+             ,_0: a};
+   };
+   var Styling = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,background: c
+             ,border: a
+             ,padding: d
+             ,text: b};
+   });
+   _elm.Types.Theme.values = {_op: _op
+                             ,Border: Border
+                             ,None: None
+                             ,Transparent: Transparent
+                             ,SingleColored: SingleColored
+                             ,Grad: Grad
+                             ,Circle: Circle
+                             ,Square: Square
+                             ,Triangle: Triangle
+                             ,Tick: Tick
+                             ,Rectangle: Rectangle
+                             ,Tiny: Tiny
+                             ,ScriptSize: ScriptSize
+                             ,FootnoteSize: FootnoteSize
+                             ,VerySmall: VerySmall
+                             ,Small: Small
+                             ,NormalSize: NormalSize
+                             ,Large: Large
+                             ,VeryLarge: VeryLarge
+                             ,Huge: Huge
+                             ,TopAlign: TopAlign
+                             ,BottomAlign: BottomAlign
+                             ,CenterAlign: CenterAlign
+                             ,Empty: Empty
+                             ,Layout: Layout
+                             ,Horizontal: Horizontal
+                             ,Vertical: Vertical
+                             ,Show: Show
+                             ,Hide: Hide
+                             ,Shade: Shade
+                             ,LeftSidebar: LeftSidebar
+                             ,RightSidebar: RightSidebar
+                             ,AuthorTitle: AuthorTitle
+                             ,InstituteTitle: InstituteTitle
+                             ,AuthorInstituteTitle: AuthorInstituteTitle
+                             ,NoFoot: NoFoot
+                             ,Outer: Outer
+                             ,Inner: Inner
+                             ,OuterElements: OuterElements
+                             ,InnerElements: InnerElements
+                             ,TitleLike: TitleLike
+                             ,NormalText: NormalText
+                             ,AlertText: AlertText
+                             ,HighlightText: HighlightText
+                             ,Primary: Primary
+                             ,Secondary: Secondary
+                             ,Tertiary: Tertiary
+                             ,Quaternary: Quaternary
+                             ,PrimarySidebar: PrimarySidebar
+                             ,SecondarySidebar: SecondarySidebar
+                             ,TertiarySidebar: TertiarySidebar
+                             ,QuaternarySidebar: QuaternarySidebar
+                             ,PrimaryShading: PrimaryShading
+                             ,SecondaryShading: SecondaryShading
+                             ,TertiaryShading: TertiaryShading
+                             ,QuaternaryShading: QuaternaryShading
+                             ,PrimarySidebarShading: PrimarySidebarShading
+                             ,SecondarySidebarShading: SecondarySidebarShading
+                             ,TertiarySidebarShading: TertiarySidebarShading
+                             ,QuaternarySidebarShading: QuaternarySidebarShading
+                             ,PrimaryTocShading: PrimaryTocShading
+                             ,SecondaryTocShading: SecondaryTocShading
+                             ,TertiaryTocShading: TertiaryTocShading
+                             ,QuaternaryTocShading: QuaternaryTocShading
+                             ,Item: Item
+                             ,Subitem: Subitem
+                             ,Subsubitem: Subsubitem
+                             ,ItemProjection: ItemProjection
+                             ,SubitemProjection: SubitemProjection
+                             ,SubsubitemProjection: SubsubitemProjection
+                             ,MiniframeSymbol: MiniframeSymbol
+                             ,ShadedMiniframeSymbol: ShadedMiniframeSymbol
+                             ,GeneralSymbol: GeneralSymbol
+                             ,ShadedGeneralSymbol: ShadedGeneralSymbol
+                             ,SectionProjection: SectionProjection
+                             ,ShadedSectionProjection: ShadedSectionProjection
+                             ,Button: Button
+                             ,Styling: Styling
+                             ,TextStyle: TextStyle
+                             ,AllPaddingStyle: AllPaddingStyle
+                             ,PaddingStyle: PaddingStyle
+                             ,SymbolStyling: SymbolStyling
+                             ,SlideBackground: SlideBackground
+                             ,Sizing: Sizing
+                             ,SymbolSizing: SymbolSizing
+                             ,SymbolSizeInfo: SymbolSizeInfo
+                             ,ComponentSizeInfo: ComponentSizeInfo
+                             ,Column: Column
+                             ,Insert: Insert
+                             ,LayoutDetails: LayoutDetails
+                             ,TocOptions: TocOptions
+                             ,LayoutInfo: LayoutInfo
+                             ,SeparatedParentList: SeparatedParentList
+                             ,Mapping: Mapping
+                             ,Pallette: Pallette
+                             ,SymbolBoard: SymbolBoard
+                             ,StyleGuide: StyleGuide
+                             ,StyleLists: StyleLists
+                             ,StyleInfo: StyleInfo
+                             ,Theme: Theme
+                             ,PresInfo: PresInfo
+                             ,Section: Section};
+   return _elm.Types.Theme.values;
+};

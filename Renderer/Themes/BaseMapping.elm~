@@ -1,0 +1,171 @@
+module Themes.BaseMapping where
+
+import Types.Theme (..)
+import Dict
+
+-- Note: title/subtitle/autor etc with none is that on titleslide
+-- section/subsection/subsub/toc with none is that on section slide etc
+-- sectionprojection/sub/subsub or shadedsectionprojection/sub/subsub with none for headline/footline/sidebar etc
+-------------------------------------------------------------------------------------
+mapping: Mapping
+mapping  = 
+  let
+      outerList =
+               [ (("headline", "none"), Outer)
+               , (("footline", "none"), Outer)
+               , (("leftsidebar", "none"), Outer)
+               , (("rightsidebar", "none"), Outer)
+               , (("miniframes","none"), Outer)
+               , (("logo","none"), Outer)
+               
+               , (("title", "none"), TitleLike) 
+               , (("title", "headline"), Quaternary)
+               , (("title", "footline"), Quaternary)
+               , (("title", "sidebar"), QuaternarySidebar)
+
+               , (("subtitle", "none"), TitleLike) 
+               , (("subtitle", "headline"), Quaternary)
+               , (("subtitle", "footline"), Quaternary)
+               , (("subtitle", "sidebar"), QuaternarySidebar)
+
+               , (("author", "none"), OuterElements) 
+               , (("author", "headline"), Primary)
+               , (("author", "footline"), Primary)
+               , (("author", "sidebar"), TertiarySidebar)
+
+               , (("date", "none"), OuterElements) 
+               , (("date", "headline"), Secondary)
+               , (("date", "footline"), Secondary)
+               , (("date", "sidebar"), TertiarySidebar)
+
+               , (("institute", "none"), OuterElements) 
+               , (("institute", "headline"), Tertiary)
+               , (("institute", "footline"), Tertiary)
+               , (("institute", "sidebar"), TertiarySidebar)
+
+               , (("slidenumber", "none"), OuterElements) 
+               , (("slidenumber", "headline"), Quaternary)
+               , (("slidenumber", "footline"), Quaternary)
+               , (("slidenumber", "sidebar"),QuaternarySidebar )
+
+               , (("titlegraphic", "none"), OuterElements) 
+               , (("sectiongraphic", "none"), OuterElements)
+               , (("subsectiongraphic", "none"), OuterElements)
+  
+
+               , (("slidetitle", "none"), TitleLike)
+               , (("slidesubtitle", "none"), TitleLike)
+
+               , (("section", "none"), TitleLike) 
+               , (("section", "headline"), Tertiary)
+               , (("section", "footline"), Tertiary)
+               , (("section", "sidebar"), SecondarySidebar)
+
+               , (("subsection", "none"), TitleLike) 
+               , (("subsection", "headline"), Quaternary)
+               , (("subsection", "footline"), Quaternary)
+               , (("subsection", "sidebar"), PrimarySidebar)
+
+               , (("subsubsection", "none"), TitleLike) 
+               , (("subsubsection", "headline"), Quaternary)
+               , (("subsubsection", "footline"), Quaternary)
+               , (("subsubsection", "sidebar"), PrimarySidebar)
+
+               , (("shadedsection", "headline"), TertiaryShading)
+               , (("shadedsection", "footline"), TertiaryShading)
+               , (("shadedsection", "sidebar"), SecondarySidebarShading)
+               
+               , (("shadedsubsection", "headline"),  QuaternaryShading)
+               , (("shadedsubsection", "footline"), QuaternaryShading)
+               , (("shadedsubsection", "sidebar"), PrimarySidebarShading)
+
+               , (("shadedsubsubsection", "headline"), QuaternaryShading)
+               , (("shadedsubsubsection", "footline"), QuaternaryShading)
+               , (("shadedsubsubsection", "sidebar"), PrimarySidebarShading)
+               ]
+               
+      innerList =    [ (("block", "none"), Inner)
+                    , (("framebox", "none"), Inner)
+                    , (("imagebox", "none"), Inner)
+                    , (("alertedblock", "none"), Inner)
+                    , (("quiz", "none"), Inner)                   
+                   
+                    , (("blocktitle", "block"), TitleLike)
+                    , (("blocktitle", "alertedblock"), AlertText)
+                   
+                    , (("normal", "none"), InnerElements)
+                    , (("highlight", "none"), HighlightText)
+                    , (("alert", "none"), AlertText)
+
+                    , (("itemizeitem", "none"), Item)
+                    , (("itemizesubitem", "none"), Subitem)
+                    , (("itemizesubsubitem", "none"), Subsubitem)
+                    , (("enumerateitem", "none"), Item)  
+                    , (("enumeratesubitem", "none"), Subitem)
+                    , (("enumeratesubsubitem", "none"), Subsubitem)
+                    , (("descriptionitem", "none"), Item)
+                    , (("descriptionsubitem", "none"), Subitem)
+                    , (("descriptionsubsubitem", "none"), Subsubitem) 
+
+                    , (("caption", "imagebox"), InnerElements)
+                    , (("captionnameandnumber", "imagebox"), InnerElements)
+
+                     
+                    , (("toc", "none"), Inner)
+                    , (("section", "toc"), InnerElements)
+                    , (("subsection", "toc"), InnerElements) 
+                    , (("subsubsection", "toc"), InnerElements)
+                    , (("shadedsection", "toc"), PrimaryTocShading)
+                    , (("shadedsubsection", "toc"), SecondaryTocShading)
+                    , (("shadedsubsubsection", "toc"), TertiaryTocShading)
+ 
+                   
+                    ]  
+
+      symbolList =  [
+                (("navigationalsymbols", "none"), GeneralSymbol)
+              , (("dimmednavigationalsymbols", "none"), ShadedGeneralSymbol)
+
+              , (("modechangesymbols", "none"), GeneralSymbol)
+              , (("dimmedmodechangesymbols", "none"),ShadedGeneralSymbol )
+
+              , (("current","miniframes"), MiniframeSymbol)
+              , (("currentsubsection","miniframes"), MiniframeSymbol)
+              , (("othersection","miniframes"), ShadedMiniframeSymbol)
+              , (("othersubsection","miniframes"), ShadedMiniframeSymbol)            
+              
+
+              , (("sectionprojection","none"), SectionProjection) 
+              , (("shadedsectionprojection","none"), ShadedSectionProjection)
+              , (("sectionprojection","toc"), SectionProjection) 
+              , (("shadedsectionprojection","toc"), ShadedSectionProjection)
+
+              , (("subsectionprojection","none"), SectionProjection) 
+              , (("shadedsubsectionprojection","none"), ShadedSectionProjection)
+              , (("subsectionprojection","toc"), SectionProjection) 
+              , (("shadedsubsectionprojection","toc"), ShadedSectionProjection)
+
+              , (("subsubsectionprojection","none"), SectionProjection) 
+              , (("shadedsubsubsectionprojection","none"), ShadedSectionProjection)
+              , (("subsubsectionprojection","toc"), SectionProjection) 
+              , (("shadedsubsubsectionprojection","toc"), ShadedSectionProjection)
+
+              , (("itemizeitemprojection","none"), ItemProjection) 
+              , (("itemizesubitemprojection","none"), SubitemProjection)
+              , (("itemizesubsubitemprojection","none"), SubsubitemProjection) 
+
+              , (("enumerateitemprojection","none"), ItemProjection) 
+              , (("enumeratesubitemprojection","none"),SubitemProjection )
+              , (("enumeratesubsubitemprojection","none"),SubsubitemProjection ) 
+
+              , (("descriptionitemprojection","none"), ItemProjection) 
+              , (("descriptionsubitemprojection","none"), SubitemProjection)
+              , (("descriptionsubsubitemprojection","none"),SubsubitemProjection ) 
+             
+              , (("button", "none"), Button)
+              ]  
+  in
+    { outer = Dict.fromList outerList
+    , inner = Dict.fromList innerList
+    , symbol = Dict.fromList symbolList
+    }

@@ -1,0 +1,175 @@
+module Utils.SmartDisplay where
+
+import Types.SmartDisplay as TSD
+import Utils.Naive  (..)
+import Array
+
+
+getItemAt: Int -> TSD.SmartItemList -> Maybe TSD.SmartItem
+getItemAt ind itemList =
+  let items = filterOutItems itemList
+  in
+     Array.get (ind-1) (Array.fromList items)
+
+filterOutItems:TSD.SmartItemList -> TSD.SmartItemList
+filterOutItems itemList =  filterOutLevel [1] itemList
+
+filterOutSubitems: TSD.SmartItemList -> TSD.SmartItemList
+filterOutSubitems itemList =  filterOutLevel [2] itemList
+
+filterOutSubsubitems: TSD.SmartItemList -> TSD.SmartItemList
+filterOutSubsubitems itemList =  filterOutLevel [3] itemList
+
+filterOutSubitemsOfItem:[Int] -> TSD.SmartItemList -> TSD.SmartItemList
+filterOutSubitemsOfItem currentRoute itemList = 
+  let currentItem = getItemFromRoute currentRoute
+  in
+      filter (\x -> (getItemFromRoute x.route) == currentItem) 
+      <| filterOutSubitems itemList
+
+filterOutSubsubitemsOfSubitem:[Int] -> TSD.SmartItemList -> TSD.SmartItemList
+filterOutSubsubitemsOfSubitem currentRoute itemList = 
+  let currentItem = getItemFromRoute currentRoute
+      currentSubitem = getSubitemFromRoute currentRoute
+  in
+      filter (\x -> (getItemFromRoute x.route) == currentItem)
+      <| filter (\x -> (getSubitemFromRoute x.route) == currentSubitem)  
+      <| filterOutSubsubitems itemList
+
+
+filterOutLevel: [Int] -> TSD.SmartItemList -> TSD.SmartItemList
+filterOutLevel levels itemList =
+  filter (\x -> any (\y -> (length x.route) == y) levels) itemList
+
+
+getLevelNumber: Int -> TSD.Route -> Int
+getLevelNumber level route =
+  if (level > (length route))
+  then -1
+  else last <| take level route
+
+getItemFromRoute: TSD.Route -> Int
+getItemFromRoute route = getLevelNumber 1 route
+ 
+getSubitemFromRoute: TSD.Route -> Int
+getSubitemFromRoute route = getLevelNumber 2 route
+  
+getSubsubitemFromRoute: TSD.Route -> Int
+getSubsubitemFromRoute route = getLevelNumber 3 route
+   
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+getdistributionAngles: Int -> TSD.SmartDisplayType -> [Float]
+getdistributionAngles n sdType =
+  let completeAngle = case sdType of
+                        TSD.CircleFull -> 360
+                        TSD.CircleHalf -> 180
+                        TSD.CircleCone -> 120
+      dTheta = degrees (completeAngle / (toFloat n))
+      shift = if(n `mod` 2 == 0)then 0.5 else 0
+      extremePoint = truncate <| (toFloat n) /2
+      distriPoints = reverse <| [-extremePoint..extremePoint]
+         
+  in
+     map (\x -> ((toFloat x) - shift) *dTheta) distriPoints
+
+getdistributePoints: Float -> [Float] -> [(Float,Float)]
+getdistributePoints r distAngles  =
+  map (\a -> (r*(cos a), r*(sin a))) distAngles
+
+distribute: [(Float,Float)] -> [Form] -> [Form] 
+distribute distPoints initial =
+  map (\(pt, f) -> move pt f) <| zip distPoints initial
+
+drawLine: (Float, Float) -> [(Float,Float)] -> [Form]
+drawLine initial finals =
+  let makeLine f = traced (solid black) <| segment initial f
+  in
+      map makeLine finals
+
+scaleItem: Int -> Element -> Element
+scaleItem w elem =
+  let scaleFactor = (toFloat w)/ (toFloat <| widthOf elem)
+      newH = truncate (scaleFactor * (toFloat <| heightOf elem))
+  in
+     collage w newH  [(scale scaleFactor <| toForm elem)]
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+getCircle: Float -> Form
+getCircle r =
+  gradient (rgrad1 r) (circle r)
+
+rgrad1: Float -> Gradient
+rgrad1 x = radial (0,0) ((x) * 0.5) (0,10) ((x) * 0.9)
+          [ (  0, darkGrey)
+          , (0.8, grey)
+          , (  1, darkGrey)
+          ]
+lgrad1: Float -> Gradient
+lgrad1 x= linear (x,0) (x,x)
+         [(0, grey),
+          (0.5, rgb 105 99 99),
+          (0.55, rgb 225 225 225),
+          (1, grey)]
+lgrad2: Float -> Gradient
+lgrad2 x= linear (x,0) (x,x)
+         [(0, rgb 174 188 191),
+          (0.47, rgb 110 119 116),
+          (0.59, rgb 10 14 10),
+          (1, black)]
+getBlockBody: (Int, Int) -> Element
+getBlockBody (w, h) =
+  getRectangle (w,h) lgrad1
+
+getFrameBody: (Int, Int) -> Element
+getFrameBody (w, h) =
+  collage w h
+  [outlined ({defaultLine| width <- 10, color <- darkGrey}) <| rect (toFloat w) (toFloat h)]
+
+
+getBlockHeading: (Int, Int) -> Element
+getBlockHeading (w, h) =
+  getRectangle (w,h) lgrad2
+
+getVerticalDivider: Int -> Element
+getVerticalDivider h =
+   color black <| spacer 2 h
+
+getHorizontalDivider: Int -> Element
+getHorizontalDivider w =
+   color grey <| spacer w 4
+
+
+getRectangle: (Int, Int) -> (Float -> Gradient) -> Element
+getRectangle (w, h) funcGrad =
+  collage w h [gradient (funcGrad (toFloat w)) <| rect (toFloat w) (toFloat h)]
+
+bullet: Element
+bullet = collage 10 10 [filled black <| circle 4]
+insertBullet: Element -> Element
+insertBullet elem =
+  flow right [bullet, (spacer 5 (heightOf elem)), elem] 
+
+subbullet: Element
+subbullet = collage 30 10 [filled black <| square 3]
+insertSubBullet: Element -> Element
+insertSubBullet elem =
+  flow right [subbullet, (spacer 5 (heightOf elem)),elem] 
+
+
+checkbox: Element
+checkbox = collage 20 20 [outlined (solid charcoal) <| square 10]
+insertCheckbox: Element -> Element
+insertCheckbox elem =
+  flow right [checkbox, elem] 
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+getImage: String -> String
+getImage str =
+  let fileName x = "Symbols/SDSymbols/SD" ++ x ++ ".gif"
+  in
+      case str of
+         "plus" -> fileName "Plus"
+         "minus" -> fileName "Minus"
+         "equal" -> fileName "Equal"

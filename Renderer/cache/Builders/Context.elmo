@@ -1,0 +1,219 @@
+Elm.Builders = Elm.Builders || {};
+Elm.Builders.Context = Elm.Builders.Context || {};
+Elm.Builders.Context.make = function (_elm) {
+   "use strict";
+   _elm.Builders = _elm.Builders || {};
+   _elm.Builders.Context = _elm.Builders.Context || {};
+   if (_elm.Builders.Context.values)
+   return _elm.Builders.Context.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Builders.Context";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Graphics.Input || {};
+   Graphics.Input.Field = Elm.Graphics.Input.Field.make(_elm);
+   var Keyboard = Elm.Keyboard.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Mouse = Elm.Mouse.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Window = Elm.Window.make(_elm);
+   var _op = {};
+   var makeContextRecord = F7(function (_v0,
+   sc,
+   m,
+   ze,
+   mp,
+   qb,
+   qc) {
+      return function () {
+         switch (_v0.ctor)
+         {case "_Tuple2": return {_: {}
+                                 ,currentSlideIndex: sc.current
+                                 ,currentTick: sc.currentTick
+                                 ,mode: m
+                                 ,mousePosition: mp
+                                 ,previousSlideIndex: sc.previous
+                                 ,quizButton: qb
+                                 ,quizContent: qc
+                                 ,windowHeight: _v0._1
+                                 ,windowWidth: _v0._0
+                                 ,zoomElem: ze};}
+         _E.Case($moduleName,
+         "between lines 87 and 96");
+      }();
+   });
+   var checkMode = function (m) {
+      return function () {
+         switch (m.ctor)
+         {case "NormalMode":
+            return true;}
+         return false;
+      }();
+   };
+   var quizContent = Graphics.Input.input(Graphics.Input.Field.noContent);
+   var quizClicks = Graphics.Input.input(Graphics.Element.empty);
+   var zoomClicks = Graphics.Input.input(Graphics.Element.empty);
+   var modeClicks = Graphics.Input.input(Types.Context.NormalMode);
+   var slideContextEnable = A2(Signal.lift,
+   checkMode,
+   modeClicks.signal);
+   var asynClicks = Graphics.Input.input(Types.Context.Asyn(0));
+   var step = F2(function (_v5,
+   indexes) {
+      return function () {
+         switch (_v5.ctor)
+         {case "_Tuple2":
+            switch (_v5._0.ctor)
+              {case "_Tuple2":
+                 switch (_v5._1.ctor)
+                   {case "_Tuple2":
+                      return function () {
+                           var $ = _U.cmp(_v5._1._0,
+                           _v5._0._0) > 0 ? function () {
+                              switch (_v5._1._1.ctor)
+                              {case "Asyn":
+                                 return {ctor: "_Tuple2"
+                                        ,_0: _v5._1._1._0
+                                        ,_1: 1};
+                                 case "Dec":
+                                 return {ctor: "_Tuple2"
+                                        ,_0: indexes.current - 1
+                                        ,_1: 1};
+                                 case "DecTick":
+                                 return {ctor: "_Tuple2"
+                                        ,_0: indexes.current
+                                        ,_1: indexes.currentTick - 1};
+                                 case "Inc":
+                                 return {ctor: "_Tuple2"
+                                        ,_0: indexes.current + 1
+                                        ,_1: 1};
+                                 case "IncTick":
+                                 return {ctor: "_Tuple2"
+                                        ,_0: indexes.current
+                                        ,_1: indexes.currentTick + 1};}
+                              _E.Case($moduleName,
+                              "between lines 26 and 32");
+                           }() : _U.eq(_v5._0._1,
+                           _L.fromArray([39])) || _U.eq(_v5._0._1,
+                           _L.fromArray([78])) ? {ctor: "_Tuple2"
+                                                 ,_0: indexes.current + 1
+                                                 ,_1: 1} : _U.eq(_v5._0._1,
+                           _L.fromArray([37])) || _U.eq(_v5._0._1,
+                           _L.fromArray([80])) ? {ctor: "_Tuple2"
+                                                 ,_0: indexes.current - 1
+                                                 ,_1: 1} : _U.eq(_v5._0._1,
+                           _L.fromArray([35])) || _U.eq(_v5._0._1,
+                           _L.fromArray([69])) ? {ctor: "_Tuple2"
+                                                 ,_0: 0 - 1
+                                                 ,_1: 1} : _U.eq(_v5._0._1,
+                           _L.fromArray([36])) || _U.eq(_v5._0._1,
+                           _L.fromArray([72])) ? {ctor: "_Tuple2"
+                                                 ,_0: 0
+                                                 ,_1: 1} : _U.eq(_v5._0._1,
+                           _L.fromArray([34])) || (_U.eq(_v5._0._1,
+                           _L.fromArray([40])) || _U.eq(_v5._0._1,
+                           _L.fromArray([13]))) ? {ctor: "_Tuple2"
+                                                  ,_0: indexes.current
+                                                  ,_1: indexes.currentTick + 1} : _U.eq(_v5._0._1,
+                           _L.fromArray([33])) || _U.eq(_v5._0._1,
+                           _L.fromArray([38])) ? {ctor: "_Tuple2"
+                                                 ,_0: indexes.current
+                                                 ,_1: indexes.currentTick - 1} : {ctor: "_Tuple2"
+                                                                                 ,_0: indexes.current
+                                                                                 ,_1: indexes.currentTick},
+                           nextSlideIndex = $._0,
+                           nextTick = $._1;
+                           return {_: {}
+                                  ,current: nextSlideIndex
+                                  ,currentTick: nextTick
+                                  ,previous: indexes.current};
+                        }();}
+                   break;}
+              break;}
+         _E.Case($moduleName,
+         "between lines 25 and 39");
+      }();
+   });
+   var lastKeysDownSignal = A2(Signal.sampleOn,
+   A3(Signal.dropIf,
+   List.isEmpty,
+   _L.fromArray([]),
+   Keyboard.keysDown),
+   Keyboard.keysDown);
+   var slideContextSignal = function () {
+      var combineSig = F2(function (sig1,
+      sig2) {
+         return {ctor: "_Tuple2"
+                ,_0: sig1
+                ,_1: sig2};
+      });
+      return A2(Signal.keepWhen,
+      slideContextEnable,
+      {_: {}
+      ,current: 0
+      ,currentTick: 0
+      ,previous: 0})(A3(Signal.foldp,
+      step,
+      {_: {}
+      ,current: 0
+      ,currentTick: 1
+      ,previous: 0},
+      A3(Signal.lift2,
+      combineSig,
+      Time.timestamp(lastKeysDownSignal),
+      Time.timestamp(asynClicks.signal))));
+   }();
+   var contextSignal = A2(Signal._op["~"],
+   A2(Signal._op["~"],
+   A2(Signal._op["~"],
+   A2(Signal._op["~"],
+   A2(Signal._op["~"],
+   A2(Signal._op["~"],
+   A2(Signal._op["<~"],
+   makeContextRecord,
+   Window.dimensions),
+   slideContextSignal),
+   modeClicks.signal),
+   zoomClicks.signal),
+   A3(Signal.keepWhen,
+   Mouse.isDown,
+   {ctor: "_Tuple2",_0: 0,_1: 0},
+   Mouse.position)),
+   Time.timestamp(quizClicks.signal)),
+   Time.timestamp(quizContent.signal));
+   _elm.Builders.Context.values = {_op: _op
+                                  ,lastKeysDownSignal: lastKeysDownSignal
+                                  ,step: step
+                                  ,slideContextSignal: slideContextSignal
+                                  ,asynClicks: asynClicks
+                                  ,modeClicks: modeClicks
+                                  ,zoomClicks: zoomClicks
+                                  ,quizClicks: quizClicks
+                                  ,quizContent: quizContent
+                                  ,checkMode: checkMode
+                                  ,slideContextEnable: slideContextEnable
+                                  ,makeContextRecord: makeContextRecord
+                                  ,contextSignal: contextSignal};
+   return _elm.Builders.Context.values;
+};

@@ -1,0 +1,484 @@
+\begin{presentation}
+
+\begin{appearance}
+	\usestyletheme{sober}
+	\uselayouttheme{infolines}
+	\setguidecanvas{Outer Elements}[padding=4!4!4!4]
+	\setlayout{toc slide}{
+		\insert{toc}[sectionstyle=show!show, subsectionstyle=show!show!show]
+	}
+\end{appearance}
+
+\begin{information}
+	\title{SLATE: Slide-Making in Web-Age}
+	\authors{Ritu Kundu }
+	\date{08th of March, 2015}
+\end{information}
+
+\begin{content}
+
+\section{Introduction}
+\subsection{Motivation}
+
+\begin{slide}
+	\begin{framebox}<1>
+		To 'modernize' the slide-making and presentation delivery process \\
+		in academic sphere.
+	\end{framebox}
+	\begin{smartlist}{plus-minus}<2>
+		\item Latex
+			\subitem Most Commonly Used
+		\item
+			\subitem Not for Dynamic or Interactive Content
+	\end{smartlist}
+	\begin{smartlist}{plus-minus}<2>
+		\item Web-Applications
+			\subitem Suitable for Dynamic and Interactive Content
+		\item 
+			\subitem Requires HTML/CSS/JavaScript coded documents
+	\end{smartlist}
+	\begin{smartlist}{plus-equal-vertical}<3>
+		\item Document in \\ Latex like language
+		\item Display \\in \\web-browser
+		\item SLATE
+	\end{smartlist}
+\end{slide}
+
+\subsection{Current Presentation System}
+
+\begin{slide}
+	\begin{smartlist}{containerlist}
+		\item Slideware \\Tools
+			\subitem WYSIWYG editors 
+			\subitem Support for multimedia \\and animation
+			\subitem !Temporal linearity of slides \\while delivering
+			\subitem !Close-coupling of content and \\layout
+			\subitem !Inability to support interactivity
+		\item LATEX, \\Beamer and \\PGF/TikZ
+			\subitem Unmatched typesetting quality
+			\subitem Separation of content and layout
+			\subitem Better portability because of the \\PDF format
+			\subitem Convenience in expressing \\mathematical content
+			\subitem !Support for animation not \\as good
+			\subitem !Absence of interactivity
+		\item Web-based\\ Presentation \\tools
+			\subitem Robust support for multimedia \\including audio-video
+			\subitem Support for conveniently creating richly \\interactive environments and dynamic content.
+			\subitem Portability and easy \\accessibility
+			\subitem !Require rigorous coding from the \\users.
+	\end{smartlist}
+\end{slide}
+
+\subsection{Objectives}
+
+\begin{slide}
+\begin{columns}
+	\begin{column}{0.6%}
+	\begin{smartlist}{framedlist}
+		\item Primary
+			\subitem Input: Latex-like
+				\subsubitem Reuse
+				\subsubitem No need to learn new languages
+			\subitem Output: Browser-displayable
+				\subitem Dynamic/interactive content, portable and accessible
+		\item Secondary
+			\subitem Separation of 'Appearance' from the 'Content'
+			\subitem Provision for Rich Animations
+			\subitem Provision for Interactive Content like Quizzes
+			\subitem Provision for breaking linear/sequential flow
+			\subitem Provision for Additional "Back-up" Information
+			\subitem Provision for "On-Demand" Zooming
+			\subitem Provision for "Scribbling"
+            \subitem Provision for "Smart Lists"
+	\end{smartlist}
+	\end{column}
+\end{columns}
+\end{slide}
+
+\section{Design & Implementation}
+\subsection{Elm}
+
+\begin{slide}
+\begin{columns}
+	\begin{column}{0.5%}
+	\begin{smartlist}{paragraphlist}
+		\item What is Elm?
+			\subitem A new language for web-development which
+					\\appeared in 2011 
+			\subitem A functional reactive language for interactive
+			         \\applications 
+			\subitem Compiles down to a combination of HTML, CSS and JS code
+			\subitem import Mouse
+			         \\main = lift asText Mouse.position
+			         \\ 
+			         \\A complete Elm program that prints and 
+			         \\updates the co-ordinates of the mouse continually.
+	\end{smartlist}
+	\end{column}
+	
+\end{columns}
+\end{slide}
+\begin{slide}
+\begin{columns}
+	\begin{column}{0.5%}
+	\begin{smartlist}{paragraphlist}
+		\item Why Elm?
+			\subitem Much fewer Lines of Code 
+			\subitem Functional nature and Strong Static Type system
+			\subitem Convenient and efficient build-in data-structures 
+					\\in Elm (like dictionaries, lists and records)
+			\subitem Excellent support for interactivity
+	\end{smartlist}
+	\end{column}
+\end{columns}
+\end{slide}
+
+\subsection{Architecture}
+
+\begin{slide}
+\begin{columns}
+	\begin{column}{1%}
+	\begin{imagebox}<1>[width=1253, height=366]
+		\includegraphics{DesignImages/D1.gif}		
+	\end{imagebox}	
+	\begin{imagebox}<2>[width=1253, height=366]
+		\includegraphics{DesignImages/D2.gif}		
+	\end{imagebox}
+	\begin{imagebox}<3>[width=1253, height=366]
+		\includegraphics{DesignImages/D3.gif}		
+	\end{imagebox}
+	\begin{imagebox}<4>[width=1253, height=366]
+		\includegraphics{DesignImages/D4.gif}		
+	\end{imagebox}
+	\begin{imagebox}<5>[width=1253, height=366]
+		\includegraphics{DesignImages/D5.gif}		
+	\end{imagebox}
+	\begin{imagebox}<6>[width=1253, height=366]
+		\includegraphics{DesignImages/D6.gif}		
+	\end{imagebox}
+	\begin{imagebox}<7>[width=1253, height=366]
+		\includegraphics{DesignImages/D7.gif}		
+	\end{imagebox}
+
+	\end{column}	
+\end{columns}
+\end{slide}
+
+\section{SLATE}
+\subsection{Slide Decomposition}
+\begin{slide}
+	\begin{imagebox}[width=850, height=800]
+		\includegraphics{elements.png}
+		
+	\end{imagebox}
+\end{slide}
+
+\subsection{Features}
+\begin{slide}[supportbin=themeDiagrams,quiz=quiz1]
+\begin{columns}
+	\begin{column}{0.5%}
+		\begin{smartlist}{containerlist}<1>
+			\item Authoring
+				\subitem Separation of 'Appearance' and 'Content' 
+				\subitem Supportbin
+				\subitem Interactive Quiz
+				\subitem Animation
+                \subitem Smart Lists
+		\end{smartlist}
+		\begin{smartlist}{containerlist}<2>
+			\item Authoring
+				\subitem !Separation of 'Appearance' and 'Content' 
+				\subitem Supportbin
+				\subitem Interactive Quiz
+				\subitem Animation
+                \subitem Smart Lists
+		\end{smartlist}
+		\begin{smartlist}{containerlist}<3>
+			\item Authoring
+				\subitem Separation of 'Appearance' and 'Content' 
+				\subitem !Supportbin
+				\subitem Interactive Quiz
+				\subitem Animation
+                \subitem Smart Lists
+		\end{smartlist}
+		\begin{smartlist}{containerlist}<4>
+			\item Authoring
+				\subitem Separation of 'Appearance' and 'Content' 
+				\subitem Supportbin
+				\subitem !Interactive Quiz
+				\subitem Animation
+                \subitem Smart Lists
+		\end{smartlist}
+		
+	\end{column}
+	\begin{column}{0.5%}
+		\begin{smartlist}{framedlist}<2>
+			\item Theme
+				\subitem Style:
+                 	\subsubitem Default
+                 	\subsubitem Sober
+                 	\subsubitem Striking
+				\subitem Layout: 
+				Default
+					\subsubitem Infolines
+					\subsubitem Miniframes
+					\subsubitem Sidebar
+					\subsubitem Split
+					\subsubitem Tree
+			\item Style Controller
+				\subitem Outer
+				\subitem OuterElements
+				\subitem Inner
+				\subitem InnerElements
+				\subitem TitleLike
+				\subitem NormalText
+				\subitem AlertText
+				\subitem Item
+				\subitem Subitem
+				\subitem Subsubitem
+				
+			\item Individual Element/Component
+				\subitem Border
+				\subitem Padding
+				\subitem Colors
+				\subitem Fonts
+		\end{smartlist}
+		\begin{framebox}<3>
+			Click me on Symbol-Panel to Enter Supportbin Mode	
+		\end{framebox}
+		\begin{imagebox}<3>[width=200, height=200]
+			\includegraphics{Supportbin.gif}	
+			\caption{Supportbin Symbol}	
+		\end{imagebox}
+		\begin{framebox}<4>
+			Click me on Symbol-Panel to Enter Quiz Mode	
+		\end{framebox}
+		\begin{imagebox}<4>[width=200, height=200]
+			\includegraphics{Quiz.gif}	
+			\caption{Quiz Symbol}	
+		\end{imagebox}
+	\end{column}
+\end{columns}
+\end{slide}
+
+\begin{slide}
+\begin{columns}
+	\begin{column}{0.5%}
+		\begin{smartlist}{containerlist}<1>
+			\item Delivering
+				\subitem Navigational Menu bar & Navigation Symbols 
+				\subitem Zoom Mode
+				\subitem Scribble Mode
+		\end{smartlist}
+		\begin{smartlist}{containerlist}<2>
+			\item Delivering
+				\subitem !Navigational Menu bar & Navigation Symbols 
+				\subitem Zoom Mode
+				\subitem Scribble Mode
+		\end{smartlist}
+		\begin{smartlist}{containerlist}<3>
+			\item Delivering
+				\subitem Navigational Menu bar & Navigation Symbols 
+				\subitem !Zoom Mode
+				\subitem Scribble Mode
+		\end{smartlist}
+		\begin{smartlist}{containerlist}<4>
+			\item Delivering
+				\subitem Navigational Menu bar & Navigation Symbols 
+				\subitem Zoom Mode
+				\subitem !Scribble Mode
+		\end{smartlist}
+	\end{column}
+	\begin{column}{0.5%}
+		\begin{framebox}<2>
+			Click us on Navigation-Panel to navigate	
+		\end{framebox}
+		\begin{imagebox}<2>[width=200, height=200]
+			\includegraphics{Section.gif}	
+			\caption{Section Navigation Symbol}	
+		\end{imagebox}
+		\begin{imagebox}<2>[width=200, height=200]
+			\includegraphics{Subsection.gif}	
+			\caption{Subsection Navigation Symbol}	
+		\end{imagebox}
+		\begin{imagebox}<2>[width=200, height=200]
+			\includegraphics{Slide.gif}	
+			\caption{Slide Navigation Symbol}	
+		\end{imagebox}
+		\begin{imagebox}<2>[width=200, height=200]
+			\includegraphics{Tick.gif}	
+			\caption{Tick Navigation Symbol}	
+		\end{imagebox}
+		\begin{framebox}<3>
+			Click me on Symbol-Panel to Enter Zoom Mode	
+		\end{framebox}
+		\begin{imagebox}<3>[width=200, height=200]
+			\includegraphics{Zoom.gif}	
+			\caption{Zoom Symbol}	
+		\end{imagebox}
+		\begin{framebox}<4>
+			Click me on Symbol-Panel to Enter Scribble Mode	
+		\end{framebox}
+		\begin{imagebox}<4>[width=200, height=200]
+			\includegraphics{Scribble.gif}	
+			\caption{Scribble Symbol}	
+		\end{imagebox}
+	\end{column}
+\end{columns}
+\end{slide}
+
+\subsection{Language: An Overview}
+
+\begin{slide}{A Sample file}
+\begin{columns}
+	\begin{column}{1%}
+	\begin{imagebox}<1>[width=791, height=585]
+		\includegraphics{sample/sample1.png}		
+	\end{imagebox}
+	\begin{imagebox}<2>[width=791, height=585]
+		\includegraphics{sample/sample5.png}		
+	\end{imagebox}	
+	\end{column}	
+\end{columns}
+\end{slide}
+
+\begin{slide}
+\begin{columns}
+	\begin{column}{1%}
+	\begin{imagebox}<1>[width=1434, height=606]
+		\includegraphics{LanguageImages/L1.gif}		
+	\end{imagebox}	
+	\begin{imagebox}<2>[width=1434, height=606]
+		\includegraphics{LanguageImages/L2.gif}		
+	\end{imagebox}
+	\begin{imagebox}<3>[width=1434, height=606]
+		\includegraphics{LanguageImages/L3.gif}		
+	\end{imagebox}
+	\begin{imagebox}<4>[width=1434, height=606]
+		\includegraphics{LanguageImages/L4.gif}		
+	\end{imagebox}
+
+	\end{column}	
+\end{columns}
+\end{slide}
+
+\section{Near-Future}
+
+\subsection{What's Next}
+
+\begin{slide}
+\begin{columns}
+	\begin{column}{0.6%}
+	\begin{smartlist}{framedlist}
+		\item Commonly usable environments
+		\item Ability to define new templates,colours and styles
+		\item Math Mode
+		\item Tables
+		\item Drawings
+		\item Comments			
+	\end{smartlist}
+	\end{column}
+\end{columns}
+\end{slide}
+
+\subsection{Extensions}
+
+\begin{slide}
+\begin{columns}
+	\begin{column}{0.5%}
+	\begin{smartlist}{circle-full}
+		\item Extensions
+			\subitem Slide Transition \\and \\Animation Styles
+			\subitem Presenter View
+			\subitem GUI for authoring
+			\subitem Inter-operability \\with \\LaTeX/BEAMER	
+			\subitem More \\Smart Lists
+	\end{smartlist}
+	\end{column}
+\end{columns}
+\end{slide}
+
+\section{Conclusions}
+\begin{slide}
+\begin{columns}
+	\begin{column}{0.7%}
+	\begin{smartlist}{framedlist}
+		\item SLATE is an attempt to modernize Latex for building presentations 		 			
+            \subitem Input is inspired from Beamer but slides are displayed in a web-browser.
+            \subitem Smart Display
+		\item It provides more power to facilitate interactivity.			
+			\subitem Quizes
+			\subitem On-demand zooming
+			\subitem Scribbling
+		\item It can be extended in many ways to make it a really powerful  
+			and \\convenient tool that could be preferred over 
+			contemporary \\presentation software.
+				
+	\end{smartlist}
+	\end{column}
+\end{columns}
+\end{slide}
+
+\begin{supportbin}{themeDiagrams}
+	\begin{imagebox}[width=1282, height=551]
+		\includegraphics{Default.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1284, height=556]
+		\includegraphics{sober.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=569]
+		\includegraphics{Striking.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1285, height=596]
+		\includegraphics{Miniframes.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1281, height=626]
+		\includegraphics{sidebar.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1282, height=616]
+		\includegraphics{split.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{tree.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/fullcircle.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/halfcircle.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/conecircle.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/checkboxlist.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/container_list.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/framedlist.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/paragraphlist.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/plusminuslist.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/plusequalhorizontal.png}		
+	\end{imagebox}
+	\begin{imagebox}[width=1290, height=599]
+		\includegraphics{smartdisplay/plusequalvertical.png}		
+	\end{imagebox}
+
+\end{supportbin}
+
+\begin{quiz}{quiz1}	
+	\question{What is the name of this tool?}
+	\correctanswers{Slate}
+	\explanation{It is on the Title Slide. :)}
+\end{quiz}
+\end{content}
+
+\end{presentation}

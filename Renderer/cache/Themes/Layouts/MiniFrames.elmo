@@ -1,0 +1,197 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.Layouts = Elm.Themes.Layouts || {};
+Elm.Themes.Layouts.MiniFrames = Elm.Themes.Layouts.MiniFrames || {};
+Elm.Themes.Layouts.MiniFrames.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.Layouts = _elm.Themes.Layouts || {};
+   _elm.Themes.Layouts.MiniFrames = _elm.Themes.Layouts.MiniFrames || {};
+   if (_elm.Themes.Layouts.MiniFrames.values)
+   return _elm.Themes.Layouts.MiniFrames.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.Layouts.MiniFrames";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.Default = Elm.Themes.Layouts.Default.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var changePalletteMapping = _L.fromArray([{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "author"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Secondary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "author"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Secondary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "title"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Tertiary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "title"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Tertiary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "section"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Tertiary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "section"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Tertiary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "subsection"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.Secondary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "subsection"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.Secondary}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsection"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.TertiaryShading}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsection"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.TertiaryShading}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsubsection"
+                                                  ,_1: "headline"}
+                                             ,_1: Types.Theme.SecondaryShading}
+                                            ,{ctor: "_Tuple2"
+                                             ,_0: {ctor: "_Tuple2"
+                                                  ,_0: "shadedsubsection"
+                                                  ,_1: "footline"}
+                                             ,_1: Types.Theme.SecondaryShading}]);
+   var defLayOut = Themes.Layouts.Default.defaultLayoutInfo;
+   var footlineLayout3 = Types.Theme.Layout({_: {}
+                                            ,columns: _L.fromArray([{_: {}
+                                                                    ,colAlign: Types.Theme.TopAlign
+                                                                    ,id: 1
+                                                                    ,placement: Graphics.Element.middle
+                                                                    ,width: 0.331}
+                                                                   ,{_: {}
+                                                                    ,colAlign: Types.Theme.TopAlign
+                                                                    ,id: 2
+                                                                    ,placement: Graphics.Element.middle
+                                                                    ,width: 0.33}
+                                                                   ,{_: {}
+                                                                    ,colAlign: Types.Theme.TopAlign
+                                                                    ,id: 3
+                                                                    ,placement: Graphics.Element.middle
+                                                                    ,width: 0.33}])
+                                            ,inserts: _L.fromArray([{_: {}
+                                                                    ,column: 1
+                                                                    ,id: "author"}
+                                                                   ,{_: {}
+                                                                    ,column: 2
+                                                                    ,id: "title"}
+                                                                   ,{_: {}
+                                                                    ,column: 3
+                                                                    ,id: "institute"}])});
+   var footlineLayout2 = F2(function (id1,
+   id2) {
+      return Types.Theme.Layout({_: {}
+                                ,columns: _L.fromArray([{_: {}
+                                                        ,colAlign: Types.Theme.TopAlign
+                                                        ,id: 1
+                                                        ,placement: Graphics.Element.middle
+                                                        ,width: 0.51}
+                                                       ,{_: {}
+                                                        ,colAlign: Types.Theme.TopAlign
+                                                        ,id: 2
+                                                        ,placement: Graphics.Element.middle
+                                                        ,width: 0.51}])
+                                ,inserts: _L.fromArray([{_: {}
+                                                        ,column: 1
+                                                        ,id: id1}
+                                                       ,{_: {}
+                                                        ,column: 2
+                                                        ,id: id2}])});
+   });
+   var headlineLayout = Types.Theme.Layout({_: {}
+                                           ,columns: _L.fromArray([{_: {}
+                                                                   ,colAlign: Types.Theme.TopAlign
+                                                                   ,id: 1
+                                                                   ,placement: Graphics.Element.midLeft
+                                                                   ,width: 1}])
+                                           ,inserts: _L.fromArray([{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "navigation"}
+                                                                  ,{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "subsection"}])});
+   var miniframesLayoutInfo = function (foot) {
+      return function () {
+         switch (foot.ctor)
+         {case "AuthorInstituteTitle":
+            return _U.replace([["headline"
+                               ,headlineLayout]
+                              ,["footline",footlineLayout3]],
+              defLayOut);
+            case "AuthorTitle":
+            return _U.replace([["headline"
+                               ,headlineLayout]
+                              ,["footline"
+                               ,A2(footlineLayout2,
+                               "author",
+                               "title")]],
+              defLayOut);
+            case "InstituteTitle":
+            return _U.replace([["headline"
+                               ,headlineLayout]
+                              ,["footline"
+                               ,A2(footlineLayout2,
+                               "institute",
+                               "title")]],
+              defLayOut);
+            case "NoFoot":
+            return _U.replace([["headline"
+                               ,headlineLayout]],
+              defLayOut);}
+         _E.Case($moduleName,
+         "between lines 59 and 71");
+      }();
+   };
+   _elm.Themes.Layouts.MiniFrames.values = {_op: _op
+                                           ,headlineLayout: headlineLayout
+                                           ,footlineLayout2: footlineLayout2
+                                           ,footlineLayout3: footlineLayout3
+                                           ,defLayOut: defLayOut
+                                           ,miniframesLayoutInfo: miniframesLayoutInfo
+                                           ,changePalletteMapping: changePalletteMapping};
+   return _elm.Themes.Layouts.MiniFrames.values;
+};

@@ -1,0 +1,165 @@
+Elm.Displayers = Elm.Displayers || {};
+Elm.Displayers.SectionishSlide = Elm.Displayers.SectionishSlide || {};
+Elm.Displayers.SectionishSlide.make = function (_elm) {
+   "use strict";
+   _elm.Displayers = _elm.Displayers || {};
+   _elm.Displayers.SectionishSlide = _elm.Displayers.SectionishSlide || {};
+   if (_elm.Displayers.SectionishSlide.values)
+   return _elm.Displayers.SectionishSlide.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Displayers.SectionishSlide";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.ElementMaker = Elm.Builders.ElementMaker.make(_elm);
+   var Builders = Builders || {};
+   Builders.Outer = Elm.Builders.Outer.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Builder = Elm.Utils.Builder.make(_elm);
+   var _op = {};
+   var displayContent = F3(function (content,
+   _v0,
+   tick) {
+      return function () {
+         switch (_v0.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var scaleHeightwise = function (elem) {
+                    return function () {
+                       var scaleFactor = Basics.toFloat(_v0._1) / Basics.toFloat(Graphics.Element.heightOf(elem));
+                       var newW = Basics.truncate(scaleFactor * Basics.toFloat(Graphics.Element.widthOf(elem)));
+                       return A3(Graphics.Collage.collage,
+                       newW,
+                       _v0._1,
+                       _L.fromArray([Graphics.Collage.scale(scaleFactor)(Graphics.Collage.toForm(elem))]));
+                    }();
+                 };
+                 var scaledColumn = function (col) {
+                    return _U.cmp(Graphics.Element.heightOf(col),
+                    _v0._1) > 0 ? scaleHeightwise(col) : col;
+                 };
+                 var isThere = function (anim) {
+                    return A2(List.any,
+                    function (x) {
+                       return _U.eq(x,tick);
+                    },
+                    anim.tickLife) || _U.eq(anim.tickLife,
+                    _L.fromArray([0]));
+                 };
+                 var toChangedElement = function (contentElem) {
+                    return isThere(contentElem.animation) ? contentElem.element : Graphics.Element.empty;
+                 };
+                 var toColContentElem = function (colContent) {
+                    return scaledColumn(Graphics.Element.flow(Graphics.Element.down)(A2(List.map,
+                    toChangedElement,
+                    colContent)));
+                 };
+                 var columnList = A2(List.map,
+                 toColContentElem,
+                 content);
+                 var columns = A2(Graphics.Element.flow,
+                 Graphics.Element.right,
+                 columnList);
+                 return A4(Graphics.Element.container,
+                 _v0._0,
+                 _v0._1,
+                 Graphics.Element.middle,
+                 columns);
+              }();}
+         _E.Case($moduleName,
+         "between lines 50 and 70");
+      }();
+   });
+   var display = F8(function (context,
+   concreteSizeInfo,
+   currentInfoForOuter,
+   theme,
+   presInfo,
+   sectionList,
+   tickDict,
+   slideType) {
+      return function () {
+         var slideBG = function () {
+            switch (slideType)
+            {case "titleslide":
+               return theme.style.slideBackground.title;
+               case "tocslide":
+               return theme.style.slideBackground.title;}
+            return theme.style.slideBackground.section;
+         }();
+         var h = context.windowHeight;
+         var w = context.windowWidth;
+         var content = function () {
+            switch (slideType)
+            {case "titleslide":
+               return A3(Builders.Outer.buildTitleSlide,
+                 theme,
+                 {ctor: "_Tuple2",_0: w,_1: h},
+                 presInfo);}
+            return function () {
+               var slideContent = A7(Builders.Outer.buildSectionishSlide,
+               theme,
+               {ctor: "_Tuple2",_0: w,_1: h},
+               presInfo,
+               sectionList,
+               currentInfoForOuter.route,
+               tickDict,
+               slideType);
+               return A3(displayContent,
+               slideContent,
+               concreteSizeInfo.content,
+               context.currentTick);
+            }();
+         }();
+         var getOuter = F2(function (str,
+         size) {
+            return A7(Builders.Outer.buildOuterComponent,
+            theme,
+            size,
+            str,
+            presInfo,
+            sectionList,
+            currentInfoForOuter,
+            tickDict);
+         });
+         return A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.middle)(Graphics.Element.layers(_L.fromArray([A3(Builders.ElementMaker.drawFill,
+                                                                       w,
+                                                                       h,
+                                                                       theme.style.slideBackground.section)
+                                                                       ,A2(Graphics.Element.flow,
+                                                                       Graphics.Element.down,
+                                                                       _L.fromArray([content]))])));
+      }();
+   });
+   _elm.Displayers.SectionishSlide.values = {_op: _op
+                                            ,display: display
+                                            ,displayContent: displayContent};
+   return _elm.Displayers.SectionishSlide.values;
+};

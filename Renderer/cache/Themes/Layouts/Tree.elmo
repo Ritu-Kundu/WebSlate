@@ -1,0 +1,65 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.Layouts = Elm.Themes.Layouts || {};
+Elm.Themes.Layouts.Tree = Elm.Themes.Layouts.Tree || {};
+Elm.Themes.Layouts.Tree.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.Layouts = _elm.Themes.Layouts || {};
+   _elm.Themes.Layouts.Tree = _elm.Themes.Layouts.Tree || {};
+   if (_elm.Themes.Layouts.Tree.values)
+   return _elm.Themes.Layouts.Tree.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.Layouts.Tree";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.Default = Elm.Themes.Layouts.Default.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var changePalletteMapping = _L.fromArray([]);
+   var defLayOut = Themes.Layouts.Default.defaultLayoutInfo;
+   var headlineLayout = Types.Theme.Layout({_: {}
+                                           ,columns: _L.fromArray([{_: {}
+                                                                   ,colAlign: Types.Theme.TopAlign
+                                                                   ,id: 1
+                                                                   ,placement: Graphics.Element.midLeft
+                                                                   ,width: 1}])
+                                           ,inserts: _L.fromArray([{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "title"}
+                                                                  ,{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "treesection"}
+                                                                  ,{_: {}
+                                                                   ,column: 1
+                                                                   ,id: "treesubsection"}])});
+   var treeLayoutInfo = _U.replace([["headline"
+                                    ,headlineLayout]],
+   defLayOut);
+   _elm.Themes.Layouts.Tree.values = {_op: _op
+                                     ,headlineLayout: headlineLayout
+                                     ,defLayOut: defLayOut
+                                     ,treeLayoutInfo: treeLayoutInfo
+                                     ,changePalletteMapping: changePalletteMapping};
+   return _elm.Themes.Layouts.Tree.values;
+};

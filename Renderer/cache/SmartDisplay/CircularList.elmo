@@ -1,0 +1,849 @@
+Elm.SmartDisplay = Elm.SmartDisplay || {};
+Elm.SmartDisplay.CircularList = Elm.SmartDisplay.CircularList || {};
+Elm.SmartDisplay.CircularList.make = function (_elm) {
+   "use strict";
+   _elm.SmartDisplay = _elm.SmartDisplay || {};
+   _elm.SmartDisplay.CircularList = _elm.SmartDisplay.CircularList || {};
+   if (_elm.SmartDisplay.CircularList.values)
+   return _elm.SmartDisplay.CircularList.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "SmartDisplay.CircularList";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.SmartDisplay = Elm.Types.SmartDisplay.make(_elm);
+   var Utils = Utils || {};
+   Utils.SmartDisplay = Elm.Utils.SmartDisplay.make(_elm);
+   var _op = {};
+   var getSmartDisplayFL = function (naive) {
+      return function () {
+         var level2ToText = function (itmList) {
+            return A2(List.map,
+            function (itm) {
+               return Text.justified(Text.toText(itm.body));
+            },
+            itmList);
+         };
+         var level1ToText = function (itmList) {
+            return A2(List.map,
+            function (x) {
+               return Text.justified(Text.bold(Text.toText(x.body)));
+            },
+            itmList);
+         };
+         var w = naive.width - 8;
+         var bodyW = w - 20;
+         var headingW = w - 40;
+         var items = naive.items;
+         var level1texts = level1ToText(Utils.SmartDisplay.filterOutItems(items));
+         var numLevel1Items = List.length(level1texts);
+         var maxHHeading = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level1texts)) + 8;
+         var headingBase = Utils.SmartDisplay.getBlockHeading({ctor: "_Tuple2"
+                                                              ,_0: headingW
+                                                              ,_1: maxHHeading});
+         var headingHinBody = Basics.truncate(Basics.toFloat(maxHHeading + 8) / 2);
+         var level1TextBlocks = A2(List.map,
+         function (x) {
+            return Graphics.Element.layers(_L.fromArray([headingBase
+                                                        ,A4(Graphics.Element.container,
+                                                        headingW,
+                                                        maxHHeading,
+                                                        A2(Graphics.Element.topLeftAt,
+                                                        Graphics.Element.absolute(8),
+                                                        Graphics.Element.absolute(4)),
+                                                        x)]));
+         },
+         level1texts);
+         var level2Items = A2(List.map,
+         function (x) {
+            return A2(Utils.SmartDisplay.filterOutSubitemsOfItem,
+            _L.fromArray([x]),
+            items);
+         },
+         _L.range(1,numLevel1Items));
+         var level2Texts = A2(List.map,
+         level2ToText,
+         level2Items);
+         var bulletedLevel2Text = function () {
+            var makeBullet = function (x) {
+               return A2(List.map,
+               Utils.SmartDisplay.insertBullet,
+               x);
+            };
+            return A2(List.map,
+            makeBullet,
+            level2Texts);
+         }();
+         var level3Texts = A2(List.map,
+         function (x) {
+            return A2(List.map,
+            function (y) {
+               return level2ToText(A2(Utils.SmartDisplay.filterOutSubsubitemsOfSubitem,
+               y.route,
+               items));
+            },
+            x);
+         },
+         level2Items);
+         var bulletedLevel3Text = function () {
+            var makeBullet = function (x) {
+               return A2(List.map,
+               List.map(Utils.SmartDisplay.insertSubBullet),
+               x);
+            };
+            return A2(List.map,
+            makeBullet,
+            level3Texts);
+         }();
+         var level3TextBlocks = A2(List.map,
+         function (x) {
+            return A2(List.map,
+            function (y) {
+               return A2(Graphics.Element.flow,
+               Graphics.Element.down,
+               y);
+            },
+            x);
+         },
+         bulletedLevel3Text);
+         var level2TextBlocks = List.map(function (x) {
+            return A4(Graphics.Element.container,
+            w,
+            Graphics.Element.heightOf(x) + 8 + headingHinBody,
+            A2(Graphics.Element.topLeftAt,
+            Graphics.Element.absolute(20),
+            Graphics.Element.absolute(headingHinBody + 2)),
+            x);
+         })(List.map(Graphics.Element.flow(Graphics.Element.down))(List.map(function (x) {
+            return A2(List.map,
+            function (_v4) {
+               return function () {
+                  switch (_v4.ctor)
+                  {case "_Tuple2":
+                     return A2(Graphics.Element.flow,
+                       Graphics.Element.down,
+                       _L.fromArray([_v4._0,_v4._1]));}
+                  _E.Case($moduleName,
+                  "on line 284, column 59 to 77");
+               }();
+            },
+            x);
+         })(List.map(function (_v0) {
+            return function () {
+               switch (_v0.ctor)
+               {case "_Tuple2":
+                  return A2(List.zip,
+                    _v0._0,
+                    _v0._1);}
+               _E.Case($moduleName,
+               "on line 285, column 58 to 73");
+            }();
+         })(A2(List.zip,
+         A2(List.map,
+         function (x) {
+            return A2(List.map,
+            function (y) {
+               return A4(Graphics.Element.container,
+               bodyW,
+               Graphics.Element.heightOf(y),
+               Graphics.Element.midLeft,
+               y);
+            },
+            x);
+         },
+         bulletedLevel2Text),
+         A2(List.map,
+         function (x) {
+            return A2(List.map,
+            function (y) {
+               return A4(Graphics.Element.container,
+               bodyW,
+               Graphics.Element.heightOf(y),
+               Graphics.Element.midLeft,
+               y);
+            },
+            x);
+         },
+         level3TextBlocks))))));
+         var $final = Graphics.Element.flow(Graphics.Element.down)(List.intersperse(A2(Graphics.Element.spacer,
+         w,
+         10))(List.map(function (_v8) {
+            return function () {
+               switch (_v8.ctor)
+               {case "_Tuple2":
+                  return Graphics.Element.layers(_L.fromArray([A4(Graphics.Element.container,
+                                                              w,
+                                                              Graphics.Element.heightOf(_v8._1) + (Graphics.Element.heightOf(_v8._0) / 2 | 0),
+                                                              A2(Graphics.Element.topLeftAt,
+                                                              Graphics.Element.absolute(0),
+                                                              Graphics.Element.absolute(Graphics.Element.heightOf(_v8._0) / 2 | 0)),
+                                                              _v8._1)
+                                                              ,A4(Graphics.Element.container,
+                                                              w,
+                                                              Graphics.Element.heightOf(_v8._1) + (Graphics.Element.heightOf(_v8._0) / 2 | 0),
+                                                              Graphics.Element.midTop,
+                                                              _v8._0)]));}
+               _E.Case($moduleName,
+               "between lines 291 and 292");
+            }();
+         })(A2(List.zip,
+         A2(List.map,
+         function (x) {
+            return A4(Graphics.Element.container,
+            w,
+            Graphics.Element.heightOf(x),
+            A2(Graphics.Element.topLeftAt,
+            Graphics.Element.absolute(30),
+            Graphics.Element.absolute(0)),
+            x);
+         },
+         level1TextBlocks),
+         A2(List.map,
+         function (x) {
+            return Graphics.Element.layers(_L.fromArray([Utils.SmartDisplay.getFrameBody({ctor: "_Tuple2"
+                                                                                         ,_0: w
+                                                                                         ,_1: Graphics.Element.heightOf(x)})
+                                                        ,x]));
+         },
+         level2TextBlocks)))));
+         return A4(Graphics.Element.container,
+         w,
+         Graphics.Element.heightOf($final) + 20,
+         Graphics.Element.middle,
+         $final);
+      }();
+   };
+   var getSmartDisplayCL = function (naive) {
+      return function () {
+         var level2ToTypeNText = function (itmList) {
+            return function () {
+               var blockType = function (itm) {
+                  return A2(String.startsWith,
+                  "!",
+                  itm.body);
+               };
+               var getStr = function (str) {
+                  return A2(String.startsWith,
+                  "!",
+                  str) ? A2(String.dropLeft,
+                  1,
+                  str) : str;
+               };
+               var change = function (itm) {
+                  return Text.centered(Text.toText(getStr(itm.body)));
+               };
+               return A2(List.map,
+               function (itm) {
+                  return {ctor: "_Tuple2"
+                         ,_0: blockType(itm)
+                         ,_1: change(itm)};
+               },
+               itmList);
+            }();
+         };
+         var level1ToText = function (itmList) {
+            return A2(List.map,
+            function (x) {
+               return Text.centered(Text.height(18)(Text.bold(Text.toText(x.body))));
+            },
+            itmList);
+         };
+         var w = naive.width;
+         var items = naive.items;
+         var level1texts = level1ToText(Utils.SmartDisplay.filterOutItems(items));
+         var numLevel1Items = List.length(level1texts);
+         var maxHHeading = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level1texts)) + 10;
+         var level2TypeNText = A2(List.map,
+         function (x) {
+            return level2ToTypeNText(A2(Utils.SmartDisplay.filterOutSubitemsOfItem,
+            _L.fromArray([x]),
+            items));
+         },
+         _L.range(1,numLevel1Items));
+         var level2Texts = A2(List.concatMap,
+         function (x) {
+            return A2(List.map,
+            Basics.snd,
+            x);
+         },
+         level2TypeNText);
+         var maxW = List.maximum(List.map(Graphics.Element.widthOf)(level2Texts));
+         var blockW = maxW + 4;
+         var maxWHeading = A2(Basics.max,
+         List.maximum(A2(List.map,
+         Graphics.Element.widthOf,
+         level1texts)),
+         blockW);
+         var level1Blocks = A2(List.map,
+         function (x) {
+            return A4(Graphics.Element.container,
+            maxWHeading,
+            maxHHeading,
+            Graphics.Element.midTop,
+            x);
+         },
+         level1texts);
+         var maxH = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level2Texts));
+         var blockH = maxH + 4;
+         var innerBlock = A3(Graphics.Element.container,
+         blockW + 4,
+         blockH + 4,
+         Graphics.Element.middle)(Utils.SmartDisplay.getBlockBody({ctor: "_Tuple2"
+                                                                  ,_0: blockW
+                                                                  ,_1: blockH}));
+         var placeText = function (_v12) {
+            return function () {
+               switch (_v12.ctor)
+               {case "_Tuple2":
+                  return function () {
+                       var blo = _v12._0 ? Graphics.Element.opacity(0.4)(Graphics.Element.color(Color.blue)(innerBlock)) : innerBlock;
+                       return Graphics.Element.layers(_L.fromArray([blo
+                                                                   ,A4(Graphics.Element.container,
+                                                                   Graphics.Element.widthOf(blo),
+                                                                   Graphics.Element.heightOf(blo),
+                                                                   Graphics.Element.middle,
+                                                                   _v12._1)]));
+                    }();}
+               _E.Case($moduleName,
+               "between lines 222 and 227");
+            }();
+         };
+         var level2Blocks = A2(List.map,
+         function (x) {
+            return Graphics.Element.flow(Graphics.Element.down)(A2(List.map,
+            placeText,
+            x));
+         },
+         level2TypeNText);
+         var maxHLevel2 = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level2Blocks));
+         var outerBase = Graphics.Element.opacity(0.2)(Utils.SmartDisplay.getBlockHeading({ctor: "_Tuple2"
+                                                                                          ,_0: maxWHeading
+                                                                                          ,_1: maxHLevel2 + maxHHeading + 4}));
+         var inOuterBlock = A3(Graphics.Element.container,
+         Graphics.Element.widthOf(outerBase) + 4,
+         Graphics.Element.heightOf(outerBase) + 4,
+         Graphics.Element.midTop);
+         var $final = Graphics.Element.flow(Graphics.Element.right)(List.map(function (_v16) {
+            return function () {
+               switch (_v16.ctor)
+               {case "_Tuple2":
+                  return Graphics.Element.layers(_L.fromArray([inOuterBlock(outerBase)
+                                                              ,inOuterBlock(A2(Graphics.Element.flow,
+                                                              Graphics.Element.down,
+                                                              _L.fromArray([_v16._0
+                                                                           ,A4(Graphics.Element.container,
+                                                                           Graphics.Element.widthOf(_v16._0),
+                                                                           Graphics.Element.heightOf(_v16._1),
+                                                                           Graphics.Element.middle,
+                                                                           _v16._1)])))]));}
+               _E.Case($moduleName,
+               "between lines 237 and 239");
+            }();
+         })(A2(List.zip,
+         level1Blocks,
+         level2Blocks)));
+         return A2(Utils.SmartDisplay.scaleItem,
+         w,
+         $final);
+      }();
+   };
+   var getSmartDisplayCC = function (naive) {
+      return function () {
+         var level2ToText = function (itmList) {
+            return A2(List.map,
+            function (itm) {
+               return Text.justified(Text.toText(itm.body));
+            },
+            itmList);
+         };
+         var level1ToText = function (itmList) {
+            return A2(List.map,
+            function (x) {
+               return Text.centered(Text.bold(Text.toText(x.body)));
+            },
+            itmList);
+         };
+         var w = naive.width;
+         var items = naive.items;
+         var level1texts = level1ToText(Utils.SmartDisplay.filterOutItems(items));
+         var numLevel1Items = List.length(level1texts);
+         var maxHHeading = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level1texts)) + 4;
+         var level2Texts = A2(List.map,
+         function (x) {
+            return level2ToText(A2(Utils.SmartDisplay.filterOutSubitemsOfItem,
+            _L.fromArray([x]),
+            items));
+         },
+         _L.range(1,numLevel1Items));
+         var bulletedLevel2Text = function () {
+            var makeBullet = function (x) {
+               return A2(List.map,
+               Utils.SmartDisplay.insertCheckbox,
+               x);
+            };
+            return A2(List.map,
+            makeBullet,
+            level2Texts);
+         }();
+         var maxW = List.maximum(List.map(Graphics.Element.widthOf)(_L.append(level1texts,
+         List.concat(bulletedLevel2Text))));
+         var blockW = maxW + 8;
+         var dividingBar = A3(Graphics.Element.container,
+         blockW,
+         24,
+         Graphics.Element.middle)(Graphics.Element.layers(_L.fromArray([Utils.SmartDisplay.getBlockHeading({ctor: "_Tuple2"
+                                                                                                           ,_0: blockW
+                                                                                                           ,_1: 20})
+                                                                       ,A4(Graphics.Element.container,
+                                                                       blockW,
+                                                                       20,
+                                                                       Graphics.Element.bottomLeft,
+                                                                       Utils.SmartDisplay.checkbox)])));
+         var level2TextBlocks = A2(List.map,
+         Graphics.Element.flow(Graphics.Element.down),
+         bulletedLevel2Text);
+         var maxH = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level2TextBlocks));
+         var blockH = maxH + 2;
+         var $final = Graphics.Element.flow(Graphics.Element.right)(List.map(function (_v20) {
+            return function () {
+               switch (_v20.ctor)
+               {case "_Tuple2":
+                  return A2(Graphics.Element.flow,
+                    Graphics.Element.down,
+                    _L.fromArray([_v20._0
+                                 ,dividingBar
+                                 ,_v20._1]));}
+               _E.Case($moduleName,
+               "on line 187, column 34 to 63");
+            }();
+         })(A2(List.zip,
+         A2(List.map,
+         function (x) {
+            return A4(Graphics.Element.container,
+            blockW,
+            maxHHeading,
+            Graphics.Element.middle,
+            x);
+         },
+         level1texts),
+         A2(List.map,
+         function (x) {
+            return A4(Graphics.Element.container,
+            blockW,
+            maxH,
+            Graphics.Element.topLeft,
+            x);
+         },
+         level2TextBlocks))));
+         return A2(Utils.SmartDisplay.scaleItem,
+         w,
+         $final);
+      }();
+   };
+   var getSmartDisplayPL = function (naive) {
+      return function () {
+         var level2ToText = function (itmList) {
+            return A2(List.map,
+            function (itm) {
+               return Text.justified(Text.toText(itm.body));
+            },
+            itmList);
+         };
+         var level1ToText = function (itm) {
+            return function () {
+               switch (itm.ctor)
+               {case "Just":
+                  return Text.centered(Text.height(18)(Text.bold(Text.toText(A2(String.join,
+                    "\n",
+                    String.words(itm._0.body))))));
+                  case "Nothing":
+                  return Graphics.Element.empty;}
+               _E.Case($moduleName,
+               "between lines 132 and 136");
+            }();
+         };
+         var w = naive.width;
+         var items = naive.items;
+         var level1text = level1ToText(A2(Utils.SmartDisplay.getItemAt,
+         1,
+         items));
+         var level2Texts = level2ToText(A2(Utils.SmartDisplay.filterOutSubitemsOfItem,
+         _L.fromArray([1]),
+         items));
+         var maxW = List.maximum(A2(List.map,
+         Graphics.Element.widthOf,
+         level2Texts));
+         var blockW = maxW + 8;
+         var maxH = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level2Texts));
+         var blockH = maxH + 8;
+         var blockBase = A3(Graphics.Element.container,
+         blockW,
+         blockH,
+         Graphics.Element.middle);
+         var blocks = Graphics.Element.flow(Graphics.Element.down)(List.intersperse(Graphics.Element.opacity(0.5)(Utils.SmartDisplay.getHorizontalDivider(blockW)))(A2(List.map,
+         function (x) {
+            return A4(Graphics.Element.container,
+            blockW,
+            blockH,
+            Graphics.Element.middle,
+            x);
+         },
+         level2Texts)));
+         var artHeading = function () {
+            var headH = Graphics.Element.heightOf(blocks);
+            var headW = Graphics.Element.widthOf(level1text) + 4;
+            return A4(Graphics.Element.container,
+            headW,
+            headH,
+            Graphics.Element.midTop,
+            level1text);
+         }();
+         var finalBlock = A2(Graphics.Element.flow,
+         Graphics.Element.right,
+         _L.fromArray([artHeading
+                      ,blocks]));
+         var startBar = A3(Graphics.Element.container,
+         Graphics.Element.widthOf(finalBlock),
+         8,
+         Graphics.Element.middle)(Utils.SmartDisplay.getHorizontalDivider(Graphics.Element.widthOf(finalBlock)));
+         var $final = A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([startBar
+                      ,finalBlock]));
+         return A2(Utils.SmartDisplay.scaleItem,
+         w,
+         $final);
+      }();
+   };
+   var getSmartDisplayPM = function (naive) {
+      return function () {
+         var symbolDimension = 20;
+         var plus = A2(Graphics.Element.fittedImage,
+         symbolDimension,
+         symbolDimension)(Utils.SmartDisplay.getImage("plus"));
+         var minus = A3(Graphics.Element.container,
+         symbolDimension,
+         symbolDimension,
+         Graphics.Element.middle)(A2(Graphics.Element.fittedImage,
+         symbolDimension,
+         5)(Utils.SmartDisplay.getImage("minus")));
+         var level2ToText = function (itmList) {
+            return A2(List.map,
+            function (itm) {
+               return Text.justified(Text.toText(itm.body));
+            },
+            itmList);
+         };
+         var level1ToText = function (itm) {
+            return function () {
+               switch (itm.ctor)
+               {case "Just":
+                  return Text.centered(Text.bold(Text.toText(itm._0.body)));
+                  case "Nothing":
+                  return Graphics.Element.empty;}
+               _E.Case($moduleName,
+               "between lines 84 and 87");
+            }();
+         };
+         var w = naive.width;
+         var items = naive.items;
+         var level1text = level1ToText(A2(Utils.SmartDisplay.getItemAt,
+         1,
+         items));
+         var level2Texts = A2(List.map,
+         function (x) {
+            return level2ToText(A2(Utils.SmartDisplay.filterOutSubitemsOfItem,
+            _L.fromArray([x]),
+            items));
+         },
+         _L.fromArray([1,2]));
+         var bulletedLevel2Text = function () {
+            var makeBullet = function (x) {
+               return _U.eq(List.length(x),
+               1) ? x : A2(List.map,
+               Utils.SmartDisplay.insertBullet,
+               x);
+            };
+            return A2(List.map,
+            makeBullet,
+            level2Texts);
+         }();
+         var maxW = List.maximum(List.map(Graphics.Element.widthOf)({ctor: "::"
+                                                                    ,_0: level1text
+                                                                    ,_1: List.concat(bulletedLevel2Text)}));
+         var blockW = maxW + 8;
+         var level2TextBlocks = A2(List.map,
+         Graphics.Element.flow(Graphics.Element.down),
+         bulletedLevel2Text);
+         var maxH = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         level2TextBlocks));
+         var blockH = maxH + 8;
+         var blockBase = Utils.SmartDisplay.getBlockBody({ctor: "_Tuple2"
+                                                         ,_0: blockW
+                                                         ,_1: blockH});
+         var blocks = Graphics.Element.flow(Graphics.Element.right)(List.intersperse(Utils.SmartDisplay.getVerticalDivider(blockH))(List.map(function (x) {
+            return Graphics.Element.layers(_L.fromArray([blockBase
+                                                        ,A4(Graphics.Element.container,
+                                                        blockW,
+                                                        blockH,
+                                                        Graphics.Element.middle,
+                                                        x)]));
+         })(level2TextBlocks)));
+         var artHeading = _U.eq(Graphics.Element.widthOf(level1text),
+         0) ? Graphics.Element.empty : function () {
+            var headH = Graphics.Element.heightOf(level1text) + 4;
+            var headW = Graphics.Element.widthOf(blocks);
+            return Graphics.Element.layers(_L.fromArray([Utils.SmartDisplay.getBlockHeading({ctor: "_Tuple2"
+                                                                                            ,_0: headW
+                                                                                            ,_1: headH})
+                                                        ,A4(Graphics.Element.container,
+                                                        headW,
+                                                        headH,
+                                                        Graphics.Element.middle,
+                                                        level1text)]));
+         }();
+         var finalBlock = A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([artHeading
+                      ,blocks]));
+         var finalContainer = A2(Graphics.Element.container,
+         Graphics.Element.widthOf(finalBlock) + symbolDimension,
+         Graphics.Element.heightOf(finalBlock) + symbolDimension);
+         var $final = Graphics.Element.layers(_L.fromArray([A2(finalContainer,
+                                                           Graphics.Element.middle,
+                                                           finalBlock)
+                                                           ,A2(finalContainer,
+                                                           Graphics.Element.topLeft,
+                                                           plus)
+                                                           ,A2(finalContainer,
+                                                           Graphics.Element.topRight,
+                                                           minus)]));
+         return A2(Utils.SmartDisplay.scaleItem,
+         w,
+         $final);
+      }();
+   };
+   var getSmartDisplayPE = function (naive) {
+      return function () {
+         var itemToText = function (itm) {
+            return function () {
+               switch (itm.ctor)
+               {case "Just":
+                  return Text.centered(Text.toText(itm._0.body));
+                  case "Nothing":
+                  return Text.centered(Text.toText(" "));}
+               _E.Case($moduleName,
+               "between lines 51 and 54");
+            }();
+         };
+         var w = naive.width;
+         var items = naive.items;
+         var texts = A2(List.map,
+         function (x) {
+            return itemToText(A2(Utils.SmartDisplay.getItemAt,
+            x,
+            items));
+         },
+         _L.fromArray([1,2,3]));
+         var maxW = List.maximum(A2(List.map,
+         Graphics.Element.widthOf,
+         texts));
+         var maxH = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         texts));
+         var dimension = A2(Basics.max,
+         maxW,
+         maxH) + 8;
+         var circleR = Basics.toFloat(dimension) / 2;
+         var symbolDimension = Basics.truncate(circleR);
+         var eq = A2(Graphics.Element.fittedImage,
+         symbolDimension,
+         symbolDimension)(Utils.SmartDisplay.getImage("equal"));
+         var itemCircle = A3(Graphics.Collage.collage,
+         dimension,
+         dimension,
+         _L.fromArray([Utils.SmartDisplay.getCircle(circleR)]));
+         var toTextelem = function (txt) {
+            return A4(Graphics.Element.container,
+            dimension,
+            dimension,
+            Graphics.Element.middle,
+            txt);
+         };
+         var plus = toTextelem(A2(Graphics.Element.fittedImage,
+         symbolDimension,
+         symbolDimension)(Utils.SmartDisplay.getImage("plus")));
+         var levelItems = List.map(function (x) {
+            return Graphics.Element.layers(_L.fromArray([itemCircle
+                                                        ,x]));
+         })(A2(List.map,
+         toTextelem,
+         texts));
+         var leftPart = function () {
+            var partList = _L.fromArray([List.head(levelItems)
+                                        ,plus
+                                        ,List.head(List.tail(levelItems))]);
+            return function () {
+               var _v30 = naive.sdType;
+               switch (_v30.ctor)
+               {case "PlusEqualHorizontal":
+                  return A2(Graphics.Element.flow,
+                    Graphics.Element.right,
+                    partList);
+                  case "PlusEqualVertical":
+                  return A2(Graphics.Element.flow,
+                    Graphics.Element.down,
+                    partList);}
+               _E.Case($moduleName,
+               "between lines 68 and 71");
+            }();
+         }();
+         var restContainer = A3(Graphics.Element.container,
+         dimension,
+         Graphics.Element.heightOf(leftPart),
+         Graphics.Element.middle);
+         var $final = A2(Graphics.Element.flow,
+         Graphics.Element.right,
+         _L.fromArray([leftPart
+                      ,restContainer(eq)
+                      ,restContainer(List.last(levelItems))]));
+         return A2(Utils.SmartDisplay.scaleItem,
+         w,
+         $final);
+      }();
+   };
+   var getSmartDisplay = function (naive) {
+      return function () {
+         var toTextelem = F2(function (d,
+         txt) {
+            return A4(Graphics.Element.container,
+            d,
+            d,
+            Graphics.Element.middle,
+            txt);
+         });
+         var h = naive.height;
+         var w = naive.width;
+         var items = naive.items;
+         var subItems = List.map(function (x) {
+            return Text.justified(Text.toText(x.body));
+         })(A2(Utils.SmartDisplay.filterOutSubitemsOfItem,
+         _L.fromArray([1]),
+         items));
+         var mainItem = function () {
+            var _v31 = A2(Utils.SmartDisplay.getItemAt,
+            1,
+            items);
+            switch (_v31.ctor)
+            {case "Just":
+               return Text.justified(Text.toText(_v31._0.body));
+               case "Nothing":
+               return Text.justified(Text.toText(" "));}
+            _E.Case($moduleName,
+            "between lines 15 and 18");
+         }();
+         var texts = {ctor: "::"
+                     ,_0: mainItem
+                     ,_1: subItems};
+         var maxW = List.maximum(A2(List.map,
+         Graphics.Element.widthOf,
+         texts));
+         var maxH = List.maximum(A2(List.map,
+         Graphics.Element.heightOf,
+         texts));
+         var dimension = A2(Basics.max,
+         maxW,
+         maxH) + 8;
+         var circleR = Basics.toFloat(dimension) / 2;
+         var distR = Basics.toFloat(w) / 2 - circleR;
+         var xOriginMain = function () {
+            var _v33 = naive.sdType;
+            switch (_v33.ctor)
+            {case "CircleCone":
+               return 0 - 2 * circleR;
+               case "CircleFull": return 0;
+               case "CircleHalf": return 0;}
+            _E.Case($moduleName,
+            "between lines 25 and 29");
+         }();
+         var mainCircle = A3(Graphics.Collage.collage,
+         2 * dimension,
+         2 * dimension,
+         _L.fromArray([Utils.SmartDisplay.getCircle(2 * circleR)]));
+         var sideCircle = A3(Graphics.Collage.collage,
+         dimension,
+         dimension,
+         _L.fromArray([Utils.SmartDisplay.getCircle(circleR)]));
+         var secondlevelItems = List.map(function (x) {
+            return Graphics.Collage.toForm(Graphics.Element.layers(_L.fromArray([sideCircle
+                                                                                ,x])));
+         })(A2(List.map,
+         toTextelem(dimension),
+         subItems));
+         var distributionAngles = A2(Utils.SmartDisplay.getdistributionAngles,
+         List.length(secondlevelItems),
+         naive.sdType);
+         var distributePoints = A2(Utils.SmartDisplay.getdistributePoints,
+         distR,
+         distributionAngles);
+         var firstLevelItem = Graphics.Collage.toForm(Graphics.Element.layers(_L.fromArray([mainCircle
+                                                                                           ,toTextelem(2 * dimension)(mainItem)])));
+         var $final = A2(Graphics.Collage.collage,
+         w,
+         w)(_L.append(A2(Utils.SmartDisplay.drawLine,
+         {ctor: "_Tuple2"
+         ,_0: xOriginMain
+         ,_1: 0},
+         distributePoints),
+         _L.append(_L.fromArray([A2(Graphics.Collage.moveX,
+         xOriginMain,
+         firstLevelItem)]),
+         A2(Utils.SmartDisplay.distribute,
+         distributePoints,
+         secondlevelItems))));
+         return $final;
+      }();
+   };
+   _elm.SmartDisplay.CircularList.values = {_op: _op
+                                           ,getSmartDisplay: getSmartDisplay
+                                           ,getSmartDisplayPE: getSmartDisplayPE
+                                           ,getSmartDisplayPM: getSmartDisplayPM
+                                           ,getSmartDisplayPL: getSmartDisplayPL
+                                           ,getSmartDisplayCC: getSmartDisplayCC
+                                           ,getSmartDisplayCL: getSmartDisplayCL
+                                           ,getSmartDisplayFL: getSmartDisplayFL};
+   return _elm.SmartDisplay.CircularList.values;
+};

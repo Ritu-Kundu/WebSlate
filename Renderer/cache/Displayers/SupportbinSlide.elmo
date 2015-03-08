@@ -1,0 +1,115 @@
+Elm.Displayers = Elm.Displayers || {};
+Elm.Displayers.SupportbinSlide = Elm.Displayers.SupportbinSlide || {};
+Elm.Displayers.SupportbinSlide.make = function (_elm) {
+   "use strict";
+   _elm.Displayers = _elm.Displayers || {};
+   _elm.Displayers.SupportbinSlide = _elm.Displayers.SupportbinSlide || {};
+   if (_elm.Displayers.SupportbinSlide.values)
+   return _elm.Displayers.SupportbinSlide.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Displayers.SupportbinSlide";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.Context = Elm.Builders.Context.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var _op = {};
+   var makeGrid = F2(function (n,
+   elemList) {
+      return List.isEmpty(elemList) ? _L.fromArray([]) : _L.append(_L.fromArray([A2(List.take,
+      n,
+      elemList)]),
+      A2(makeGrid,
+      n,
+      A2(List.drop,n,elemList)));
+   });
+   var closeSign = A3(Graphics.Element.fittedImage,
+   30,
+   30,
+   "Symbols/Close.gif");
+   var closeButton = A5(Graphics.Input.customButton,
+   Builders.Context.modeClicks.handle,
+   Types.Context.NormalMode,
+   closeSign,
+   Graphics.Element.opacity(0.5)(closeSign),
+   closeSign);
+   var display = F3(function (supportbin,
+   context,
+   concreteSizeInfo) {
+      return function () {
+         var h = Basics.snd(concreteSizeInfo.content);
+         var rowH = Basics.truncate(Basics.toFloat(h) / 4);
+         var cellH = rowH - 5;
+         var w = Basics.fst(concreteSizeInfo.content);
+         var colW = Basics.truncate(Basics.toFloat(w) / 4);
+         var cellW = colW - 5;
+         var scaleFactor = Basics.toFloat(cellW) / Basics.toFloat(w);
+         var scaleElem = function (elem) {
+            return A3(Graphics.Collage.collage,
+            cellW,
+            cellH,
+            _L.fromArray([Graphics.Collage.scale(scaleFactor)(Graphics.Collage.toForm(elem))]));
+         };
+         var makeCell = function (element) {
+            return function () {
+               var elem = scaleElem(element);
+               return A2(Graphics.Input.hoverable,
+               Builders.Context.zoomClicks.handle,
+               function (x) {
+                  return x ? elem : Graphics.Element.empty;
+               })(A3(Graphics.Input.clickable,
+               Builders.Context.modeClicks.handle,
+               Types.Context.SupportBinZoomMode,
+               elem));
+            }();
+         };
+         var base = A4(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.topRight,
+         closeButton);
+         var elementList = supportbin.content;
+         var grid = Graphics.Element.flow(Graphics.Element.down)(List.map(function (x) {
+            return Graphics.Element.flow(Graphics.Element.right)(A2(List.map,
+            makeCell,
+            x));
+         })(A2(makeGrid,4,elementList)));
+         var positionedElem = Graphics.Element.opacity(0.7)(A4(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.middle,
+         grid));
+         return Graphics.Element.layers(_L.fromArray([positionedElem
+                                                     ,base]));
+      }();
+   });
+   _elm.Displayers.SupportbinSlide.values = {_op: _op
+                                            ,closeSign: closeSign
+                                            ,closeButton: closeButton
+                                            ,display: display
+                                            ,makeGrid: makeGrid};
+   return _elm.Displayers.SupportbinSlide.values;
+};

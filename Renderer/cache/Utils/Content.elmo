@@ -1,0 +1,117 @@
+Elm.Utils = Elm.Utils || {};
+Elm.Utils.Content = Elm.Utils.Content || {};
+Elm.Utils.Content.make = function (_elm) {
+   "use strict";
+   _elm.Utils = _elm.Utils || {};
+   _elm.Utils.Content = _elm.Utils.Content || {};
+   if (_elm.Utils.Content.values)
+   return _elm.Utils.Content.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Utils.Content";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Naive = Elm.Utils.Naive.make(_elm);
+   var Utils = Utils || {};
+   Utils.Theme = Elm.Utils.Theme.make(_elm);
+   var _op = {};
+   var rawColumnContentToColumnContent = F2(function (rawList,
+   numCol) {
+      return function () {
+         var partList = F2(function (list,
+         id) {
+            return _U.cmp(id,
+            numCol) > 0 ? _L.fromArray([_L.fromArray([])]) : function () {
+               var convertToColElem = function (rawColElem) {
+                  return function () {
+                     var intermediate = _U.remove("inColumnnPos",
+                     rawColElem);
+                     return _U.remove("containerColumn",
+                     intermediate);
+                  }();
+               };
+               var partedList = A2(List.partition,
+               function (x) {
+                  return _U.eq(x.containerColumn,
+                  id);
+               },
+               list);
+               var colElemList = List.map(convertToColElem)(List.sortBy(function (_) {
+                  return _.inColumnnPos;
+               })(Basics.fst(partedList)));
+               return _L.append(_L.fromArray([colElemList]),
+               A2(partList,
+               Basics.snd(partedList),
+               id + 1));
+            }();
+         });
+         return A2(partList,rawList,1);
+      }();
+   });
+   var getSymbolStyling = F2(function (templateId,
+   styleInfo) {
+      return function () {
+         var lookIn = function (dict) {
+            return A2(Dict.getOrFail,
+            templateId,
+            dict);
+         };
+         return function () {
+            var _v0 = Utils.Theme.getDictType(templateId);
+            switch (_v0)
+            {case "symbol":
+               return lookIn(styleInfo.symbol);}
+            _E.Case($moduleName,
+            "between lines 25 and 26");
+         }();
+      }();
+   });
+   var getStyling = F2(function (templateId,
+   styleInfo) {
+      return function () {
+         var lookIn = function (dict) {
+            return A2(Dict.getOrFail,
+            templateId,
+            dict);
+         };
+         return function () {
+            var _v1 = Utils.Theme.getDictType(templateId);
+            switch (_v1)
+            {case "inner":
+               return lookIn(styleInfo.inner);
+               case "outer":
+               return lookIn(styleInfo.outer);}
+            _E.Case($moduleName,
+            "between lines 17 and 19");
+         }();
+      }();
+   });
+   _elm.Utils.Content.values = {_op: _op
+                               ,getStyling: getStyling
+                               ,getSymbolStyling: getSymbolStyling
+                               ,rawColumnContentToColumnContent: rawColumnContentToColumnContent};
+   return _elm.Utils.Content.values;
+};

@@ -1,0 +1,123 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.GetTheme = Elm.Themes.GetTheme || {};
+Elm.Themes.GetTheme.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.GetTheme = _elm.Themes.GetTheme || {};
+   if (_elm.Themes.GetTheme.values)
+   return _elm.Themes.GetTheme.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.GetTheme";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.Default = Elm.Themes.Layouts.Default.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.InfoLines = Elm.Themes.Layouts.InfoLines.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.MiniFrames = Elm.Themes.Layouts.MiniFrames.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.SideBar = Elm.Themes.Layouts.SideBar.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.Split = Elm.Themes.Layouts.Split.make(_elm);
+   var Themes = Themes || {};
+   Themes.Layouts = Themes.Layouts || {};
+   Themes.Layouts.Tree = Elm.Themes.Layouts.Tree.make(_elm);
+   var Themes = Themes || {};
+   Themes.Styles = Themes.Styles || {};
+   Themes.Styles.Default = Elm.Themes.Styles.Default.make(_elm);
+   var Themes = Themes || {};
+   Themes.Styles = Themes.Styles || {};
+   Themes.Styles.Sober = Elm.Themes.Styles.Sober.make(_elm);
+   var Themes = Themes || {};
+   Themes.Styles = Themes.Styles || {};
+   Themes.Styles.Striking = Elm.Themes.Styles.Striking.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Intermediate = Elm.Types.Intermediate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var layout = function (themeString) {
+      return function () {
+         switch (themeString)
+         {case "infolines":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.InfoLines.infoLineLayoutInfo
+                   ,_1: Themes.Layouts.InfoLines.changePalletteMapping};
+            case "leftsidebar":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.SideBar.sideBarLayoutInfo(Types.Theme.LeftSidebar)
+                   ,_1: Themes.Layouts.SideBar.changePalletteMapping};
+            case "miniframes:authorinstitutetitle":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.MiniFrames.miniframesLayoutInfo(Types.Theme.AuthorInstituteTitle)
+                   ,_1: Themes.Layouts.MiniFrames.changePalletteMapping};
+            case "miniframes:authortitle":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.MiniFrames.miniframesLayoutInfo(Types.Theme.AuthorTitle)
+                   ,_1: Themes.Layouts.MiniFrames.changePalletteMapping};
+            case "miniframes:institutetitle":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.MiniFrames.miniframesLayoutInfo(Types.Theme.InstituteTitle)
+                   ,_1: Themes.Layouts.MiniFrames.changePalletteMapping};
+            case "miniframes:nofoot":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.MiniFrames.miniframesLayoutInfo(Types.Theme.NoFoot)
+                   ,_1: Themes.Layouts.MiniFrames.changePalletteMapping};
+            case "rightsidebar":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.SideBar.sideBarLayoutInfo(Types.Theme.RightSidebar)
+                   ,_1: Themes.Layouts.SideBar.changePalletteMapping};
+            case "split":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.Split.splitLayoutInfo
+                   ,_1: Themes.Layouts.Split.changePalletteMapping};
+            case "tree":
+            return {ctor: "_Tuple2"
+                   ,_0: Themes.Layouts.Tree.treeLayoutInfo
+                   ,_1: Themes.Layouts.Tree.changePalletteMapping};}
+         return {ctor: "_Tuple2"
+                ,_0: Themes.Layouts.Default.defaultLayoutInfo
+                ,_1: Themes.Layouts.Default.changePalletteMapping};
+      }();
+   };
+   var style = function (themeString) {
+      return function () {
+         switch (themeString)
+         {case "default":
+            return Themes.Styles.Default.defaultTheme;
+            case "sober":
+            return Themes.Styles.Sober.defaultTheme;
+            case "striking":
+            return Themes.Styles.Striking.defaultTheme;}
+         return Themes.Styles.Default.defaultTheme;
+      }();
+   };
+   _elm.Themes.GetTheme.values = {_op: _op
+                                 ,style: style
+                                 ,layout: layout};
+   return _elm.Themes.GetTheme.values;
+};

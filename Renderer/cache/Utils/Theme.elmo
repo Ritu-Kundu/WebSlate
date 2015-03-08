@@ -1,0 +1,1274 @@
+Elm.Utils = Elm.Utils || {};
+Elm.Utils.Theme = Elm.Utils.Theme || {};
+Elm.Utils.Theme.make = function (_elm) {
+   "use strict";
+   _elm.Utils = _elm.Utils || {};
+   _elm.Utils.Theme = _elm.Utils.Theme || {};
+   if (_elm.Utils.Theme.values)
+   return _elm.Utils.Theme.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Utils.Theme";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Themes = Themes || {};
+   Themes.SizeSettings = Elm.Themes.SizeSettings.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Intermediate = Elm.Types.Intermediate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var updateStyleInfo = F2(function (styleLists,
+   styleInfo) {
+      return function () {
+         var changeSymbolStyle = F2(function (item,
+         styleDict) {
+            return function () {
+               var newStyle = Basics.snd(item);
+               var change = function (oldStyle) {
+                  return function () {
+                     switch (oldStyle.ctor)
+                     {case "Just":
+                        return Maybe.Just(newStyle);
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 518 and 521");
+                  }();
+               };
+               var templateId = Basics.fst(item);
+               return A3(Dict.update,
+               templateId,
+               change,
+               styleDict);
+            }();
+         });
+         var updateStyleDict = F2(function (list,
+         dict) {
+            return A3(List.foldr,
+            changeSymbolStyle,
+            dict,
+            list);
+         });
+         var changeStyle = F2(function (item,
+         styleDict) {
+            return function () {
+               var newStyle = Basics.snd(item);
+               var change = function (oldStyle) {
+                  return function () {
+                     switch (oldStyle.ctor)
+                     {case "Just":
+                        return Maybe.Just(newStyle);
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 509 and 512");
+                  }();
+               };
+               var templateId = Basics.fst(item);
+               return A3(Dict.update,
+               templateId,
+               change,
+               styleDict);
+            }();
+         });
+         var updateDict = F2(function (list,
+         dict) {
+            return A3(List.foldr,
+            changeStyle,
+            dict,
+            list);
+         });
+         return {_: {}
+                ,inner: A2(updateDict,
+                styleLists.inner,
+                styleInfo.inner)
+                ,outer: A2(updateDict,
+                styleLists.outer,
+                styleInfo.outer)
+                ,slideBackground: styleInfo.slideBackground
+                ,symbol: A2(updateStyleDict,
+                styleLists.symbol,
+                styleInfo.symbol)};
+      }();
+   });
+   var innerList = _L.fromArray([{ctor: "_Tuple2"
+                                 ,_0: "block"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "framebox"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "imagebox"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "alertedblock"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "quiz"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "blocktitle"
+                                 ,_1: "block"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "blocktitle"
+                                 ,_1: "alertedblock"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "normal"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "highlight"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "alert"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "itemizeitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "itemizesubitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "itemizesubsubitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "enumerateitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "enumeratesubitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "enumeratesubsubitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "descriptionitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "descriptionsubitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "descriptionsubsubitem"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "caption"
+                                 ,_1: "imagebox"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "captionnameandnumber"
+                                 ,_1: "imagebox"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "toc"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "section"
+                                 ,_1: "toc"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsection"
+                                 ,_1: "toc"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsubsection"
+                                 ,_1: "toc"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsection"
+                                 ,_1: "toc"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsection"
+                                 ,_1: "toc"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsubsection"
+                                 ,_1: "toc"}]);
+   var outerList = _L.fromArray([{ctor: "_Tuple2"
+                                 ,_0: "headline"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "footline"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "leftsidebar"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "rightsidebar"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "miniframes"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "logo"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "title"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "title"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "title"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "title"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subtitle"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subtitle"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subtitle"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subtitle"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "author"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "author"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "author"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "author"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "date"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "date"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "date"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "date"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "institute"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "institute"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "institute"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "institute"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "slidenumber"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "slidenumber"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "slidenumber"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "slidenumber"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "titlegraphic"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "sectiongraphic"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsectiongraphic"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "slidetitle"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "slidesubtitle"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "section"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "section"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "section"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "section"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsection"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsection"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsection"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsection"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsubsection"
+                                 ,_1: "none"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsubsection"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsubsection"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "subsubsection"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsection"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsection"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsection"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsection"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsection"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsection"
+                                 ,_1: "sidebar"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsubsection"
+                                 ,_1: "headline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsubsection"
+                                 ,_1: "footline"}
+                                ,{ctor: "_Tuple2"
+                                 ,_0: "shadedsubsubsection"
+                                 ,_1: "sidebar"}]);
+   var getDictType = function (templateId) {
+      return function () {
+         var anyInner = A2(List.any,
+         function (t) {
+            return _U.eq(t,templateId);
+         },
+         innerList);
+         var anyOuter = A2(List.any,
+         function (t) {
+            return _U.eq(t,templateId);
+         },
+         outerList);
+         return anyOuter ? "outer" : anyInner ? "inner" : "symbol";
+      }();
+   };
+   var separateList = function (parentList) {
+      return function () {
+         var separateIn = function (str) {
+            return A2(List.filter,
+            function (item) {
+               return _U.eq(getDictType(Basics.fst(item)),
+               str);
+            },
+            parentList);
+         };
+         return {_: {}
+                ,inner: separateIn("inner")
+                ,outer: separateIn("outer")
+                ,symbol: separateIn("symbol")};
+      }();
+   };
+   var updateMapping = F2(function (mapping,
+   parentList) {
+      return function () {
+         var separatedList = separateList(parentList);
+         var changeParent = F2(function (item,
+         mappingDict) {
+            return function () {
+               var newParent = Basics.snd(item);
+               var change = function (oldParent) {
+                  return function () {
+                     switch (oldParent.ctor)
+                     {case "Just":
+                        return Maybe.Just(newParent);
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 490 and 493");
+                  }();
+               };
+               var templateId = Basics.fst(item);
+               return A3(Dict.update,
+               templateId,
+               change,
+               mappingDict);
+            }();
+         });
+         var updateDict = F2(function (list,
+         dict) {
+            return A3(List.foldr,
+            changeParent,
+            dict,
+            list);
+         });
+         return {_: {}
+                ,inner: A2(updateDict,
+                separatedList.inner,
+                mapping.inner)
+                ,outer: A2(updateDict,
+                separatedList.outer,
+                mapping.outer)
+                ,symbol: A2(updateDict,
+                separatedList.symbol,
+                mapping.symbol)};
+      }();
+   });
+   var getRealFontSize = F2(function (fs,
+   normal) {
+      return function () {
+         var changeBy = function (number) {
+            return function () {
+               switch (normal.ctor)
+               {case "Just":
+                  return Maybe.Just(normal._0 + number);
+                  case "Nothing":
+                  return Maybe.Nothing;}
+               _E.Case($moduleName,
+               "between lines 204 and 207");
+            }();
+         };
+         return function () {
+            switch (fs.ctor)
+            {case "FootnoteSize":
+               return changeBy(-8);
+               case "Huge": return changeBy(6);
+               case "Large":
+               return changeBy(2);
+               case "NormalSize":
+               return changeBy(0);
+               case "ScriptSize":
+               return changeBy(-10);
+               case "Small":
+               return changeBy(-3);
+               case "Tiny":
+               return changeBy(-12);
+               case "VeryLarge":
+               return changeBy(4);
+               case "VerySmall":
+               return changeBy(-6);}
+            _E.Case($moduleName,
+            "between lines 208 and 217");
+         }();
+      }();
+   });
+   var getNormalFontSize = Themes.SizeSettings.normalFontSize;
+   var setPaddingColor = F2(function (oldPadStyle,
+   newColor) {
+      return _U.replace([["fillcolor"
+                         ,newColor]],
+      oldPadStyle);
+   });
+   var setPaddingThickness = F2(function (oldPadStyle,
+   newThickness) {
+      return _U.replace([["thickness"
+                         ,newThickness]],
+      oldPadStyle);
+   });
+   var setBorderDashing = F2(function (oldStyle,
+   newDashing) {
+      return function () {
+         var newBorder = function () {
+            var _v9 = oldStyle.border;
+            switch (_v9.ctor)
+            {case "Border":
+               return Types.Theme.Border(_U.replace([["dashing"
+                                                     ,newDashing]],
+                 _v9._0));
+               case "None":
+               return Types.Theme.Border(_U.replace([["dashing"
+                                                     ,newDashing]],
+                 Graphics.Collage.defaultLine));}
+            _E.Case($moduleName,
+            "between lines 180 and 185");
+         }();
+         return _U.replace([["border"
+                            ,newBorder]],
+         oldStyle);
+      }();
+   });
+   var setBorderColor = F2(function (oldStyle,
+   newColor) {
+      return function () {
+         var newBorder = function () {
+            var _v11 = oldStyle.border;
+            switch (_v11.ctor)
+            {case "Border":
+               return Types.Theme.Border(_U.replace([["color"
+                                                     ,newColor]],
+                 _v11._0));
+               case "None":
+               return Types.Theme.Border(_U.replace([["color"
+                                                     ,newColor]],
+                 Graphics.Collage.defaultLine));}
+            _E.Case($moduleName,
+            "between lines 169 and 174");
+         }();
+         return _U.replace([["border"
+                            ,newBorder]],
+         oldStyle);
+      }();
+   });
+   var setBorderWidth = F2(function (oldStyle,
+   newWidth) {
+      return function () {
+         var newBorder = function () {
+            var _v13 = oldStyle.border;
+            switch (_v13.ctor)
+            {case "Border":
+               return _U.eq(newWidth,
+                 0) ? Types.Theme.None : Types.Theme.Border(_U.replace([["width"
+                                                                        ,newWidth]],
+                 _v13._0));
+               case "None":
+               return _U.eq(newWidth,
+                 0) ? Types.Theme.None : Types.Theme.Border(_U.replace([["width"
+                                                                        ,newWidth]],
+                 Graphics.Collage.defaultLine));}
+            _E.Case($moduleName,
+            "between lines 155 and 162");
+         }();
+         return _U.replace([["border"
+                            ,newBorder]],
+         oldStyle);
+      }();
+   });
+   var setBorder = F2(function (oldStyle,
+   newBorder) {
+      return _U.replace([["border"
+                         ,newBorder]],
+      oldStyle);
+   });
+   var setSymbolShape = F2(function (oldStyle,
+   newShape) {
+      return _U.replace([["symbolShape"
+                         ,newShape]],
+      oldStyle);
+   });
+   var setSymbolFill = F2(function (oldStyle,
+   newFill) {
+      return _U.replace([["symbolFill"
+                         ,newFill]],
+      oldStyle);
+   });
+   var setSymbolAlpha = F2(function (oldStyle,
+   newAlpha) {
+      return _U.replace([["symbolAlpha"
+                         ,newAlpha]],
+      oldStyle);
+   });
+   var setTextColor = F2(function (oldStyle,
+   newColor) {
+      return function () {
+         var oldTextStyle = oldStyle.text.style;
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["style"
+                                         ,_U.replace([["color"
+                                                      ,newColor]],
+                                         oldTextStyle)]],
+                            oldText)]],
+         oldStyle);
+      }();
+   });
+   var setTextFont = F2(function (oldStyle,
+   newFont) {
+      return function () {
+         var oldTextStyle = oldStyle.text.style;
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["style"
+                                         ,_U.replace([["typeface"
+                                                      ,newFont]],
+                                         oldTextStyle)]],
+                            oldText)]],
+         oldStyle);
+      }();
+   });
+   var setTextSize = F2(function (oldStyle,
+   newFontSize) {
+      return function () {
+         var oldTextStyle = oldStyle.text.style;
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["style"
+                                         ,_U.replace([["height"
+                                                      ,newFontSize]],
+                                         oldTextStyle)]],
+                            oldText)]],
+         oldStyle);
+      }();
+   });
+   var adjustFontSize = F2(function (fontSizeList,
+   styleInfo) {
+      return function () {
+         var separateIn = function (str) {
+            return A2(List.filter,
+            function (item) {
+               return _U.eq(getDictType(Basics.fst(item)),
+               str);
+            },
+            fontSizeList);
+         };
+         var setFontSize = F2(function (symbolicSize,
+         s) {
+            return A2(setTextSize,
+            s,
+            A2(getRealFontSize,
+            symbolicSize,
+            getNormalFontSize));
+         });
+         var changeFontSize = F2(function (item,
+         styleDict) {
+            return function () {
+               var newSize = Basics.snd(item);
+               var change = function (oldStyle) {
+                  return function () {
+                     switch (oldStyle.ctor)
+                     {case "Just":
+                        return Maybe.Just(A2(setFontSize,
+                          newSize,
+                          oldStyle._0));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 542 and 545");
+                  }();
+               };
+               var templateId = Basics.fst(item);
+               return A3(Dict.update,
+               templateId,
+               change,
+               styleDict);
+            }();
+         });
+         var updateDict = F2(function (list,
+         dict) {
+            return A3(List.foldr,
+            changeFontSize,
+            dict,
+            list);
+         });
+         var changeSymbolFontSize = F2(function (item,
+         styleDict) {
+            return function () {
+               var newSize = Basics.snd(item);
+               var change = function (oldStyle) {
+                  return function () {
+                     switch (oldStyle.ctor)
+                     {case "Just":
+                        return Maybe.Just(_U.replace([["general"
+                                                      ,A2(setFontSize,
+                                                      newSize,
+                                                      oldStyle._0.general)]],
+                          oldStyle._0));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 550 and 553");
+                  }();
+               };
+               var templateId = Basics.fst(item);
+               return A3(Dict.update,
+               templateId,
+               change,
+               styleDict);
+            }();
+         });
+         var updateSymbolDict = F2(function (list,
+         dict) {
+            return A3(List.foldr,
+            changeSymbolFontSize,
+            dict,
+            list);
+         });
+         return {_: {}
+                ,inner: A2(updateDict,
+                separateIn("inner"),
+                styleInfo.inner)
+                ,outer: A2(updateDict,
+                separateIn("outer"),
+                styleInfo.outer)
+                ,slideBackground: styleInfo.slideBackground
+                ,symbol: A2(updateSymbolDict,
+                separateIn("symbol"),
+                styleInfo.symbol)};
+      }();
+   });
+   var unsetTextItalic = function (oldStyle) {
+      return function () {
+         var oldTextStyle = oldStyle.text.style;
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["style"
+                                         ,_U.replace([["italic",false]],
+                                         oldTextStyle)]],
+                            oldText)]],
+         oldStyle);
+      }();
+   };
+   var setTextItalic = function (oldStyle) {
+      return function () {
+         var oldTextStyle = oldStyle.text.style;
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["style"
+                                         ,_U.replace([["italic",true]],
+                                         oldTextStyle)]],
+                            oldText)]],
+         oldStyle);
+      }();
+   };
+   var unsetTextBold = function (oldStyle) {
+      return function () {
+         var oldTextStyle = oldStyle.text.style;
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["style"
+                                         ,_U.replace([["bold",false]],
+                                         oldTextStyle)]],
+                            oldText)]],
+         oldStyle);
+      }();
+   };
+   var setTextBold = function (oldStyle) {
+      return function () {
+         var oldTextStyle = oldStyle.text.style;
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["style"
+                                         ,_U.replace([["bold",true]],
+                                         oldTextStyle)]],
+                            oldText)]],
+         oldStyle);
+      }();
+   };
+   var setTextAlign = F2(function (oldStyle,
+   alignFunc) {
+      return function () {
+         var oldText = oldStyle.text;
+         return _U.replace([["text"
+                            ,_U.replace([["align"
+                                         ,alignFunc]],
+                            oldText)]],
+         oldStyle);
+      }();
+   });
+   var getBackgroundColor = function (style) {
+      return function () {
+         var _v19 = style.background;
+         switch (_v19.ctor)
+         {case "Grad": return _v19._1;
+            case "SingleColored":
+            return _v19._0;
+            case "Transparent":
+            return A4(Color.rgba,0,0,0,0);}
+         _E.Case($moduleName,
+         "between lines 37 and 40");
+      }();
+   };
+   var setBackGround = F2(function (oldStyle,
+   newbackground) {
+      return _U.replace([["background"
+                         ,newbackground]],
+      oldStyle);
+   });
+   var combineRawAndStyle = F2(function (raw,
+   styling) {
+      return function () {
+         var changeSinglePadColor = F2(function (c,
+         padStyle) {
+            return function () {
+               switch (c.ctor)
+               {case "Just":
+                  return A2(setPaddingColor,
+                    padStyle,
+                    c._0);
+                  case "Nothing":
+                  return padStyle;}
+               _E.Case($moduleName,
+               "between lines 262 and 266");
+            }();
+         });
+         var changeSinglePadThickness = F2(function (t,
+         padStyle) {
+            return function () {
+               switch (t.ctor)
+               {case "Just":
+                  return A2(setPaddingThickness,
+                    padStyle,
+                    t._0);
+                  case "Nothing":
+                  return padStyle;}
+               _E.Case($moduleName,
+               "between lines 259 and 262");
+            }();
+         });
+         var changeSinglePad = F3(function (padStyle,
+         t,
+         c) {
+            return changeSinglePadThickness(t)(A2(changeSinglePadColor,
+            c,
+            padStyle));
+         });
+         var changePadding = function (style) {
+            return function () {
+               var _v27 = raw.padding;
+               switch (_v27.ctor)
+               {case "Just":
+                  return function () {
+                       var pad = style.padding;
+                       var allPads = {_: {}
+                                     ,bottom: A3(changeSinglePad,
+                                     pad.bottom,
+                                     _v27._0.bottomThick,
+                                     _v27._0.bottomColor)
+                                     ,left: A3(changeSinglePad,
+                                     pad.left,
+                                     _v27._0.leftThick,
+                                     _v27._0.leftColor)
+                                     ,right: A3(changeSinglePad,
+                                     pad.right,
+                                     _v27._0.rightThick,
+                                     _v27._0.rightColor)
+                                     ,top: A3(changeSinglePad,
+                                     pad.top,
+                                     _v27._0.topThick,
+                                     _v27._0.topColor)};
+                       return _U.replace([["padding"
+                                          ,allPads]],
+                       style);
+                    }();
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 268 and 279");
+            }();
+         };
+         var changeBG = function (style) {
+            return function () {
+               var _v29 = raw.bg;
+               switch (_v29.ctor)
+               {case "Just":
+                  return A2(setBackGround,
+                    style,
+                    _v29._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 256 and 259");
+            }();
+         };
+         var changeBorderDashing = function (style) {
+            return function () {
+               var _v31 = raw.borderDashing;
+               switch (_v31.ctor)
+               {case "Just":
+                  return A2(setBorderDashing,
+                    style,
+                    _v31._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 253 and 256");
+            }();
+         };
+         var changeBorderColor = function (style) {
+            return function () {
+               var _v33 = raw.borderColor;
+               switch (_v33.ctor)
+               {case "Just":
+                  return A2(setBorderColor,
+                    style,
+                    _v33._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 250 and 253");
+            }();
+         };
+         var changeBorderWidth = function (style) {
+            return function () {
+               var _v35 = raw.borderWidth;
+               switch (_v35.ctor)
+               {case "Just":
+                  return A2(setBorderWidth,
+                    style,
+                    _v35._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 247 and 250");
+            }();
+         };
+         var changeFontAlign = function (style) {
+            return function () {
+               var _v37 = raw.fontAlign;
+               switch (_v37.ctor)
+               {case "Just":
+                  return A2(setTextAlign,
+                    style,
+                    _v37._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 243 and 247");
+            }();
+         };
+         var changeFontItalic = function (style) {
+            return function () {
+               var _v39 = raw.fontItalic;
+               switch (_v39.ctor)
+               {case "Just":
+                  return _v39._0 ? setTextItalic(style) : unsetTextItalic(style);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 238 and 243");
+            }();
+         };
+         var changeFontBold = function (style) {
+            return function () {
+               var _v41 = raw.fontBold;
+               switch (_v41.ctor)
+               {case "Just":
+                  return _v41._0 ? setTextBold(style) : unsetTextBold(style);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 234 and 238");
+            }();
+         };
+         var changeFontSize = function (style) {
+            return function () {
+               var _v43 = raw.fontSize;
+               switch (_v43.ctor)
+               {case "Just":
+                  return A2(setTextSize,
+                    style,
+                    A2(getRealFontSize,
+                    _v43._0,
+                    Maybe.Just(16)));
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 231 and 234");
+            }();
+         };
+         var changeFontColor = function (style) {
+            return function () {
+               var _v45 = raw.fontColor;
+               switch (_v45.ctor)
+               {case "Just":
+                  return A2(setTextColor,
+                    style,
+                    _v45._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 228 and 231");
+            }();
+         };
+         var changeFont = function (style) {
+            return function () {
+               var _v47 = raw.font;
+               switch (_v47.ctor)
+               {case "Just":
+                  return A2(setTextFont,
+                    style,
+                    _v47._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 225 and 228");
+            }();
+         };
+         return changeFont(changeFontColor(changeFontSize(changeFontBold(changeFontItalic(changeFontAlign(changeBorderWidth(changeBorderColor(changeBorderDashing(changeBG(changePadding(styling)))))))))));
+      }();
+   });
+   var combineRawAndSymbolStyle = F2(function (raw,
+   symbolStyling) {
+      return function () {
+         var generalStyle = symbolStyling.general;
+         var changeAlpha = function (style) {
+            return function () {
+               var _v49 = raw.shapeAlpha;
+               switch (_v49.ctor)
+               {case "Just":
+                  return A2(setSymbolAlpha,
+                    style,
+                    _v49._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 294 and 297");
+            }();
+         };
+         var changeFill = function (style) {
+            return function () {
+               var _v51 = raw.shapeFill;
+               switch (_v51.ctor)
+               {case "Just":
+                  return A2(setSymbolFill,
+                    style,
+                    _v51._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 291 and 294");
+            }();
+         };
+         var changeShape = function (style) {
+            return function () {
+               var _v53 = raw.shape;
+               switch (_v53.ctor)
+               {case "Just":
+                  return A2(setSymbolShape,
+                    style,
+                    _v53._0);
+                  case "Nothing": return style;}
+               _E.Case($moduleName,
+               "between lines 288 and 291");
+            }();
+         };
+         return changeShape(changeFill(changeAlpha(_U.replace([["general"
+                                                               ,A2(combineRawAndStyle,
+                                                               raw,
+                                                               generalStyle)]],
+         symbolStyling))));
+      }();
+   });
+   var getUpdatedSymbolStyler = F3(function (rawParentDict,
+   parent,
+   style) {
+      return function () {
+         var raw = A2(Dict.getOrFail,
+         parent,
+         rawParentDict);
+         return function () {
+            switch (raw.ctor)
+            {case "NewStyle":
+               return A2(combineRawAndSymbolStyle,
+                 raw._0,
+                 style);
+               case "NoChange": return style;}
+            _E.Case($moduleName,
+            "between lines 316 and 318");
+         }();
+      }();
+   });
+   var mergeSymbolWithRaw = F2(function (rawTemplateDict,
+   templateDict) {
+      return function () {
+         var styleAfterRaw = F3(function (templateId,
+         style,
+         tDict) {
+            return function () {
+               var rawStyle = function () {
+                  var _v57 = A2(Dict.get,
+                  templateId,
+                  rawTemplateDict);
+                  switch (_v57.ctor)
+                  {case "Just": return _v57._0;
+                     case "Nothing":
+                     return Types.Intermediate.NoChange;}
+                  _E.Case($moduleName,
+                  "between lines 338 and 341");
+               }();
+               var newStyle = function () {
+                  switch (rawStyle.ctor)
+                  {case "NewStyle":
+                     return A2(combineRawAndSymbolStyle,
+                       rawStyle._0,
+                       style);
+                     case "NoChange": return style;}
+                  _E.Case($moduleName,
+                  "between lines 341 and 344");
+               }();
+               return A3(Dict.insert,
+               templateId,
+               style,
+               tDict);
+            }();
+         });
+         return A3(Dict.foldr,
+         styleAfterRaw,
+         Dict.empty,
+         templateDict);
+      }();
+   });
+   var getUpdatedStyler = F3(function (rawParentDict,
+   parent,
+   style) {
+      return function () {
+         var raw = A2(Dict.getOrFail,
+         parent,
+         rawParentDict);
+         return function () {
+            switch (raw.ctor)
+            {case "NewStyle":
+               return A2(combineRawAndStyle,
+                 raw._0,
+                 style);
+               case "NoChange": return style;}
+            _E.Case($moduleName,
+            "between lines 308 and 310");
+         }();
+      }();
+   });
+   var mergeWithRaw = F2(function (rawTemplateDict,
+   templateDict) {
+      return function () {
+         var styleAfterRaw = F3(function (templateId,
+         style,
+         tDict) {
+            return function () {
+               var rawStyle = function () {
+                  var _v63 = A2(Dict.get,
+                  templateId,
+                  rawTemplateDict);
+                  switch (_v63.ctor)
+                  {case "Just": return _v63._0;
+                     case "Nothing":
+                     return Types.Intermediate.NoChange;}
+                  _E.Case($moduleName,
+                  "between lines 324 and 327");
+               }();
+               var newStyle = function () {
+                  switch (rawStyle.ctor)
+                  {case "NewStyle":
+                     return A2(combineRawAndStyle,
+                       rawStyle._0,
+                       style);
+                     case "NoChange": return style;}
+                  _E.Case($moduleName,
+                  "between lines 327 and 330");
+               }();
+               return A3(Dict.insert,
+               templateId,
+               style,
+               tDict);
+            }();
+         });
+         return A3(Dict.foldr,
+         styleAfterRaw,
+         Dict.empty,
+         templateDict);
+      }();
+   });
+   var blendColors = F3(function (color1,
+   color2,
+   blendAlpha) {
+      return function () {
+         var average = F2(function (num1,
+         num2) {
+            return Basics.truncate(Basics.toFloat(num1) * blendAlpha + Basics.toFloat(num2) * (1 - blendAlpha));
+         });
+         var c2 = Color.toRgb(color2);
+         var c1 = Color.toRgb(color1);
+         var newR = A2(average,
+         c1.red,
+         c2.red);
+         var newG = A2(average,
+         c1.green,
+         c2.green);
+         var newB = A2(average,
+         c1.blue,
+         c2.blue);
+         var bewA = c1.alpha * blendAlpha + c2.alpha * (1 - blendAlpha);
+         return A3(Color.rgb,
+         newR,
+         newG,
+         newB);
+      }();
+   });
+   var blendBackground = F3(function (oldStyle,
+   secondColor,
+   blendAlpha) {
+      return function () {
+         var newColor = A3(blendColors,
+         getBackgroundColor(oldStyle),
+         secondColor,
+         blendAlpha);
+         return _U.replace([["background"
+                            ,Types.Theme.SingleColored(newColor)]],
+         oldStyle);
+      }();
+   });
+   var blendTextColor = F3(function (oldStyle,
+   secondColor,
+   blendAlpha) {
+      return function () {
+         var newColor = A3(blendColors,
+         oldStyle.text.style.color,
+         secondColor,
+         blendAlpha);
+         return A2(setTextColor,
+         oldStyle,
+         newColor);
+      }();
+   });
+   var shadeTextColor = F2(function (oldStyle,
+   blendAlpha) {
+      return function () {
+         var newColor = A3(blendColors,
+         oldStyle.text.style.color,
+         getBackgroundColor(oldStyle),
+         blendAlpha);
+         return A2(setTextColor,
+         oldStyle,
+         newColor);
+      }();
+   });
+   _elm.Utils.Theme.values = {_op: _op
+                             ,blendColors: blendColors
+                             ,setBackGround: setBackGround
+                             ,getBackgroundColor: getBackgroundColor
+                             ,blendBackground: blendBackground
+                             ,setTextAlign: setTextAlign
+                             ,setTextBold: setTextBold
+                             ,unsetTextBold: unsetTextBold
+                             ,setTextItalic: setTextItalic
+                             ,unsetTextItalic: unsetTextItalic
+                             ,setTextSize: setTextSize
+                             ,setTextFont: setTextFont
+                             ,setTextColor: setTextColor
+                             ,blendTextColor: blendTextColor
+                             ,shadeTextColor: shadeTextColor
+                             ,setSymbolAlpha: setSymbolAlpha
+                             ,setSymbolFill: setSymbolFill
+                             ,setSymbolShape: setSymbolShape
+                             ,setBorder: setBorder
+                             ,setBorderWidth: setBorderWidth
+                             ,setBorderColor: setBorderColor
+                             ,setBorderDashing: setBorderDashing
+                             ,setPaddingThickness: setPaddingThickness
+                             ,setPaddingColor: setPaddingColor
+                             ,getNormalFontSize: getNormalFontSize
+                             ,getRealFontSize: getRealFontSize
+                             ,combineRawAndStyle: combineRawAndStyle
+                             ,combineRawAndSymbolStyle: combineRawAndSymbolStyle
+                             ,getUpdatedStyler: getUpdatedStyler
+                             ,getUpdatedSymbolStyler: getUpdatedSymbolStyler
+                             ,mergeWithRaw: mergeWithRaw
+                             ,mergeSymbolWithRaw: mergeSymbolWithRaw
+                             ,outerList: outerList
+                             ,innerList: innerList
+                             ,getDictType: getDictType
+                             ,separateList: separateList
+                             ,updateMapping: updateMapping
+                             ,updateStyleInfo: updateStyleInfo
+                             ,adjustFontSize: adjustFontSize};
+   return _elm.Utils.Theme.values;
+};

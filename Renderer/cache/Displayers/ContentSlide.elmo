@@ -1,0 +1,283 @@
+Elm.Displayers = Elm.Displayers || {};
+Elm.Displayers.ContentSlide = Elm.Displayers.ContentSlide || {};
+Elm.Displayers.ContentSlide.make = function (_elm) {
+   "use strict";
+   _elm.Displayers = _elm.Displayers || {};
+   _elm.Displayers.ContentSlide = _elm.Displayers.ContentSlide || {};
+   if (_elm.Displayers.ContentSlide.values)
+   return _elm.Displayers.ContentSlide.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Displayers.ContentSlide";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.Context = Elm.Builders.Context.make(_elm);
+   var Builders = Builders || {};
+   Builders.ElementMaker = Elm.Builders.ElementMaker.make(_elm);
+   var Builders = Builders || {};
+   Builders.Outer = Elm.Builders.Outer.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Builder = Elm.Utils.Builder.make(_elm);
+   var _op = {};
+   var displayContent = F4(function (content,
+   _v0,
+   tick,
+   mode) {
+      return function () {
+         switch (_v0.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var scaleHeightwise = function (elem) {
+                    return function () {
+                       var scaleFactor = Basics.toFloat(_v0._1) / Basics.toFloat(Graphics.Element.heightOf(elem));
+                       var newW = Basics.truncate(scaleFactor * Basics.toFloat(Graphics.Element.widthOf(elem)));
+                       return A3(Graphics.Collage.collage,
+                       newW,
+                       _v0._1,
+                       _L.fromArray([Graphics.Collage.scale(scaleFactor)(Graphics.Collage.toForm(elem))]));
+                    }();
+                 };
+                 var scaledColumn = function (col) {
+                    return _U.cmp(Graphics.Element.heightOf(col),
+                    _v0._1) > 0 ? scaleHeightwise(col) : col;
+                 };
+                 var toChangedElement = function (elem) {
+                    return function () {
+                       switch (mode.ctor)
+                       {case "BeginZoomMode":
+                          return A2(Graphics.Input.hoverable,
+                            Builders.Context.zoomClicks.handle,
+                            function (x) {
+                               return x ? elem : Graphics.Element.empty;
+                            })(A3(Graphics.Input.clickable,
+                            Builders.Context.modeClicks.handle,
+                            Types.Context.InZoomMode,
+                            elem));}
+                       return elem;
+                    }();
+                 };
+                 var isThere = function (conElem) {
+                    return _U.eq(conElem.animation.tickLife,
+                    _L.fromArray([0])) || A2(List.any,
+                    function (x) {
+                       return _U.eq(x,tick);
+                    },
+                    conElem.animation.tickLife);
+                 };
+                 var toColContentElem = function (colContent) {
+                    return function () {
+                       var bodyElem = A2(List.filter,
+                       isThere,
+                       colContent.body);
+                       return List.isEmpty(bodyElem) ? colContent.otherLife : toChangedElement(function (_) {
+                          return _.element;
+                       }(List.head(bodyElem)));
+                    }();
+                 };
+                 var toColElem = function (col) {
+                    return {ctor: "_Tuple2"
+                           ,_0: Utils.Builder.getColumnPosition(col.colAlign)
+                           ,_1: scaledColumn(Graphics.Element.flow(Graphics.Element.down)(A2(List.map,
+                           toColContentElem,
+                           col.content)))};
+                 };
+                 var columnList = A2(List.map,
+                 toColElem,
+                 content);
+                 var alignedColumnList = A2(List.map,
+                 function (_v5) {
+                    return function () {
+                       switch (_v5.ctor)
+                       {case "_Tuple2":
+                          return A4(Graphics.Element.container,
+                            Graphics.Element.widthOf(_v5._1),
+                            _v0._1,
+                            _v5._0,
+                            _v5._1);}
+                       _E.Case($moduleName,
+                       "on line 97, column 46 to 83");
+                    }();
+                 },
+                 columnList);
+                 var finalcontent = A2(Graphics.Element.flow,
+                 Graphics.Element.right,
+                 alignedColumnList);
+                 return A4(Graphics.Element.container,
+                 _v0._0,
+                 _v0._1,
+                 Graphics.Element.middle,
+                 finalcontent);
+              }();}
+         _E.Case($moduleName,
+         "between lines 71 and 103");
+      }();
+   });
+   var displayNormalSlide = F8(function (contentSlide,
+   context,
+   concreteSizeInfo,
+   currentInfoForOuter,
+   theme,
+   presInfo,
+   sectionList,
+   tickDict) {
+      return function () {
+         var h = context.windowHeight;
+         var w = context.windowWidth;
+         var content = A4(displayContent,
+         contentSlide.slideContent,
+         concreteSizeInfo.content,
+         context.currentTick,
+         context.mode);
+         var slideTitle = A4(Builders.Outer.buildTitle,
+         theme,
+         concreteSizeInfo.slideTitle,
+         contentSlide.title,
+         contentSlide.subtitle);
+         var getOuter = F2(function (str,
+         size) {
+            return A7(Builders.Outer.buildOuterComponent,
+            theme,
+            size,
+            str,
+            presInfo,
+            sectionList,
+            currentInfoForOuter,
+            tickDict);
+         });
+         var headline = A2(getOuter,
+         "headline",
+         concreteSizeInfo.headline);
+         var footline = A2(getOuter,
+         "footline",
+         concreteSizeInfo.footline);
+         var leftSidebar = A2(getOuter,
+         "leftsidebar",
+         concreteSizeInfo.leftSidebar);
+         var rightSidebar = A2(getOuter,
+         "rightsidebar",
+         concreteSizeInfo.rightSidebar);
+         var modechangesymbols = A2(getOuter,
+         "modechangesymbols",
+         concreteSizeInfo.navigationSymbol);
+         var navigationalsymbols = A2(getOuter,
+         "navigationalsymbols",
+         concreteSizeInfo.navigationSymbol);
+         var symbols = A4(Graphics.Element.container,
+         Basics.fst(concreteSizeInfo.content),
+         Basics.snd(concreteSizeInfo.navigationSymbol),
+         Graphics.Element.midRight,
+         A2(Graphics.Element.flow,
+         Graphics.Element.right,
+         _L.fromArray([modechangesymbols
+                      ,navigationalsymbols])));
+         var $final = Graphics.Element.layers(_L.fromArray([A3(Builders.ElementMaker.drawFill,
+                                                           w,
+                                                           h,
+                                                           theme.style.slideBackground.normal)
+                                                           ,A2(Graphics.Element.flow,
+                                                           Graphics.Element.down,
+                                                           _L.fromArray([headline
+                                                                        ,A2(Graphics.Element.flow,
+                                                                        Graphics.Element.right,
+                                                                        _L.fromArray([leftSidebar
+                                                                                     ,A2(Graphics.Element.flow,
+                                                                                     Graphics.Element.down,
+                                                                                     _L.fromArray([slideTitle
+                                                                                                  ,content]))
+                                                                                     ,rightSidebar]))
+                                                                        ,symbols
+                                                                        ,footline]))]));
+         return function () {
+            var _v9 = context.mode;
+            switch (_v9.ctor)
+            {case "BeginZoomMode":
+               return function () {
+                    var closeSign = A3(Graphics.Element.fittedImage,
+                    30,
+                    30,
+                    "Symbols/Close.gif");
+                    var closeButton = A5(Graphics.Input.customButton,
+                    Builders.Context.modeClicks.handle,
+                    Types.Context.NormalMode,
+                    closeSign,
+                    Graphics.Element.opacity(0.5)(closeSign),
+                    closeSign);
+                    var base = A4(Graphics.Element.container,
+                    w,
+                    h,
+                    Graphics.Element.topRight,
+                    closeButton);
+                    return Graphics.Element.layers(_L.fromArray([A2(Graphics.Element.opacity,
+                                                                0.5,
+                                                                $final)
+                                                                ,base]));
+                 }();}
+            return $final;
+         }();
+      }();
+   });
+   var display = F8(function (contentSlide,
+   context,
+   concreteSizeInfo,
+   currentInfoForOuter,
+   theme,
+   presInfo,
+   sectionList,
+   tickDict) {
+      return function () {
+         var _v10 = contentSlide.slideType;
+         switch (_v10.ctor)
+         {case "NormalSlide":
+            return A8(displayNormalSlide,
+              contentSlide,
+              context,
+              concreteSizeInfo,
+              currentInfoForOuter,
+              theme,
+              presInfo,
+              sectionList,
+              tickDict);
+            case "PlainSlide":
+            return A4(displayContent,
+              contentSlide.slideContent,
+              {ctor: "_Tuple2"
+              ,_0: context.windowWidth
+              ,_1: context.windowHeight},
+              context.currentTick,
+              context.mode);}
+         _E.Case($moduleName,
+         "between lines 19 and 23");
+      }();
+   });
+   _elm.Displayers.ContentSlide.values = {_op: _op
+                                         ,display: display
+                                         ,displayNormalSlide: displayNormalSlide
+                                         ,displayContent: displayContent};
+   return _elm.Displayers.ContentSlide.values;
+};

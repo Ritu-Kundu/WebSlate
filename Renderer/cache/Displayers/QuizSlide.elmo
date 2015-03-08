@@ -1,0 +1,266 @@
+Elm.Displayers = Elm.Displayers || {};
+Elm.Displayers.QuizSlide = Elm.Displayers.QuizSlide || {};
+Elm.Displayers.QuizSlide.make = function (_elm) {
+   "use strict";
+   _elm.Displayers = _elm.Displayers || {};
+   _elm.Displayers.QuizSlide = _elm.Displayers.QuizSlide || {};
+   if (_elm.Displayers.QuizSlide.values)
+   return _elm.Displayers.QuizSlide.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Displayers.QuizSlide";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.Context = Elm.Builders.Context.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Graphics.Input || {};
+   Graphics.Input.Field = Elm.Graphics.Input.Field.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var _op = {};
+   var makeDropDown = F3(function (quizOptions,
+   correct,
+   wrong) {
+      return function () {
+         var getElem = function (rec) {
+            return function () {
+               var _v0 = rec.isCorrect;
+               switch (_v0)
+               {case "false": return wrong;
+                  case "true": return correct;}
+               _E.Case($moduleName,
+               "between lines 97 and 100");
+            }();
+         };
+         var makeOpt = function (rec) {
+            return {ctor: "_Tuple2"
+                   ,_0: rec.option
+                   ,_1: getElem(rec)};
+         };
+         return Graphics.Input.dropDown(Builders.Context.quizClicks.handle)({ctor: "::"
+                                                                            ,_0: {ctor: "_Tuple2"
+                                                                                 ,_0: "Select"
+                                                                                 ,_1: Graphics.Element.empty}
+                                                                            ,_1: A2(List.map,
+                                                                            makeOpt,
+                                                                            quizOptions)});
+      }();
+   });
+   var wronAnsNotify = A3(Graphics.Element.fittedImage,
+   393,
+   136,
+   "Symbols/Wrong.gif");
+   var correctAnsNotify = A3(Graphics.Element.fittedImage,
+   393,
+   136,
+   "Symbols/Correct.gif");
+   var explainSign = A3(Graphics.Element.fittedImage,
+   213,
+   86,
+   "Symbols/Explain.gif");
+   var submitSign = A3(Graphics.Element.fittedImage,
+   213,
+   86,
+   "Symbols/Submit.gif");
+   var closeSign = A3(Graphics.Element.fittedImage,
+   30,
+   30,
+   "Symbols/Close.gif");
+   var closeButton = A5(Graphics.Input.customButton,
+   Builders.Context.modeClicks.handle,
+   Types.Context.NormalMode,
+   closeSign,
+   Graphics.Element.opacity(0.5)(closeSign),
+   closeSign);
+   var getButton = F2(function (custom,
+   elem) {
+      return A5(Graphics.Input.customButton,
+      Builders.Context.quizClicks.handle,
+      elem,
+      custom,
+      Graphics.Element.opacity(0.5)(custom),
+      custom);
+   });
+   var submitButton = A2(getButton,
+   submitSign,
+   Graphics.Element.empty);
+   var displaySimple = F3(function (quiz,
+   context,
+   concreteSizeInfo) {
+      return function () {
+         var tboxContent = Basics.snd(context.quizContent);
+         var textbox = A5(Graphics.Input.Field.field,
+         Graphics.Input.Field.defaultStyle,
+         Builders.Context.quizContent.handle,
+         Basics.id,
+         "Type your answer here!",
+         tboxContent);
+         var h = Basics.snd(concreteSizeInfo.content);
+         var w = Basics.fst(concreteSizeInfo.content);
+         var explanation = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.midTop)(Text.plainText(_U.eq(quiz.explanation,
+         "") ? "No Explanation" : quiz.explanation));
+         var explainButton = A2(getButton,
+         explainSign,
+         explanation);
+         var base = A4(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.topRight,
+         closeButton);
+         var buttons = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.bottomRight)(A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([explainButton
+                      ,submitButton])));
+         var cAns = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.midTop)(correctAnsNotify);
+         var wAns = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.midTop)(wronAnsNotify);
+         var correctAns = List.map(String.toUpper)(A2(List.map,
+         String.trim,
+         quiz.correctAns));
+         var question = Graphics.Element.color(Color.lightCharcoal)(Text.plainText(quiz.question));
+         var qAndTbox = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.middle)(A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([question
+                      ,textbox])));
+         var questionView = Graphics.Element.layers(_L.fromArray([base
+                                                                 ,qAndTbox
+                                                                 ,buttons]));
+         return _U.cmp(Basics.fst(context.quizContent),
+         Basics.fst(context.quizButton)) > -1 ? questionView : function () {
+            var clickedElem = Basics.snd(context.quizButton);
+            return !_U.eq(Graphics.Element.widthOf(clickedElem),
+            0) ? Graphics.Element.layers(_L.fromArray([clickedElem
+                                                      ,questionView])) : A2(List.any,
+            function (x) {
+               return _U.eq(x,
+               String.toUpper(tboxContent.string));
+            },
+            correctAns) ? Graphics.Element.layers(_L.fromArray([questionView
+                                                               ,cAns])) : Graphics.Element.layers(_L.fromArray([questionView
+                                                                                                               ,wAns]));
+         }();
+      }();
+   });
+   var displayMcq = F3(function (quiz,
+   context,
+   concreteSizeInfo) {
+      return function () {
+         var h = Basics.snd(concreteSizeInfo.content);
+         var w = Basics.fst(concreteSizeInfo.content);
+         var explanation = Graphics.Element.color(Color.darkGrey)(A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.midTop)(Text.plainText(_U.eq(quiz.explanation,
+         "") ? "No Explanation" : quiz.explanation)));
+         var explainButton = A2(getButton,
+         explainSign,
+         explanation);
+         var cAns = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.midTop)(correctAnsNotify);
+         var wAns = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.midTop)(wronAnsNotify);
+         var dropDn = A3(makeDropDown,
+         quiz.options,
+         cAns,
+         wAns);
+         var base = A4(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.topRight,
+         closeButton);
+         var buttons = A4(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.bottomRight,
+         explainButton);
+         var question = Graphics.Element.color(Color.lightCharcoal)(Text.plainText(quiz.question));
+         var qAndDrop = A3(Graphics.Element.container,
+         w,
+         h,
+         Graphics.Element.middle)(A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([question
+                      ,dropDn])));
+         var questionView = Graphics.Element.layers(_L.fromArray([base
+                                                                 ,qAndDrop
+                                                                 ,buttons]));
+         var clickedElem = Basics.snd(context.quizButton);
+         return Graphics.Element.layers(_L.fromArray([questionView
+                                                     ,clickedElem]));
+      }();
+   });
+   var display = F3(function (quiz,
+   context,
+   concreteSizeInfo) {
+      return function () {
+         var _v1 = quiz.qtype;
+         switch (_v1)
+         {case "mcq":
+            return A3(displayMcq,
+              quiz,
+              context,
+              concreteSizeInfo);
+            case "simple":
+            return A3(displaySimple,
+              quiz,
+              context,
+              concreteSizeInfo);}
+         _E.Case($moduleName,
+         "between lines 32 and 34");
+      }();
+   });
+   _elm.Displayers.QuizSlide.values = {_op: _op
+                                      ,getButton: getButton
+                                      ,closeSign: closeSign
+                                      ,submitSign: submitSign
+                                      ,explainSign: explainSign
+                                      ,closeButton: closeButton
+                                      ,submitButton: submitButton
+                                      ,correctAnsNotify: correctAnsNotify
+                                      ,wronAnsNotify: wronAnsNotify
+                                      ,display: display
+                                      ,displaySimple: displaySimple
+                                      ,displayMcq: displayMcq
+                                      ,makeDropDown: makeDropDown};
+   return _elm.Displayers.QuizSlide.values;
+};

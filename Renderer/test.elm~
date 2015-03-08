@@ -1,0 +1,223 @@
+import Window
+import Types.Naive
+import Types.Theme as T
+import Types.Context as C
+import Utils.Naive
+import Utils.Theme as U
+import Themes.BaseMapping as B
+import Themes.SizeSettings as SizeSettings
+import Themes.Layouts.Default as L
+import Themes.Styles.Default 
+import Themes.MapStyling as M
+import Themes.GetTheme as GetTheme
+import Themes.BaseMapping as BaseMapping
+
+import PreProcess.RawThemeMaker as PreRaw
+import PreProcess.ThemeMaker
+import PreProcess.ContentMaker
+import Builders.ElementMaker
+import Builders.Outer as BO
+import Builders.Context as BC
+import  Displayers.Main as DM
+
+presInfo = { presTitle = "PresTitle"
+                , presSubTitle = "PresSubtitle"
+                , authors = ["ritu"]
+                , institute = ["kcl"]
+                , date = "14 aug"
+                , logo = ""
+                , titleGraphic = ""
+                , sectionGraphic = ""
+                , subsectionGraphic = ""
+                , sections = sections
+                }
+sections = [{ id = "1"
+            , shortName ="1"
+            , longName= "1"
+            }
+            ,
+            { id = "1.1"
+            , shortName ="1.1"
+            , longName= "1.1"
+            }
+            ,
+            { id = "1.1.1"
+            , shortName ="1.1.1"
+            , longName= "1.1.1"
+            },
+            { id = "1.1.2"
+            , shortName ="1.1.2"
+            , longName= "1.1.2"
+            }
+            ,
+            { id = "1.2"
+            , shortName ="1.2"
+            , longName= "1.2"
+            }
+   
+            ,
+            { id = "2"
+            , shortName ="2"
+            , longName= "2"
+            }
+            ,
+            { id = "3"
+            , shortName ="3"
+            , longName= "3"
+            }
+            ]
+--------------------------------------------------------------------------------------------
+themeInfo = { themes = { overall = ""
+              , layout = "miniframes:authorinstitutetitle"
+              , style ="beaver"
+              , font = [""]
+              }
+
+                 , newTemplates = []
+
+                 , guidingCanvas= []
+                 , guidingColors= []
+                 , guidingFonts= []
+
+                 , templateCanvas= []
+                 , templateColors= []
+                 , templateFonts= []
+                 , templateLayout= []
+                 , sizeInfo= []
+                 }
+
+-------------------------------------------------------------------------------------------
+slide1 = { slideType = "normal"
+             , partOf = "1.1.1"
+             , slideTitle = "SlideTitle"
+             , slideSubtitle = "Subtitle"
+             , columns = [ci1,ci2]
+             , slideContent = sc1
+             }
+slide2 = { slideType = "normal"
+             , partOf = "1.1.1"
+             , slideTitle = "SlideTitle"
+             , slideSubtitle = "Subtitle"
+             , columns = [ci1]
+             , slideContent = sc2
+             }
+ci1 = { id = "1"
+                  , width = "0.5"
+                  , columnAlign = "t"
+                  , inColumnAlign = "center"
+                  }
+ci2 = { id = "2"
+                  , width = "0.5"
+                  , columnAlign = "t"
+                 , inColumnAlign = "center"
+                  }
+sc1 = { blocks = [block1]
+                    , simpletextboxes = []
+                    , frameboxes = [framebox1]
+                    , imageboxes = []
+                    , slateLists = [slatelist]
+                    , quizes = []
+                    , buttons = []
+                    }
+sc2 = { blocks = [block1]
+                    , simpletextboxes = []
+                    , frameboxes = [framebox1]
+                    , imageboxes = []
+                    , slateLists = []
+                    , quizes = []
+                    , buttons = []
+                    }
+block1 = { layout = { containerColumn= "1"
+                     , inColumnnPos = "1"
+                     , templateName = ""
+                     }
+             , title= "block title"
+             , body= [slateText1,slateText2]
+             }
+framebox1 = { layout = { containerColumn= "1"
+                     , inColumnnPos = "2"
+                     , templateName = ""
+                     }
+             
+             , body= [slateText3]
+             }
+slatelist = { layout= { containerColumn= "2"
+                     , inColumnnPos = "1"
+                     , templateName = ""
+                     }
+                 , items = [li1,li2]
+                 }
+li1 = { id ="1"
+                , itemType = "itemizeitem"
+                , itemInfo = ""
+                , body = [slateText1]
+                }
+li2 = { id ="1.1"
+                , itemType = "itemizesubitem"
+                , itemInfo = ""
+                , body = [slateText3]
+                }
+li3 = { id ="1.1.1"
+                , itemType = "itemizesubsubitem"
+                , itemInfo = ""
+                , body = [slateText3]
+                }
+li4 = { id ="1.1.2"
+                , itemType = "itemizesubsubitem"
+                , itemInfo = ""
+                , body = [slateText3]
+                }
+
+slateText1 = { parts =["hi", "hello"]
+            , inlinestyle = ["normal", "alert"]
+            , animation = { tickLife = [0,1,3]
+                           , other = "hide"
+                          }
+
+            }
+slateText2 = { parts =["hiiiiii", "hello000000"]
+            , inlinestyle = ["normal", "alert"]
+            , animation = { tickLife = [2]
+                          , other = "hide"
+                          }
+              }
+slateText3 = { parts =["hiiiiiifffff", "hello000000ffff"]
+            , inlinestyle = ["normal", "alert"]
+            , animation = { tickLife = [1,2]
+                          , other = "hide"
+                          }
+
+            }
+ 
+slides = [slide1,slide2]
+--------------------------------------------------------------------------------------------
+naive: Types.Naive.Presentation
+naive = { presInfo = presInfo
+                    , themeInfo= themeInfo
+                    , slides = slides
+                    }
+
+theme = PreProcess.ThemeMaker.toTheme naive.themeInfo
+sectionList = map PreProcess.ThemeMaker.naiveToThemeSection  
+                        naive.presInfo.sections
+
+r= collage 5 5 [filled red <| circle 5]
+
+draw: C.SlateContext -> Element -> Element
+draw context e = layers [e, container context.windowWidth context.windowHeight
+              (middleAt (absolute <| fst context.mousePosition) (absolute  <|snd context.mousePosition)) r]
+ 
+showMain:C.SlateContext -> Element -> Element
+showMain context elem =
+
+  case context.mode of
+    C.ScribbleMode -> layers [elem, container context.windowWidth context.windowHeight
+              (middleAt (absolute <| fst context.mousePosition) (absolute  <|snd context.mousePosition)) r]
+ 
+    otherwise -> (DM.showPresentation naive) context
+
+
+--main =  BO.buildMiniframes theme 500 middle sectionList [1,1,1] "headline" T.Horizontal
+--main =  BO.buildSidebarToc theme 500 middle sectionList [1,1,2] "headline" 
+main = foldp  showMain (collage 500 500 [filled grey <| rect 500 500]) BC.contextSignal
+--main = showP  <~ BC.contextSignal

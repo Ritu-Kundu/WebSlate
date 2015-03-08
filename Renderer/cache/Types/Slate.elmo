@@ -1,0 +1,151 @@
+Elm.Types = Elm.Types || {};
+Elm.Types.Slate = Elm.Types.Slate || {};
+Elm.Types.Slate.make = function (_elm) {
+   "use strict";
+   _elm.Types = _elm.Types || {};
+   _elm.Types.Slate = _elm.Types.Slate || {};
+   if (_elm.Types.Slate.values)
+   return _elm.Types.Slate.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Types.Slate";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var CurrentInfoForOuter = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,currentSlideNumber: b
+             ,maxSlideNumber: c
+             ,route: a};
+   });
+   var RawColumnContent = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,body: c
+             ,containerColumn: a
+             ,inColumnnPos: b
+             ,otherLife: d};
+   });
+   var ConcreteSizeInfo = F7(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g) {
+      return {_: {}
+             ,content: g
+             ,footline: d
+             ,headline: c
+             ,leftSidebar: a
+             ,navigationSymbol: e
+             ,rightSidebar: b
+             ,slideTitle: f};
+   });
+   var Quiz = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return {_: {}
+             ,correctAns: e
+             ,explanation: f
+             ,id: a
+             ,options: d
+             ,qtype: b
+             ,question: c};
+   });
+   var Supportbin = F2(function (a,
+   b) {
+      return {_: {}
+             ,content: b
+             ,supportbinId: a};
+   });
+   var ContentElement = F2(function (a,
+   b) {
+      return {_: {}
+             ,animation: b
+             ,element: a};
+   });
+   var ColumnContent = F2(function (a,
+   b) {
+      return {_: {}
+             ,body: a
+             ,otherLife: b};
+   });
+   var Column = F2(function (a,b) {
+      return {_: {}
+             ,colAlign: a
+             ,content: b};
+   });
+   var ContentSlide = F8(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g,
+   h) {
+      return {_: {}
+             ,partOf: c
+             ,quiz: g
+             ,slideContent: h
+             ,slideId: a
+             ,slideType: b
+             ,subtitle: e
+             ,supportbin: f
+             ,title: d};
+   });
+   var NormalSlide = {ctor: "NormalSlide"};
+   var SupportbinSlide = {ctor: "SupportbinSlide"};
+   var TitleSlide = {ctor: "TitleSlide"};
+   var SubsectionSlide = {ctor: "SubsectionSlide"};
+   var SectionSlide = {ctor: "SectionSlide"};
+   var PlainSlide = {ctor: "PlainSlide"};
+   var Animation = function (a) {
+      return {_: {},tickLife: a};
+   };
+   _elm.Types.Slate.values = {_op: _op
+                             ,PlainSlide: PlainSlide
+                             ,SectionSlide: SectionSlide
+                             ,SubsectionSlide: SubsectionSlide
+                             ,TitleSlide: TitleSlide
+                             ,SupportbinSlide: SupportbinSlide
+                             ,NormalSlide: NormalSlide
+                             ,Animation: Animation
+                             ,ContentSlide: ContentSlide
+                             ,Column: Column
+                             ,ColumnContent: ColumnContent
+                             ,ContentElement: ContentElement
+                             ,Supportbin: Supportbin
+                             ,Quiz: Quiz
+                             ,ConcreteSizeInfo: ConcreteSizeInfo
+                             ,RawColumnContent: RawColumnContent
+                             ,CurrentInfoForOuter: CurrentInfoForOuter};
+   return _elm.Types.Slate.values;
+};

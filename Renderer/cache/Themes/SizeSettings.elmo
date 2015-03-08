@@ -1,0 +1,247 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.SizeSettings = Elm.Themes.SizeSettings || {};
+Elm.Themes.SizeSettings.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.SizeSettings = _elm.Themes.SizeSettings || {};
+   if (_elm.Themes.SizeSettings.values)
+   return _elm.Themes.SizeSettings.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.SizeSettings";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var changeFontSizingList = _L.fromArray([{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subtitle"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.NormalSize}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "title"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Huge}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "author"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.NormalSize}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "date"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.NormalSize}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "institute"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.ScriptSize}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "section"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.VeryLarge}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsection"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Large}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "section"
+                                                 ,_1: "headline"}
+                                            ,_1: Types.Theme.Large}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsection"
+                                                 ,_1: "headline"}
+                                            ,_1: Types.Theme.Large}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "slidesubtitle"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.FootnoteSize}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "section"
+                                                 ,_1: "sidebar"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsection"
+                                                 ,_1: "sidebar"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsubsection"
+                                                 ,_1: "sidebar"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsection"
+                                                 ,_1: "sidebar"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsubsection"
+                                                 ,_1: "sidebar"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsubsubsection"
+                                                 ,_1: "sidebar"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "sectionprojection"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsectionprojection"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsectionprojection"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsectionprojection"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsubsubsectionprojection"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsubsubsectionprojection"
+                                                 ,_1: "none"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsubsection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.FootnoteSize}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsubsubsection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.FootnoteSize}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "sectionprojection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.Small}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsectionprojection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.Small}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "subsubsectionprojection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsectionprojection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.Small}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsubsectionprojection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.Small}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "shadedsubsubsectionprojection"
+                                                 ,_1: "toc"}
+                                            ,_1: Types.Theme.Tiny}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "caption"
+                                                 ,_1: "imagebox"}
+                                            ,_1: Types.Theme.Small}
+                                           ,{ctor: "_Tuple2"
+                                            ,_0: {ctor: "_Tuple2"
+                                                 ,_0: "captionnameandnumber"
+                                                 ,_1: "imagebox"}
+                                            ,_1: Types.Theme.Small}]);
+   var normalFontSize = Maybe.Just(30);
+   var componentSizeInfo = {_: {}
+                           ,footlineHeight: 0.1
+                           ,headlineHeight: 0.1
+                           ,itemTab: 0.1
+                           ,leftSidebarWidth: 0.2
+                           ,navigationSymbolHeight: 5.0e-2
+                           ,rightSidebarWidth: 0.2
+                           ,slideTitleHeight: 1.0e-2
+                           ,slideTitleWidth: 1
+                           ,textWidth: 1};
+   var button = {_: {}
+                ,coverage: 0.5
+                ,height: 10
+                ,offset: 5.0e-2
+                ,width: 10};
+   var itemProjection = {_: {}
+                        ,coverage: 0.4
+                        ,height: 20
+                        ,offset: 1.0e-2
+                        ,width: 20};
+   var sectionProjection = {_: {}
+                           ,coverage: 0.3
+                           ,height: 20
+                           ,offset: 1.0e-3
+                           ,width: 20};
+   var miniFrameSizing = {_: {}
+                         ,coverage: 0.3
+                         ,height: 20
+                         ,offset: 2
+                         ,width: 20};
+   var generalSymbolSizing = {_: {}
+                             ,coverage: 0.5
+                             ,height: 20
+                             ,offset: 0.2
+                             ,width: 20};
+   var symbolSizeInfo = {_: {}
+                        ,button: button
+                        ,generalSymbol: generalSymbolSizing
+                        ,itemProjection: itemProjection
+                        ,miniframe: miniFrameSizing
+                        ,sectionProjection: sectionProjection};
+   _elm.Themes.SizeSettings.values = {_op: _op
+                                     ,generalSymbolSizing: generalSymbolSizing
+                                     ,miniFrameSizing: miniFrameSizing
+                                     ,sectionProjection: sectionProjection
+                                     ,itemProjection: itemProjection
+                                     ,button: button
+                                     ,symbolSizeInfo: symbolSizeInfo
+                                     ,componentSizeInfo: componentSizeInfo
+                                     ,normalFontSize: normalFontSize
+                                     ,changeFontSizingList: changeFontSizingList};
+   return _elm.Themes.SizeSettings.values;
+};

@@ -1,0 +1,1096 @@
+Elm.PreProcess = Elm.PreProcess || {};
+Elm.PreProcess.RawThemeMaker = Elm.PreProcess.RawThemeMaker || {};
+Elm.PreProcess.RawThemeMaker.make = function (_elm) {
+   "use strict";
+   _elm.PreProcess = _elm.PreProcess || {};
+   _elm.PreProcess.RawThemeMaker = _elm.PreProcess.RawThemeMaker || {};
+   if (_elm.PreProcess.RawThemeMaker.values)
+   return _elm.PreProcess.RawThemeMaker.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "PreProcess.RawThemeMaker";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Intermediate = Elm.Types.Intermediate.make(_elm);
+   var Types = Types || {};
+   Types.Naive = Elm.Types.Naive.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Naive = Elm.Utils.Naive.make(_elm);
+   var _op = {};
+   var defaultToc = {_: {}
+                    ,currentSection: Types.Theme.Show
+                    ,currentSubsectionOfCurrentSection: Types.Theme.Show
+                    ,otherSection: Types.Theme.Hide
+                    ,otherSubsectionOfCurrentSection: Types.Theme.Shade
+                    ,pauseSections: false
+                    ,pauseSubsections: false
+                    ,subsectionOfOtherSection: Types.Theme.Hide};
+   var processTocString = function (str) {
+      return function () {
+         var sectionStyleList = function (sec) {
+            return A2(String.split,
+            "!",
+            sec);
+         };
+         var value = function (opt) {
+            return List.head(List.tail(A2(String.split,
+            "=",
+            opt)));
+         };
+         var parameter = function (opt) {
+            return List.head(A2(String.split,
+            "=",
+            opt));
+         };
+         var getTocBool = function (boolStr) {
+            return function () {
+               switch (boolStr)
+               {case "false": return false;
+                  case "true": return true;}
+               _E.Case($moduleName,
+               "between lines 485 and 488");
+            }();
+         };
+         var getTocStyle = function (styleStr) {
+            return function () {
+               switch (styleStr)
+               {case "hide":
+                  return Types.Theme.Hide;
+                  case "shaded":
+                  return Types.Theme.Shade;
+                  case "show":
+                  return Types.Theme.Show;}
+               _E.Case($moduleName,
+               "between lines 481 and 485");
+            }();
+         };
+         var updateToc = F2(function (opt,
+         oldToc) {
+            return function () {
+               var _v2 = parameter(opt);
+               switch (_v2)
+               {case "pausesections":
+                  return _U.replace([["pauseSections"
+                                     ,getTocBool(value(opt))]],
+                    oldToc);
+                  case "pausesubsections":
+                  return _U.replace([["pauseSubsections"
+                                     ,getTocBool(value(opt))]],
+                    oldToc);
+                  case "sectionstyle":
+                  return function () {
+                       var secStyles = sectionStyleList(value(opt));
+                       return _U.replace([["currentSection"
+                                          ,getTocStyle(List.head(secStyles))]
+                                         ,["otherSection"
+                                          ,getTocStyle(List.last(secStyles))]],
+                       oldToc);
+                    }();
+                  case "subsectionstyle":
+                  return function () {
+                       var subsecStyles = sectionStyleList(value(opt));
+                       return _U.replace([["currentSubsectionOfCurrentSection"
+                                          ,getTocStyle(List.head(subsecStyles))]
+                                         ,["otherSubsectionOfCurrentSection"
+                                          ,getTocStyle(List.head(List.tail(subsecStyles)))]
+                                         ,["subsectionOfOtherSection"
+                                          ,getTocStyle(List.last(subsecStyles))]],
+                       oldToc);
+                    }();}
+               _E.Case($moduleName,
+               "between lines 493 and 504");
+            }();
+         });
+         var options = A2(String.split,
+         "-",
+         str);
+         return List.isEmpty(options) ? defaultToc : A3(List.foldl,
+         updateToc,
+         defaultToc,
+         options);
+      }();
+   };
+   var processInsertInfo = function (naiveInsertInfo) {
+      return {_: {}
+             ,column: naiveInsertInfo.columnid
+             ,id: naiveInsertInfo.name};
+   };
+   var processColumnInfo = function (naiveColumnInfo) {
+      return {_: {}
+             ,colAlign: function () {
+                var _v4 = naiveColumnInfo.columnAlign;
+                switch (_v4)
+                {case "b":
+                   return Types.Theme.BottomAlign;
+                   case "c":
+                   return Types.Theme.CenterAlign;
+                   case "t":
+                   return Types.Theme.TopAlign;}
+                _E.Case($moduleName,
+                "between lines 445 and 449");
+             }()
+             ,id: naiveColumnInfo.id
+             ,placement: function () {
+                var _v3 = naiveColumnInfo.inColumnAlign;
+                switch (_v3)
+                {case "center":
+                   return Graphics.Element.middle;
+                   case "left":
+                   return Graphics.Element.midLeft;
+                   case "right":
+                   return Graphics.Element.midRight;}
+                _E.Case($moduleName,
+                "between lines 441 and 445");
+             }()
+             ,width: Utils.Naive.toConcreteFloat(naiveColumnInfo.width)};
+   };
+   var getLayoutDetails = function (naiveTemplateLayout) {
+      return {_: {}
+             ,columns: A2(List.map,
+             processColumnInfo,
+             naiveTemplateLayout.columns)
+             ,inserts: A2(List.map,
+             processInsertInfo,
+             naiveTemplateLayout.inserts)};
+   };
+   var getLayout = function (naiveTemplateLayout) {
+      return List.isEmpty(naiveTemplateLayout.inserts) ? Types.Theme.Empty : Types.Theme.Layout(getLayoutDetails(naiveTemplateLayout));
+   };
+   var getSectionSlideLayout = function (naiveTemplateLayout) {
+      return function () {
+         var getTocString = function (insInfo) {
+            return A2(String.contains,
+            ":",
+            insInfo.name) ? List.head(List.tail(A2(String.split,
+            ":",
+            insInfo.name))) : "";
+         };
+         var oldInserts = naiveTemplateLayout.inserts;
+         var processToc = function () {
+            var _v5 = A2(List.filter,
+            function (x) {
+               return !_U.eq(x,"");
+            },
+            A2(List.map,
+            getTocString,
+            oldInserts));
+            switch (_v5.ctor)
+            {case "[]": return defaultToc;}
+            return processTocString(List.head(_v5));
+         }();
+         var getNewInsertInfo = function (insertInfo) {
+            return function () {
+               var _v6 = insertInfo.name;
+               switch (_v6)
+               {case "image":
+                  return insertInfo;
+                  case "section":
+                  return insertInfo;
+                  case "subsection":
+                  return insertInfo;}
+               return _U.replace([["name"
+                                  ,"toc"]],
+               insertInfo);
+            }();
+         };
+         var modifiedNaive = _U.replace([["inserts"
+                                         ,A2(List.map,
+                                         getNewInsertInfo,
+                                         oldInserts)]],
+         naiveTemplateLayout);
+         var processSlideLayout = getLayout(modifiedNaive);
+         return {ctor: "_Tuple2"
+                ,_0: processSlideLayout
+                ,_1: processToc};
+      }();
+   };
+   var applyLayout = F2(function (themeInfo,
+   layoutInfo) {
+      return function () {
+         var toLayout = F2(function (naiveLayout,
+         oldLayout) {
+            return function () {
+               var _v7 = naiveLayout.id;
+               switch (_v7)
+               {case "atbeginsectionslide":
+                  return _U.replace([["atBeginSectionSlide"
+                                     ,getSectionSlideLayout(naiveLayout)]],
+                    oldLayout);
+                  case "atbeginsubsectionslide":
+                  return _U.replace([["atBeginSubsectionSlide"
+                                     ,getSectionSlideLayout(naiveLayout)]],
+                    oldLayout);
+                  case "footline":
+                  return _U.replace([["footline"
+                                     ,getLayout(naiveLayout)]],
+                    oldLayout);
+                  case "headline":
+                  return _U.replace([["headline"
+                                     ,getLayout(naiveLayout)]],
+                    oldLayout);
+                  case "leftsidebar":
+                  return _U.replace([["leftSidebar"
+                                     ,getLayout(naiveLayout)]],
+                    oldLayout);
+                  case "modechangesymbols":
+                  return _U.replace([["modechangeSymbols"
+                                     ,getLayout(naiveLayout)]],
+                    oldLayout);
+                  case "navigationalsymbols":
+                  return _U.replace([["navigationalSymbols"
+                                     ,getLayout(naiveLayout)]],
+                    oldLayout);
+                  case "rightsidebar":
+                  return _U.replace([["rightSidebar"
+                                     ,getLayout(naiveLayout)]],
+                    oldLayout);
+                  case "titleslide":
+                  return _U.replace([["titleSlide"
+                                     ,getLayout(naiveLayout)]],
+                    oldLayout);
+                  case "tocslide":
+                  return _U.replace([["tocSlide"
+                                     ,getSectionSlideLayout(naiveLayout)]],
+                    oldLayout);}
+               _E.Case($moduleName,
+               "between lines 419 and 432");
+            }();
+         });
+         return A3(List.foldr,
+         toLayout,
+         layoutInfo,
+         themeInfo.templateLayout);
+      }();
+   });
+   var convertShape = function (shp) {
+      return function () {
+         switch (shp)
+         {case "": return Maybe.Nothing;
+            case "circle":
+            return Maybe.Just(Types.Theme.Circle);
+            case "rectangle":
+            return Maybe.Just(Types.Theme.Rectangle);
+            case "square":
+            return Maybe.Just(Types.Theme.Square);
+            case "tick":
+            return Maybe.Just(Types.Theme.Tick);
+            case "triangle":
+            return Maybe.Just(Types.Theme.Triangle);}
+         _E.Case($moduleName,
+         "between lines 397 and 403");
+      }();
+   };
+   var convertAlpha = function (alpha) {
+      return function () {
+         switch (alpha)
+         {case "": return Maybe.Nothing;}
+         return Maybe.Just(Utils.Naive.toConcreteFloat(alpha));
+      }();
+   };
+   var processPadThickness = F2(function (canvas,
+   rawpad) {
+      return function () {
+         var convertThickness = function (pad) {
+            return function () {
+               switch (pad)
+               {case "": return Maybe.Nothing;
+                  case "medium":
+                  return Maybe.Just(15);
+                  case "thick":
+                  return Maybe.Just(20);
+                  case "thin":
+                  return Maybe.Just(10);}
+               return Maybe.Just(Utils.Naive.toConcreteInt(pad));
+            }();
+         };
+         return _U.replace([["leftThick"
+                            ,convertThickness(canvas.leftpadding)]
+                           ,["rightThick"
+                            ,convertThickness(canvas.rightpadding)]
+                           ,["bottomThick"
+                            ,convertThickness(canvas.bottompadding)]
+                           ,["topThick"
+                            ,convertThickness(canvas.toppadding)]],
+         rawpad);
+      }();
+   });
+   var processFontColor = F2(function (colorinfo,
+   raw) {
+      return function () {
+         var convertFontColor = function () {
+            var _v11 = colorinfo.fg;
+            switch (_v11)
+            {case "": return Maybe.Nothing;}
+            return Maybe.Just(Utils.Naive.processColor(_v11));
+         }();
+         return _U.replace([["fontColor"
+                            ,convertFontColor]],
+         raw);
+      }();
+   });
+   var processFont = F2(function (fontinfo,
+   raw) {
+      return function () {
+         var convertFamily = function () {
+            var _v12 = fontinfo.family;
+            switch (_v12)
+            {case "": return Maybe.Nothing;}
+            return Maybe.Just(_L.fromArray([_v12]));
+         }();
+         var convertAlign = function () {
+            var _v13 = fontinfo.align;
+            switch (_v13)
+            {case "": return Maybe.Nothing;
+               case "center":
+               return Maybe.Just(Text.centered);
+               case "justify":
+               return Maybe.Just(Text.justified);
+               case "left":
+               return Maybe.Just(Text.leftAligned);
+               case "right":
+               return Maybe.Just(Text.leftAligned);}
+            _E.Case($moduleName,
+            "between lines 341 and 347");
+         }();
+         var convertShapeBold = function () {
+            var _v14 = fontinfo.shape;
+            switch (_v14)
+            {case "": return Maybe.Nothing;
+               case "bold":
+               return Maybe.Just(true);
+               case "bolditalic":
+               return Maybe.Just(true);
+               case "italic":
+               return Maybe.Nothing;
+               case "normal":
+               return Maybe.Just(false);}
+            _E.Case($moduleName,
+            "between lines 334 and 341");
+         }();
+         var convertShapeItalic = function () {
+            var _v15 = fontinfo.shape;
+            switch (_v15)
+            {case "": return Maybe.Nothing;
+               case "bold":
+               return Maybe.Nothing;
+               case "bolditalic":
+               return Maybe.Just(true);
+               case "italic":
+               return Maybe.Just(true);
+               case "normal":
+               return Maybe.Just(false);}
+            _E.Case($moduleName,
+            "between lines 328 and 334");
+         }();
+         var convertSize = function () {
+            var _v16 = fontinfo.size;
+            switch (_v16)
+            {case "": return Maybe.Nothing;
+               case "footnotsize":
+               return Maybe.Just(Types.Theme.FootnoteSize);
+               case "huge":
+               return Maybe.Just(Types.Theme.Huge);
+               case "large":
+               return Maybe.Just(Types.Theme.Large);
+               case "normalsize":
+               return Maybe.Just(Types.Theme.NormalSize);
+               case "scriptsize":
+               return Maybe.Just(Types.Theme.ScriptSize);
+               case "small":
+               return Maybe.Just(Types.Theme.Small);
+               case "tiny":
+               return Maybe.Just(Types.Theme.Tiny);
+               case "veryLarge":
+               return Maybe.Just(Types.Theme.VeryLarge);
+               case "verysmall":
+               return Maybe.Just(Types.Theme.VerySmall);}
+            _E.Case($moduleName,
+            "between lines 317 and 328");
+         }();
+         return _U.replace([["font"
+                            ,convertFamily]
+                           ,["fontSize",convertSize]
+                           ,["fontBold",convertShapeBold]
+                           ,["fontItalic"
+                            ,convertShapeItalic]
+                           ,["fontAlign",convertAlign]],
+         raw);
+      }();
+   });
+   var processBorderFromColor = F2(function (colorinfo,
+   raw) {
+      return function () {
+         var convertBorderColor = function () {
+            var _v17 = colorinfo.border;
+            switch (_v17)
+            {case "": return Maybe.Nothing;}
+            return Maybe.Just(Utils.Naive.processColor(_v17));
+         }();
+         return _U.replace([["borderColor"
+                            ,convertBorderColor]],
+         raw);
+      }();
+   });
+   var processBorderFromCanvas = F2(function (canvas,
+   raw) {
+      return function () {
+         var convertBorderDashing = function () {
+            var _v18 = canvas.borderstyle;
+            switch (_v18)
+            {case "": return Maybe.Nothing;
+               case "dashed":
+               return Maybe.Just(_L.fromArray([8
+                                              ,4]));
+               case "dotted":
+               return Maybe.Just(_L.fromArray([3
+                                              ,3]));
+               case "solid":
+               return Maybe.Just(_L.fromArray([]));}
+            _E.Case($moduleName,
+            "between lines 291 and 297");
+         }();
+         var convertBorderWidth = function () {
+            var _v19 = canvas.border;
+            switch (_v19)
+            {case "": return Maybe.Nothing;
+               case "medium":
+               return Maybe.Just(2);
+               case "none":
+               return Maybe.Just(0);
+               case "thick":
+               return Maybe.Just(3);
+               case "thin":
+               return Maybe.Just(1);}
+            return Maybe.Just(Utils.Naive.toConcreteFloat(_v19));
+         }();
+         return _U.replace([["borderWidth"
+                            ,convertBorderWidth]
+                           ,["borderDashing"
+                            ,convertBorderDashing]],
+         raw);
+      }();
+   });
+   var processGradient = function (str) {
+      return function () {
+         var toColorPoint = function (s) {
+            return function () {
+               var separated = A2(String.split,
+               "-",
+               s);
+               var point = Utils.Naive.toConcreteFloat(List.head(separated));
+               var color = Utils.Naive.processColor(List.last(separated));
+               return {ctor: "_Tuple2"
+                      ,_0: point
+                      ,_1: color};
+            }();
+         };
+         var substrList = A2(String.split,
+         "!",
+         str);
+         var direction = List.head(List.tail(substrList));
+         var endPos = function () {
+            switch (direction)
+            {case "horizontal":
+               return {ctor: "_Tuple2"
+                      ,_0: 50
+                      ,_1: 50};
+               case "vertical":
+               return {ctor: "_Tuple2"
+                      ,_0: 50
+                      ,_1: 50};}
+            _E.Case($moduleName,
+            "between lines 256 and 259");
+         }();
+         var colorPoints = A2(List.map,
+         toColorPoint,
+         A2(List.drop,2,substrList));
+         return A2(Types.Theme.Grad,
+         A3(Color.linear,
+         {ctor: "_Tuple2",_0: 0,_1: 0},
+         endPos,
+         colorPoints),
+         Basics.snd(List.head(colorPoints)));
+      }();
+   };
+   var processFill = function (str) {
+      return _U.eq(str,
+      "") ? Maybe.Nothing : A2(String.startsWith,
+      "grad",
+      str) ? Maybe.Just(processGradient(str)) : _U.eq(str,
+      "transparent") ? Maybe.Just(Types.Theme.Transparent) : Maybe.Just(Types.Theme.SingleColored(Utils.Naive.processColor(str)));
+   };
+   var processPadColor = F2(function (colorinfo,
+   rawpad) {
+      return _U.replace([["leftColor"
+                         ,processFill(colorinfo.leftpadding)]
+                        ,["rightColor"
+                         ,processFill(colorinfo.rightpadding)]
+                        ,["topColor"
+                         ,processFill(colorinfo.toppadding)]
+                        ,["bottomColor"
+                         ,processFill(colorinfo.bottompadding)]],
+      rawpad);
+   });
+   var processOptions = F2(function (opt,
+   raw) {
+      return function () {
+         var _v21 = opt.option;
+         switch (_v21)
+         {case "alpha":
+            return _U.replace([["shapeAlpha"
+                               ,convertAlpha(opt.value)]],
+              raw);
+            case "fill":
+            return _U.replace([["shapeFill"
+                               ,processFill(opt.value)]],
+              raw);
+            case "shape":
+            return _U.replace([["shape"
+                               ,convertShape(opt.value)]],
+              raw);}
+         _E.Case($moduleName,
+         "between lines 407 and 410");
+      }();
+   });
+   var parentList = _L.fromArray(["Outer"
+                                 ,"Inner"
+                                 ,"OuterElements"
+                                 ,"InnerElements"
+                                 ,"TitleLike"
+                                 ,"NormalText"
+                                 ,"AlertText"
+                                 ,"HighlightText"
+                                 ,"Item"
+                                 ,"Subitem"
+                                 ,"Subsubitem"
+                                 ,"ItemProjection"
+                                 ,"SubitemProjection"
+                                 ,"SubsubitemProjection"]);
+   var rawParentList = A2(List.zip,
+   parentList,
+   A2(List.repeat,
+   List.length(parentList),
+   Types.Intermediate.NoChange));
+   var rawParentDict = Dict.fromList(rawParentList);
+   var defaultRawPad = {_: {}
+                       ,bottomColor: Maybe.Nothing
+                       ,bottomThick: Maybe.Nothing
+                       ,leftColor: Maybe.Nothing
+                       ,leftThick: Maybe.Nothing
+                       ,rightColor: Maybe.Nothing
+                       ,rightThick: Maybe.Nothing
+                       ,topColor: Maybe.Nothing
+                       ,topThick: Maybe.Nothing};
+   var defaultRaw = {_: {}
+                    ,bg: Maybe.Nothing
+                    ,borderColor: Maybe.Nothing
+                    ,borderDashing: Maybe.Nothing
+                    ,borderWidth: Maybe.Nothing
+                    ,font: Maybe.Nothing
+                    ,fontAlign: Maybe.Nothing
+                    ,fontBold: Maybe.Nothing
+                    ,fontColor: Maybe.Nothing
+                    ,fontItalic: Maybe.Nothing
+                    ,fontSize: Maybe.Nothing
+                    ,padding: Maybe.Nothing
+                    ,shape: Maybe.Nothing
+                    ,shapeAlpha: Maybe.Nothing
+                    ,shapeFill: Maybe.Nothing};
+   var applyCanvas = F2(function (templateList,
+   rawParentDict) {
+      return function () {
+         var updateCanvas = F2(function (templateCanvas,
+         rawDict) {
+            return function () {
+               var options = templateCanvas.options;
+               var canvas = templateCanvas.canvas;
+               var parentId = templateCanvas.id;
+               var rawFromDict = A2(Dict.getOrFail,
+               parentId,
+               rawDict);
+               var raw = function () {
+                  switch (rawFromDict.ctor)
+                  {case "NewStyle":
+                     return rawFromDict._0;
+                     case "NoChange":
+                     return defaultRaw;}
+                  _E.Case($moduleName,
+                  "between lines 78 and 81");
+               }();
+               var modifiedRaw = A2(processBorderFromCanvas,
+               canvas,
+               raw);
+               var paddedRaw = function () {
+                  var _v24 = modifiedRaw.padding;
+                  switch (_v24.ctor)
+                  {case "Just":
+                     return _U.replace([["padding"
+                                        ,Maybe.Just(A2(processPadThickness,
+                                        canvas,
+                                        _v24._0))]],
+                       modifiedRaw);
+                     case "Nothing":
+                     return function () {
+                          var thickPad = A2(processPadThickness,
+                          canvas,
+                          defaultRawPad);
+                          return _U.eq(thickPad,
+                          defaultRawPad) ? modifiedRaw : _U.replace([["padding"
+                                                                     ,Maybe.Just(thickPad)]],
+                          modifiedRaw);
+                       }();}
+                  _E.Case($moduleName,
+                  "between lines 84 and 94");
+               }();
+               var optionModifiedRaw = A3(List.foldr,
+               processOptions,
+               paddedRaw,
+               options);
+               var set = function (oldRaw) {
+                  return function () {
+                     switch (oldRaw.ctor)
+                     {case "Just":
+                        return Maybe.Just(Types.Intermediate.NewStyle(optionModifiedRaw));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 95 and 98");
+                  }();
+               };
+               return A3(Dict.update,
+               parentId,
+               set,
+               rawDict);
+            }();
+         });
+         return A3(List.foldr,
+         updateCanvas,
+         rawParentDict,
+         templateList);
+      }();
+   });
+   var applyColor = F2(function (templateList,
+   rawParentDict) {
+      return function () {
+         var updateColor = F2(function (templateColor,
+         rawDict) {
+            return function () {
+               var options = templateColor.options;
+               var colorInfo = templateColor.colorInfo;
+               var parentId = templateColor.id;
+               var rawFromDict = A2(Dict.getOrFail,
+               parentId,
+               rawDict);
+               var raw = function () {
+                  switch (rawFromDict.ctor)
+                  {case "NewStyle":
+                     return rawFromDict._0;
+                     case "NoChange":
+                     return defaultRaw;}
+                  _E.Case($moduleName,
+                  "between lines 109 and 112");
+               }();
+               var modifiedRaw = processBorderFromColor(colorInfo)(processFontColor(colorInfo)(_U.replace([["bg"
+                                                                                                           ,processFill(colorInfo.bg)]],
+               raw)));
+               var paddedRaw = function () {
+                  var _v30 = modifiedRaw.padding;
+                  switch (_v30.ctor)
+                  {case "Just":
+                     return _U.replace([["padding"
+                                        ,Maybe.Just(A2(processPadColor,
+                                        colorInfo,
+                                        _v30._0))]],
+                       modifiedRaw);
+                     case "Nothing":
+                     return function () {
+                          var coloredPad = A2(processPadColor,
+                          colorInfo,
+                          defaultRawPad);
+                          return _U.eq(coloredPad,
+                          defaultRawPad) ? modifiedRaw : _U.replace([["padding"
+                                                                     ,Maybe.Just(coloredPad)]],
+                          modifiedRaw);
+                       }();}
+                  _E.Case($moduleName,
+                  "between lines 118 and 128");
+               }();
+               var optionModifiedRaw = A3(List.foldr,
+               processOptions,
+               paddedRaw,
+               options);
+               var set = function (oldRaw) {
+                  return function () {
+                     switch (oldRaw.ctor)
+                     {case "Just":
+                        return Maybe.Just(Types.Intermediate.NewStyle(optionModifiedRaw));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 129 and 132");
+                  }();
+               };
+               return A3(Dict.update,
+               parentId,
+               set,
+               rawDict);
+            }();
+         });
+         return A3(List.foldr,
+         updateColor,
+         rawParentDict,
+         templateList);
+      }();
+   });
+   var applyFont = F2(function (templateList,
+   rawParentDict) {
+      return function () {
+         var updateFont = F2(function (templateFont,
+         rawDict) {
+            return function () {
+               var fontInfo = templateFont.fontInfo;
+               var parentId = templateFont.id;
+               var rawFromDict = A2(Dict.getOrFail,
+               parentId,
+               rawDict);
+               var raw = function () {
+                  switch (rawFromDict.ctor)
+                  {case "NewStyle":
+                     return rawFromDict._0;
+                     case "NoChange":
+                     return defaultRaw;}
+                  _E.Case($moduleName,
+                  "between lines 143 and 146");
+               }();
+               var modifiedRaw = A2(processFont,
+               fontInfo,
+               raw);
+               var set = function (oldRaw) {
+                  return function () {
+                     switch (oldRaw.ctor)
+                     {case "Just":
+                        return Maybe.Just(Types.Intermediate.NewStyle(modifiedRaw));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 148 and 151");
+                  }();
+               };
+               return A3(Dict.update,
+               parentId,
+               set,
+               rawDict);
+            }();
+         });
+         return A3(List.foldr,
+         updateFont,
+         rawParentDict,
+         templateList);
+      }();
+   });
+   var applyTheme = function (themeInfo) {
+      return applyFont(themeInfo.guidingFonts)(applyColor(themeInfo.guidingColors)(A2(applyCanvas,
+      themeInfo.guidingCanvas,
+      rawParentDict)));
+   };
+   var applyTemplateCanvas = F2(function (templateList,
+   rawTemplateDict) {
+      return function () {
+         var updateCanvas = F2(function (templateCanvas,
+         rawDict) {
+            return function () {
+               var options = templateCanvas.options;
+               var canvas = templateCanvas.canvas;
+               var templateId = {ctor: "_Tuple2"
+                                ,_0: templateCanvas.id
+                                ,_1: templateCanvas.container};
+               var updatedRawDict = function () {
+                  var _v38 = A2(Dict.get,
+                  templateId,
+                  rawDict);
+                  switch (_v38.ctor)
+                  {case "Just": return rawDict;
+                     case "Nothing":
+                     return A3(Dict.insert,
+                       templateId,
+                       Types.Intermediate.NoChange,
+                       rawDict);}
+                  _E.Case($moduleName,
+                  "between lines 163 and 166");
+               }();
+               var raw = function () {
+                  var _v40 = A2(Dict.getOrFail,
+                  templateId,
+                  updatedRawDict);
+                  switch (_v40.ctor)
+                  {case "NewStyle":
+                     return _v40._0;
+                     case "NoChange":
+                     return defaultRaw;}
+                  _E.Case($moduleName,
+                  "between lines 166 and 169");
+               }();
+               var modifiedRaw = A2(processBorderFromCanvas,
+               canvas,
+               raw);
+               var paddedRaw = function () {
+                  var _v42 = modifiedRaw.padding;
+                  switch (_v42.ctor)
+                  {case "Just":
+                     return _U.replace([["padding"
+                                        ,Maybe.Just(A2(processPadThickness,
+                                        canvas,
+                                        _v42._0))]],
+                       modifiedRaw);
+                     case "Nothing":
+                     return function () {
+                          var thickPad = A2(processPadThickness,
+                          canvas,
+                          defaultRawPad);
+                          return _U.eq(thickPad,
+                          defaultRawPad) ? modifiedRaw : _U.replace([["padding"
+                                                                     ,Maybe.Just(thickPad)]],
+                          modifiedRaw);
+                       }();}
+                  _E.Case($moduleName,
+                  "between lines 172 and 182");
+               }();
+               var optionModifiedRaw = A3(List.foldr,
+               processOptions,
+               paddedRaw,
+               options);
+               var set = function (oldRaw) {
+                  return function () {
+                     switch (oldRaw.ctor)
+                     {case "Just":
+                        return Maybe.Just(Types.Intermediate.NewStyle(optionModifiedRaw));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 183 and 186");
+                  }();
+               };
+               return A3(Dict.update,
+               templateId,
+               set,
+               updatedRawDict);
+            }();
+         });
+         return A3(List.foldr,
+         updateCanvas,
+         rawTemplateDict,
+         templateList);
+      }();
+   });
+   var applyTemplateColor = F2(function (templateList,
+   rawTemplateDict) {
+      return function () {
+         var updateColor = F2(function (templateColor,
+         rawDict) {
+            return function () {
+               var options = templateColor.options;
+               var colorInfo = templateColor.colorInfo;
+               var templateId = {ctor: "_Tuple2"
+                                ,_0: templateColor.id
+                                ,_1: templateColor.container};
+               var updatedRawDict = function () {
+                  var _v46 = A2(Dict.get,
+                  templateId,
+                  rawDict);
+                  switch (_v46.ctor)
+                  {case "Just": return rawDict;
+                     case "Nothing":
+                     return A3(Dict.insert,
+                       templateId,
+                       Types.Intermediate.NoChange,
+                       rawDict);}
+                  _E.Case($moduleName,
+                  "between lines 196 and 199");
+               }();
+               var raw = function () {
+                  var _v48 = A2(Dict.getOrFail,
+                  templateId,
+                  updatedRawDict);
+                  switch (_v48.ctor)
+                  {case "NewStyle":
+                     return _v48._0;
+                     case "NoChange":
+                     return defaultRaw;}
+                  _E.Case($moduleName,
+                  "between lines 199 and 202");
+               }();
+               var modifiedRaw = processBorderFromColor(colorInfo)(processFontColor(colorInfo)(_U.replace([["bg"
+                                                                                                           ,processFill(colorInfo.bg)]],
+               raw)));
+               var paddedRaw = function () {
+                  var _v50 = modifiedRaw.padding;
+                  switch (_v50.ctor)
+                  {case "Just":
+                     return _U.replace([["padding"
+                                        ,Maybe.Just(A2(processPadColor,
+                                        colorInfo,
+                                        _v50._0))]],
+                       modifiedRaw);
+                     case "Nothing":
+                     return function () {
+                          var coloredPad = A2(processPadColor,
+                          colorInfo,
+                          defaultRawPad);
+                          return _U.eq(coloredPad,
+                          defaultRawPad) ? modifiedRaw : _U.replace([["padding"
+                                                                     ,Maybe.Just(coloredPad)]],
+                          modifiedRaw);
+                       }();}
+                  _E.Case($moduleName,
+                  "between lines 208 and 218");
+               }();
+               var optionModifiedRaw = A3(List.foldr,
+               processOptions,
+               paddedRaw,
+               options);
+               var set = function (oldRaw) {
+                  return function () {
+                     switch (oldRaw.ctor)
+                     {case "Just":
+                        return Maybe.Just(Types.Intermediate.NewStyle(optionModifiedRaw));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 219 and 222");
+                  }();
+               };
+               return A3(Dict.update,
+               templateId,
+               set,
+               updatedRawDict);
+            }();
+         });
+         return A3(List.foldr,
+         updateColor,
+         rawTemplateDict,
+         templateList);
+      }();
+   });
+   var applyTemplateFont = F2(function (templateList,
+   rawTemplateDict) {
+      return function () {
+         var updateFont = F2(function (templateFont,
+         rawDict) {
+            return function () {
+               var fontInfo = templateFont.fontInfo;
+               var templateId = {ctor: "_Tuple2"
+                                ,_0: templateFont.id
+                                ,_1: templateFont.container};
+               var updatedRawDict = function () {
+                  var _v54 = A2(Dict.get,
+                  templateId,
+                  rawDict);
+                  switch (_v54.ctor)
+                  {case "Just": return rawDict;
+                     case "Nothing":
+                     return A3(Dict.insert,
+                       templateId,
+                       Types.Intermediate.NoChange,
+                       rawDict);}
+                  _E.Case($moduleName,
+                  "between lines 231 and 234");
+               }();
+               var raw = function () {
+                  var _v56 = A2(Dict.getOrFail,
+                  templateId,
+                  updatedRawDict);
+                  switch (_v56.ctor)
+                  {case "NewStyle":
+                     return _v56._0;
+                     case "NoChange":
+                     return defaultRaw;}
+                  _E.Case($moduleName,
+                  "between lines 234 and 237");
+               }();
+               var modifiedRaw = A2(processFont,
+               fontInfo,
+               raw);
+               var set = function (oldRaw) {
+                  return function () {
+                     switch (oldRaw.ctor)
+                     {case "Just":
+                        return Maybe.Just(Types.Intermediate.NewStyle(modifiedRaw));
+                        case "Nothing":
+                        return Maybe.Nothing;}
+                     _E.Case($moduleName,
+                     "between lines 239 and 242");
+                  }();
+               };
+               return A3(Dict.update,
+               templateId,
+               set,
+               updatedRawDict);
+            }();
+         });
+         return A3(List.foldr,
+         updateFont,
+         rawTemplateDict,
+         templateList);
+      }();
+   });
+   var applyTemplate = function (themeInfo) {
+      return applyTemplateFont(themeInfo.templateFonts)(applyTemplateColor(themeInfo.templateColors)(A2(applyTemplateCanvas,
+      themeInfo.templateCanvas,
+      Dict.empty)));
+   };
+   _elm.PreProcess.RawThemeMaker.values = {_op: _op
+                                          ,defaultRaw: defaultRaw
+                                          ,defaultRawPad: defaultRawPad
+                                          ,parentList: parentList
+                                          ,rawParentList: rawParentList
+                                          ,rawParentDict: rawParentDict
+                                          ,applyTheme: applyTheme
+                                          ,applyTemplate: applyTemplate
+                                          ,applyCanvas: applyCanvas
+                                          ,applyColor: applyColor
+                                          ,applyFont: applyFont
+                                          ,applyTemplateCanvas: applyTemplateCanvas
+                                          ,applyTemplateColor: applyTemplateColor
+                                          ,applyTemplateFont: applyTemplateFont
+                                          ,processGradient: processGradient
+                                          ,processFill: processFill
+                                          ,processBorderFromCanvas: processBorderFromCanvas
+                                          ,processBorderFromColor: processBorderFromColor
+                                          ,processFont: processFont
+                                          ,processFontColor: processFontColor
+                                          ,processPadThickness: processPadThickness
+                                          ,processPadColor: processPadColor
+                                          ,convertAlpha: convertAlpha
+                                          ,convertShape: convertShape
+                                          ,processOptions: processOptions
+                                          ,applyLayout: applyLayout
+                                          ,processColumnInfo: processColumnInfo
+                                          ,processInsertInfo: processInsertInfo
+                                          ,getLayoutDetails: getLayoutDetails
+                                          ,getLayout: getLayout
+                                          ,defaultToc: defaultToc
+                                          ,processTocString: processTocString
+                                          ,getSectionSlideLayout: getSectionSlideLayout};
+   return _elm.PreProcess.RawThemeMaker.values;
+};

@@ -1,0 +1,72 @@
+Elm.Main = Elm.Main || {};
+Elm.Main.make = function (_elm) {
+   "use strict";
+   _elm.Main = _elm.Main || {};
+   if (_elm.Main.values)
+   return _elm.Main.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Main";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var SmartDisplay = SmartDisplay || {};
+   SmartDisplay.CircularList = Elm.SmartDisplay.CircularList.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.SmartDisplay = Elm.Types.SmartDisplay.make(_elm);
+   var _op = {};
+   var items = _L.fromArray([{_: {}
+                             ,body: "Objectives"
+                             ,route: _L.fromArray([1])}
+                            ,{_: {}
+                             ,body: "I am 1.1"
+                             ,route: _L.fromArray([1,1])}
+                            ,{_: {}
+                             ,body: "I am 1.2"
+                             ,route: _L.fromArray([1,2])}
+                            ,{_: {}
+                             ,body: "!I am 1.3"
+                             ,route: _L.fromArray([1,3])}
+                            ,{_: {}
+                             ,body: "I am 1.2"
+                             ,route: _L.fromArray([1,2,1])}
+                            ,{_: {}
+                             ,body: "!I am 1.3"
+                             ,route: _L.fromArray([1,3,1])}
+                            ,{_: {}
+                             ,body: "Achievements"
+                             ,route: _L.fromArray([2])}
+                            ,{_: {}
+                             ,body: "I am 1.4"
+                             ,route: _L.fromArray([2,1])}
+                            ,{_: {}
+                             ,body: "I am 3"
+                             ,route: _L.fromArray([2,2])}]);
+   var smartInput = {_: {}
+                    ,height: 400
+                    ,items: items
+                    ,sdType: Types.SmartDisplay.PlusEqualVertical
+                    ,width: 400};
+   var main = SmartDisplay.CircularList.getSmartDisplayFL(smartInput);
+   _elm.Main.values = {_op: _op
+                      ,items: items
+                      ,smartInput: smartInput
+                      ,main: main};
+   return _elm.Main.values;
+};

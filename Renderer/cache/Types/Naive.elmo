@@ -1,0 +1,386 @@
+Elm.Types = Elm.Types || {};
+Elm.Types.Naive = Elm.Types.Naive || {};
+Elm.Types.Naive.make = function (_elm) {
+   "use strict";
+   _elm.Types = _elm.Types || {};
+   _elm.Types.Naive = _elm.Types.Naive || {};
+   if (_elm.Types.Naive.values)
+   return _elm.Types.Naive.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Types.Naive";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var Quiz = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return {_: {}
+             ,correctAns: e
+             ,explanation: f
+             ,id: a
+             ,options: d
+             ,qtype: b
+             ,question: c};
+   });
+   var Supportbin = F2(function (a,
+   b) {
+      return {_: {}
+             ,id: a
+             ,slideContent: b};
+   });
+   var SmartItem = F2(function (a,
+   b) {
+      return {_: {},body: b,id: a};
+   });
+   var SmartList = F5(function (a,
+   b,
+   c,
+   d,
+   e) {
+      return {_: {}
+             ,animation: d
+             ,items: c
+             ,layout: a
+             ,otherLife: e
+             ,sdType: b};
+   });
+   var ListItem = F5(function (a,
+   b,
+   c,
+   d,
+   e) {
+      return {_: {}
+             ,body: d
+             ,id: a
+             ,itemInfo: c
+             ,itemType: b
+             ,otherLife: e};
+   });
+   var SlateList = F2(function (a,
+   b) {
+      return {_: {}
+             ,items: b
+             ,layout: a};
+   });
+   var Imagebox = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return {_: {}
+             ,animation: e
+             ,caption: d
+             ,imageFile: b
+             ,imageOptions: c
+             ,layout: a
+             ,otherLife: f};
+   });
+   var Framebox = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,body: b
+             ,layout: a
+             ,otherLife: c};
+   });
+   var Block = F5(function (a,
+   b,
+   c,
+   d,
+   e) {
+      return {_: {}
+             ,body: d
+             ,isAlerted: b
+             ,layout: a
+             ,otherLife: e
+             ,title: c};
+   });
+   var SlideContent = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return {_: {}
+             ,blocks: a
+             ,frameboxes: c
+             ,imageboxes: d
+             ,simpletextboxes: b
+             ,slateLists: e
+             ,smartLists: f};
+   });
+   var Slide = F9(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g,
+   h,
+   i) {
+      return {_: {}
+             ,columns: h
+             ,id: a
+             ,partOf: c
+             ,quiz: g
+             ,slideContent: i
+             ,slideSubtitle: e
+             ,slideTitle: d
+             ,slideType: b
+             ,supportbin: f};
+   });
+   var Animation = function (a) {
+      return {_: {},tickLife: a};
+   };
+   var SlateText = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,animation: c
+             ,inlinestyle: b
+             ,parts: a};
+   });
+   var ElementLayout = F2(function (a,
+   b) {
+      return {_: {}
+             ,containerColumn: a
+             ,inColumnnPos: b};
+   });
+   var SizeInfo = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,id: a
+             ,placement: c
+             ,size: b};
+   });
+   var InsertInfo = F2(function (a,
+   b) {
+      return {_: {}
+             ,columnid: b
+             ,name: a};
+   });
+   var TemplateLayout = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,columns: b
+             ,id: a
+             ,inserts: c};
+   });
+   var FontInfo = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,align: c
+             ,family: d
+             ,shape: b
+             ,size: a};
+   });
+   var TemplateFont = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,container: b
+             ,fontInfo: c
+             ,id: a};
+   });
+   var ColorInfo = F7(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g) {
+      return {_: {}
+             ,bg: a
+             ,border: c
+             ,bottompadding: g
+             ,fg: b
+             ,leftpadding: d
+             ,rightpadding: e
+             ,toppadding: f};
+   });
+   var TemplateColor = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,colorInfo: c
+             ,container: b
+             ,id: a
+             ,options: d};
+   });
+   var Options = F2(function (a,
+   b) {
+      return {_: {}
+             ,option: a
+             ,value: b};
+   });
+   var Canvas = F6(function (a,
+   b,
+   c,
+   d,
+   e,
+   f) {
+      return {_: {}
+             ,border: a
+             ,borderstyle: b
+             ,bottompadding: f
+             ,leftpadding: c
+             ,rightpadding: d
+             ,toppadding: e};
+   });
+   var TemplateCanvas = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,canvas: c
+             ,container: b
+             ,id: a
+             ,options: d};
+   });
+   var Themes = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,font: c
+             ,layout: a
+             ,style: b};
+   });
+   var ThemeInfo = F8(function (a,
+   b,
+   c,
+   d,
+   e,
+   f,
+   g,
+   h) {
+      return {_: {}
+             ,guidingCanvas: b
+             ,guidingColors: c
+             ,guidingFonts: d
+             ,templateCanvas: e
+             ,templateColors: f
+             ,templateFonts: g
+             ,templateLayout: h
+             ,themes: a};
+   });
+   var ColumnInfo = F4(function (a,
+   b,
+   c,
+   d) {
+      return {_: {}
+             ,columnAlign: c
+             ,id: a
+             ,inColumnAlign: d
+             ,width: b};
+   });
+   var Section = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,id: a
+             ,longName: c
+             ,shortName: b};
+   });
+   var PresInfo = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return {_: {}
+                                        ,authors: c
+                                        ,date: e
+                                        ,institute: d
+                                        ,logo: f
+                                        ,presSubTitle: b
+                                        ,presTitle: a
+                                        ,sectionGraphic: h
+                                        ,sections: j
+                                        ,subsectionGraphic: i
+                                        ,titleGraphic: g};
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var Presentation = F5(function (a,
+   b,
+   c,
+   d,
+   e) {
+      return {_: {}
+             ,presInfo: a
+             ,quizes: e
+             ,slides: c
+             ,supportbin: d
+             ,themeInfo: b};
+   });
+   _elm.Types.Naive.values = {_op: _op
+                             ,Presentation: Presentation
+                             ,PresInfo: PresInfo
+                             ,Section: Section
+                             ,ColumnInfo: ColumnInfo
+                             ,ThemeInfo: ThemeInfo
+                             ,Themes: Themes
+                             ,TemplateCanvas: TemplateCanvas
+                             ,Canvas: Canvas
+                             ,Options: Options
+                             ,TemplateColor: TemplateColor
+                             ,ColorInfo: ColorInfo
+                             ,TemplateFont: TemplateFont
+                             ,FontInfo: FontInfo
+                             ,TemplateLayout: TemplateLayout
+                             ,InsertInfo: InsertInfo
+                             ,SizeInfo: SizeInfo
+                             ,ElementLayout: ElementLayout
+                             ,SlateText: SlateText
+                             ,Animation: Animation
+                             ,Slide: Slide
+                             ,SlideContent: SlideContent
+                             ,Block: Block
+                             ,Framebox: Framebox
+                             ,Imagebox: Imagebox
+                             ,SlateList: SlateList
+                             ,ListItem: ListItem
+                             ,SmartList: SmartList
+                             ,SmartItem: SmartItem
+                             ,Supportbin: Supportbin
+                             ,Quiz: Quiz};
+   return _elm.Types.Naive.values;
+};

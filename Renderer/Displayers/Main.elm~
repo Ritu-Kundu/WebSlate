@@ -1,0 +1,89 @@
+module Displayers.Main where
+
+import PreProcess.ThemeMaker
+import PreProcess.ContentMaker
+import Types.Slate as S
+import Types.Naive as Naive
+import Types.Theme as T
+import Types.Context as C
+import Utils.Naive  (..)
+import Utils.Displayer as UD
+
+import Displayers.ContentSlide as DC
+showPresentation: Naive.Presentation -> C.SlateContext -> Element
+showPresentation presentation context = asText <|  map PreProcess.ThemeMaker.naiveToThemeSection  
+                        presentation.presInfo.sections
+{-showPresentation: Naive.Presentation -> C.SlateContext -> Element
+showPresentation presentation context =
+  let theme = PreProcess.ThemeMaker.toTheme presentation.themeInfo
+      naivePresInfo = presentation.presInfo
+      presInfo = { naivePresInfo - sections }
+      sectionList = map PreProcess.ThemeMaker.naiveToThemeSection  
+                        presentation.presInfo.sections
+      w = context.windowWidth
+      h = context.windowHeight
+      geSize = getComponentSize theme.layout theme.componentSize
+      concreteSizeInfo = getConcreteComponentSize geSize w h
+      contentSlideList = PreProcess.ContentMaker.toContent presentation.slides theme 
+                           (fst concreteSizeInfo.content)
+      contentSlide = UD.getNthFromList context.currentSlideIndex contentSlideList
+      currentInfoForOuter = { route = contentSlide.partOf
+                            , currentSlideNumber = show context.currentSlideIndex
+                            , maxSlideNumber = show (length contentSlideList)
+                            }
+  in empty
+      --DC.display contentSlide context concreteSizeInfo currentInfoForOuter 
+                 --theme presInfo sectionList
+-}
+     
+
+getConcreteComponentSize: (T.Width -> T.Height -> String ->(T.Width, T.Height)) -> T.Width -> T.Height -> S.ConcreteSizeInfo 
+getConcreteComponentSize getSize w h =
+  let headlineSize = getSize w h "headline"
+      footlineSize = getSize w h "footline"
+      sideBarheight = h - (snd headlineSize) - (snd footlineSize)
+      leftSidebarSize = getSize w sideBarheight "leftSidebar"
+      rightSidebarSize = getSize w sideBarheight "rightSidebar"
+      bodySize = (w - (fst leftSidebarSize) - (fst leftSidebarSize), sideBarheight)
+      titleSize = getSize (fst bodySize)(snd bodySize) "title"
+      navSymbolSize = getSize (fst bodySize)(snd bodySize) "navigationSymbol"
+      contentSize = ((fst bodySize), (snd bodySize) - (snd navSymbolSize))
+  in
+        { leftSidebar = leftSidebarSize
+        , rightSidebar = rightSidebarSize
+        , headline = headlineSize
+        , footline = footlineSize
+        , navigationSymbol = navSymbolSize
+        , slideTitle = titleSize
+        , content = contentSize
+        }  
+
+
+
+getComponentSize: T.LayoutInfo -> T.ComponentSizeInfo -> T.Width -> T.Height -> String  -> (T.Width, T.Height)
+getComponentSize layoutInfo componenSizeInfo w h componentType =
+  let getX layout relX x = case layout of
+                              T.Empty -> 0
+                              otherwise -> truncate <| relX * (toFloat x)
+  in
+      case componentType of
+        "headline" -> (w, getX layoutInfo.headline componenSizeInfo.headlineHeight h)
+        "footline" -> (w, getX layoutInfo.footline componenSizeInfo.footlineHeight h)
+        "leftSidebar" -> (getX layoutInfo.leftSidebar componenSizeInfo.leftSidebarWidth w, h)
+        "rightSidebar" -> (getX layoutInfo.rightSidebar componenSizeInfo.rightSidebarWidth w, h)
+        "title" -> ( truncate <| componenSizeInfo.slideTitleWidth * (toFloat w)
+                   , truncate <| componenSizeInfo.slideTitleHeight * (toFloat h))
+        "navigationSymbol" -> (w , truncate <| componenSizeInfo.navigationSymbolHeight * (toFloat h))
+        
+      
+{-
+theme = PreProcess.ThemeMaker.toTheme 
+presentation = PreProcess.toPresentation <| (toPresRecord tojson)
+
+showCurrentSlide: Context -> Element
+showCurrentSlide context = SlideMaker.slideMaker 
+                           (giveNthFromCircular 
+                                   context.currentSlideIndex 
+                                   presentation.slides) 
+                           context
+-}

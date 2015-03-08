@@ -1,0 +1,138 @@
+Presented here is SLATE, a browser based application that lets the user create slide
+presentations by coding in a LATEX -like language. Besides this , the software
+also has features which enhance both the creation and presentation of slide-shows.
+
+SLATE is aimed to serve users who might already be familiar with tools such as LATEX and prefer them over WYSIWYG
+tools.
+--1-----------------------
+Latex is the most commonly used language in academia, but does not turn out to be suitable for producing dynamic and
+interactive slides. Web-based frameworks oer an appropriate solution but they require the user
+to write in HTML, JavaScript or CSS, making it quite unusable for the users who supposedly
+generally have only LATEX background. A pertinent solution can lie in developing a language
+inspired by LATEX to produce slides, and corresponding framework to render those slides in a
+browser. SLATE is an attempt to bring the best of both worlds together in a single tool.
+
+--2--------------------------
+Lets first compare compare and analyse widely used presentation tools to understand their
+merits and shortcomings.
+
+\Slideware" is the generic term used for software like Microsoft PowerPoint[3], Apple Keynote
+[4], OpenOce Impress [5] etc.
+WYSIWYG editors make slideware readily usable and support for multimedia and animation
+enables a typical user to build visually appealing and sophisticated presentations
+In spite of its ubiquity, slideware-supported presentations have drawn harsh criticism over and
+over again, specically for their linearly arranged content and sequential navigation style [7{10].
+The close-coupling of content and layout is another weakness which not only forces a user to
+think of them simultaneously,Separation of the content from the visual layout, as can
+be seen in the HTML/CSS combination for web pages or LATEX and many other software tools,
+is considered to be a good design strategy because of the greater 
+exibility and independence
+it provides.
+Another stumbling block lies in the inability of slideware-generated presentations to support
+interactivity.This weakness of Slideware tools makes the presentations a one-sided monologue
+
+The unrivalled precision in the typesetting
+domain and convenience in expressing mathematical content as well as in drawing graphics
+contributes to the elegance of this set of tools. and makes it the standard format for documentation
+in the academic sphere
+Better portability because of the PDF format, along with separation of content and layout
+specication, frees-up the user from thinking of the visual appearance simultaneously with the
+content ,
+
+Beamer presentations share the 
+aws of slideware presentations absence of interactivity is con-
+cerned, while the lower 
+exibility of the PDF output format worsens the situation.
+
+HTML5 along with CSS and
+JavaScript enables highly dynamic and interactive applications. Other tools come up short as
+web technology characterizes robust support for multimedia including audio-video, provision
+for conveniently creating richly interactive environments, ability to excellently meet the needs
+of dynamic content. Portability and easy accessibility is achieved by the deep level of penetra-
+tion of browsers (PC, laptops, tablets, mobile phones) and cross-platform compatibility of these
+presentations.
+code-
+based tools require rigorous coding from the users.
+
+--3----------------
+Learning a new language poses a certain psychological diculty and demands time-
+investments. Ensuring the language to be similar to LATEX eases out these issues.
+2. Same content that was written for other documents( reports, papers etc.) can be reused
+with little changes, if any.
+Output should be able to be rendered in a web browser because of its suitability to handle
+dynamic content and support for developing highly responsive applications. Web browsers also
+make an application portable and accessible on dierent platforms and devices.
+
+
+Visual appearance should be separated from
+content specications so that author can concentrate on actual content while authoring
+presentation rather than how that content should look
+
+Ease of building even an exceedingly
+complex animation and its smooth rendering should be facilitated.
+
+Quizzes can be used to intrigue the au-
+dience and thus enhance interaction.
+To break the imposition of following lin-
+ear 
+
+There should be a provision to provide
+some additional information that might be required to explain something or answer a
+question that could be asked by audience. This information is not intended to be dis-
+played by presenter under 'normal circumstances'. It should not hinder the normal 
+ow
+of presentation
+
+Provision to zoom an element(text, gure, image
+etc) on the current slide being presented, would grant the choice to have a closer look when
+needed. Author should not be expected to anticipate where zooming might be required
+and prepare accordingly.
+
+Content to be included in the presentation gets locked in the
+authoring stage itself. But, in many situations, like explaining some concept or to draw
+attention to a particular part of slide, presenter feels a need to write/draw on the slide.
+This spontaneity and 
+exibili
+
+ow of navigation through slides, 'out-of-order' navigation at desired points can be
+provided.
+
+
+
+--4----------
+Elm's website describes it as A functional reactive language for interactive applications. The
+Elm compiler takes in valid Elm code and compiles it down to a combination of HTML, CSS
+and JS code, which can then be run/rendered on any standards-compliant browser. Functional
+Reactive Programming is a programming paradigm which lets the programmer deal with events,
+providing control-
+ow structures for them. This is an alternative paradigm to the event-driven
+nature inherent in JavaScript.
+The following bit of code can serve as an example of the brevity and power of Elm for coding
+browser applications.
+import Mouse
+main = lift asText Mouse.position
+This is a complete Elm program that prints and updates the co-ordinates of the mouse continu-
+ally. Mouse.position is a built-in Signal whose value is the co-ordinates of the mouse pointer at
+any given time, whereas asText is a function that takes a value and renders it as text (analogous
+to the print I/O function in most languages). The lift function enables a static function (which
+takes as input a value rather than a time-varying Signal) to take a Signal and produce a Signal
+as output.
+
+
+--5------
+Since SLATE is meant to be rendered and run on a browser, the choice is between using
+pure JavaScript or one of the many languages which compile down to JavaScript (like Elm).
+Although a compile-to-JavaScript language adds one extra step of compilation and thus overall
+Chapter 2. Technical Background 11
+complexity, the signicant reduction in the size and complexity of the actual code makes it a
+good engineering choice. Some of the ways in which code-complexity is reduced are:
+1. Elm is a much less verbose language than JavaScript, leading to much fewer Lines of Code
+(LOC) overall. Signicantly, coding in Elm means not having to separately write HTML,
+CSS and JS code.
+2. The build-in data-structures in Elm (like dictionaries, lists and records) score over JavaScript
+data structures like mutable Arrays and Objects, making for cleaner, less buggy code.
+3. The functional nature of Elm and the Strong Static Type system also encourages clean,
+maintainable code.
+4. Most importantly, Elm provides excellent support for interactivity, with native support
+for streams of events (known as Signals) which proves to be very useful for an application
+which aims to provide excellent interactivity support like SLATE.

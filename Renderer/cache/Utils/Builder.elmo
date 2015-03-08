@@ -1,0 +1,386 @@
+Elm.Utils = Elm.Utils || {};
+Elm.Utils.Builder = Elm.Utils.Builder || {};
+Elm.Utils.Builder.make = function (_elm) {
+   "use strict";
+   _elm.Utils = _elm.Utils || {};
+   _elm.Utils.Builder = _elm.Utils.Builder || {};
+   if (_elm.Utils.Builder.values)
+   return _elm.Utils.Builder.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Utils.Builder";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.Context = Elm.Builders.Context.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var makeClickable = F3(function (tickDict,
+   sectionishId,
+   elem) {
+      return function () {
+         var tick = A2(Dict.getOrFail,
+         sectionishId,
+         tickDict);
+         return _U.eq(tick,
+         -100) ? elem : A3(Graphics.Input.clickable,
+         Builders.Context.asynClicks.handle,
+         Types.Context.Asyn(tick),
+         elem);
+      }();
+   });
+   var getColumnPosition = function (colAlign) {
+      return function () {
+         switch (colAlign.ctor)
+         {case "BottomAlign":
+            return Graphics.Element.midBottom;
+            case "CenterAlign":
+            return Graphics.Element.middle;
+            case "TopAlign":
+            return Graphics.Element.midTop;}
+         _E.Case($moduleName,
+         "between lines 161 and 164");
+      }();
+   };
+   var partitionColWiseContentElement = F2(function (col,
+   colAndElement) {
+      return function () {
+         var partList = F2(function (list,
+         id) {
+            return _U.cmp(id,
+            col) > 0 ? _L.fromArray([]) : function () {
+               var partedList = A2(List.partition,
+               function (_v1) {
+                  return function () {
+                     switch (_v1.ctor)
+                     {case "_Tuple2":
+                        return _U.eq(_v1._0,id);}
+                     _E.Case($moduleName,
+                     "on line 153, column 63 to 70");
+                  }();
+               },
+               list);
+               var allconElemList = List.concat(Basics.snd(List.unzip(Basics.fst(partedList))));
+               return _L.append(_L.fromArray([allconElemList]),
+               A2(partList,
+               Basics.snd(partedList),
+               id + 1));
+            }();
+         });
+         return A2(partList,
+         colAndElement,
+         1);
+      }();
+   });
+   var partitionColWise = F2(function (col,
+   colAndElement) {
+      return function () {
+         var partList = F2(function (list,
+         id) {
+            return _U.cmp(id,
+            col) > 0 ? _L.fromArray([]) : function () {
+               var partedList = A2(List.partition,
+               function (_v5) {
+                  return function () {
+                     switch (_v5.ctor)
+                     {case "_Tuple2":
+                        return _U.eq(_v5._0,id);}
+                     _E.Case($moduleName,
+                     "on line 142, column 53 to 60");
+                  }();
+               },
+               list);
+               var colElem = Graphics.Element.flow(Graphics.Element.down)(Basics.snd(List.unzip(Basics.fst(partedList))));
+               return _L.append(_L.fromArray([colElem]),
+               A2(partList,
+               Basics.snd(partedList),
+               id + 1));
+            }();
+         });
+         return A2(partList,
+         colAndElement,
+         1);
+      }();
+   });
+   var getNumberOfSections = function (sectionList) {
+      return List.length(List.filter(function (x) {
+         return _U.eq(x,1);
+      })(A2(List.map,
+      function (x) {
+         return List.length(x.route);
+      },
+      sectionList)));
+   };
+   var getLevelNumber = F2(function (level,
+   route) {
+      return _U.cmp(level,
+      List.length(route)) > 0 ? -1 : List.last(A2(List.take,
+      level,
+      route));
+   });
+   var getSectionFromRoute = function (route) {
+      return A2(getLevelNumber,
+      1,
+      route);
+   };
+   var getNumberOfSubsections = F2(function (sectionId,
+   sectionList) {
+      return List.length(List.filter(function (x) {
+         return _U.eq(x,2);
+      })(List.map(function (x) {
+         return List.length(x.route);
+      })(A2(List.filter,
+      function (x) {
+         return _U.eq(getSectionFromRoute(x.route),
+         sectionId);
+      },
+      sectionList))));
+   });
+   var getSubsectionFromRoute = function (route) {
+      return A2(getLevelNumber,
+      2,
+      route);
+   };
+   var getSubsubsectionFromRoute = function (route) {
+      return A2(getLevelNumber,
+      3,
+      route);
+   };
+   var isCurrentSubsubsection = F2(function (currentRoute,
+   section) {
+      return _U.eq(getSubsubsectionFromRoute(currentRoute),
+      getSubsubsectionFromRoute(section.route));
+   });
+   var isCurrentSubsection = F2(function (currentRoute,
+   section) {
+      return _U.eq(getSubsectionFromRoute(currentRoute),
+      getSubsectionFromRoute(section.route));
+   });
+   var isCurrentSection = F2(function (currentRoute,
+   section) {
+      return _U.eq(getSectionFromRoute(currentRoute),
+      getSectionFromRoute(section.route));
+   });
+   var tryHeadElseDefault = function (secList) {
+      return List.isEmpty(secList) ? Maybe.Nothing : Maybe.Just(List.head(secList));
+   };
+   var filterOutLevel = F2(function (levels,
+   sectioList) {
+      return A2(List.filter,
+      function (x) {
+         return A2(List.any,
+         function (y) {
+            return _U.eq(List.length(x.route),
+            y);
+         },
+         levels);
+      },
+      sectioList);
+   });
+   var filterOutSection = function (sectionList) {
+      return A2(filterOutLevel,
+      _L.fromArray([1]),
+      sectionList);
+   };
+   var getCurrentSection = F2(function (currentRoute,
+   sectionList) {
+      return tryHeadElseDefault(List.filter(isCurrentSection(currentRoute))(filterOutSection(sectionList)));
+   });
+   var filterOutSubsection = function (sectionList) {
+      return A2(filterOutLevel,
+      _L.fromArray([2]),
+      sectionList);
+   };
+   var getCurrentSubsection = F2(function (currentRoute,
+   sectionList) {
+      return tryHeadElseDefault(List.filter(isCurrentSection(currentRoute))(List.filter(isCurrentSubsection(currentRoute))(filterOutSubsection(sectionList))));
+   });
+   var filterOutSectionAndSubsection = function (sectionList) {
+      return A2(filterOutLevel,
+      _L.fromArray([1,2]),
+      sectionList);
+   };
+   var filterOutSubsectionOfCurrentSection = F2(function (currentSection,
+   sectionList) {
+      return List.filter(function (x) {
+         return _U.eq(getSectionFromRoute(x.route),
+         currentSection);
+      })(A2(filterOutLevel,
+      _L.fromArray([2]),
+      sectionList));
+   });
+   var getNextOrPvsTick = F5(function (tickDict,
+   currentRoute,
+   sectionList,
+   level,
+   nextOrPvs) {
+      return function () {
+         var siblings = List.map(function (_) {
+            return _.route;
+         })(_U.eq(level,
+         1) ? filterOutSection(sectionList) : A2(filterOutSubsectionOfCurrentSection,
+         List.head(currentRoute),
+         sectionList));
+         var cl = _U.eq(level,
+         1) ? _L.fromArray([getSectionFromRoute(currentRoute)]) : _L.fromArray([getSectionFromRoute(currentRoute)
+                                                                               ,getSubsectionFromRoute(currentRoute)]);
+         var validSiblings = _U.cmp(nextOrPvs,
+         0) > 0 ? A2(List.filter,
+         function (x) {
+            return _U.cmp(x,cl) > 0;
+         },
+         siblings) : A2(List.filter,
+         function (x) {
+            return _U.cmp(x,cl) < 0;
+         },
+         siblings);
+         var ticks = List.filter(function (x) {
+            return !_U.eq(x,-100);
+         })(A2(List.map,
+         function (x) {
+            return A2(Dict.getOrFail,
+            x,
+            tickDict);
+         },
+         validSiblings));
+         return List.isEmpty(ticks) ? A2(Dict.getOrFail,
+         currentRoute,
+         tickDict) : _U.cmp(nextOrPvs,
+         0) > 0 ? List.head(ticks) : List.last(ticks);
+      }();
+   });
+   var getCurrentSubsubsection = F2(function (currentRoute,
+   sectionList) {
+      return tryHeadElseDefault(List.filter(isCurrentSection(currentRoute))(List.filter(isCurrentSubsection(currentRoute))(List.filter(isCurrentSubsubsection(currentRoute))(A2(filterOutLevel,
+      _L.fromArray([3]),
+      sectionList)))));
+   });
+   var partitionInLevel = F2(function (level,
+   routeAndElement) {
+      return function () {
+         var numSections = List.length(List.filter(function (x) {
+            return _U.eq(x,level);
+         })(List.map(List.length)(Basics.fst(List.unzip(routeAndElement)))));
+         var partList = F2(function (list,
+         id) {
+            return _U.cmp(id,
+            numSections) > 0 ? _L.fromArray([]) : function () {
+               var partedList = A2(List.partition,
+               function (_v9) {
+                  return function () {
+                     switch (_v9.ctor)
+                     {case "_Tuple2":
+                        return _U.eq(A2(getLevelNumber,
+                          level,
+                          _v9._0),
+                          id);}
+                     _E.Case($moduleName,
+                     "on line 38, column 54 to 83");
+                  }();
+               },
+               list);
+               return _L.append(_L.fromArray([Basics.fst(partedList)]),
+               A2(partList,
+               Basics.snd(partedList),
+               id + 1));
+            }();
+         });
+         return A2(partList,
+         routeAndElement,
+         1);
+      }();
+   });
+   var partitionInSection = function (routeAndElement) {
+      return A2(partitionInLevel,
+      1,
+      routeAndElement);
+   };
+   var partitionInSubsection = function (routeAndElement) {
+      return A2(partitionInLevel,
+      2,
+      routeAndElement);
+   };
+   var toElementMap = F2(function (funcList,
+   sectionList) {
+      return function () {
+         var toElement = function (section) {
+            return List.last(A2(List.take,
+            List.length(section.route),
+            funcList))(section);
+         };
+         return A2(List.map,
+         toElement,
+         sectionList);
+      }();
+   });
+   var levelwiseRouteMap = F2(function (funcList,
+   sectionList) {
+      return function () {
+         var onlyRoute = function (section) {
+            return section.route;
+         };
+         return A2(List.zip,
+         A2(List.map,
+         onlyRoute,
+         sectionList),
+         A2(toElementMap,
+         funcList,
+         sectionList));
+      }();
+   });
+   _elm.Utils.Builder.values = {_op: _op
+                               ,toElementMap: toElementMap
+                               ,levelwiseRouteMap: levelwiseRouteMap
+                               ,partitionInLevel: partitionInLevel
+                               ,partitionInSection: partitionInSection
+                               ,partitionInSubsection: partitionInSubsection
+                               ,filterOutLevel: filterOutLevel
+                               ,filterOutSection: filterOutSection
+                               ,filterOutSubsection: filterOutSubsection
+                               ,filterOutSectionAndSubsection: filterOutSectionAndSubsection
+                               ,filterOutSubsectionOfCurrentSection: filterOutSubsectionOfCurrentSection
+                               ,tryHeadElseDefault: tryHeadElseDefault
+                               ,getCurrentSection: getCurrentSection
+                               ,getCurrentSubsection: getCurrentSubsection
+                               ,getCurrentSubsubsection: getCurrentSubsubsection
+                               ,isCurrentSection: isCurrentSection
+                               ,isCurrentSubsection: isCurrentSubsection
+                               ,isCurrentSubsubsection: isCurrentSubsubsection
+                               ,getLevelNumber: getLevelNumber
+                               ,getSectionFromRoute: getSectionFromRoute
+                               ,getSubsectionFromRoute: getSubsectionFromRoute
+                               ,getSubsubsectionFromRoute: getSubsubsectionFromRoute
+                               ,getNumberOfSections: getNumberOfSections
+                               ,getNumberOfSubsections: getNumberOfSubsections
+                               ,partitionColWise: partitionColWise
+                               ,partitionColWiseContentElement: partitionColWiseContentElement
+                               ,getColumnPosition: getColumnPosition
+                               ,makeClickable: makeClickable
+                               ,getNextOrPvsTick: getNextOrPvsTick};
+   return _elm.Utils.Builder.values;
+};

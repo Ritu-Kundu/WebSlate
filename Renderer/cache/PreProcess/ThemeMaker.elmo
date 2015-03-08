@@ -1,0 +1,114 @@
+Elm.PreProcess = Elm.PreProcess || {};
+Elm.PreProcess.ThemeMaker = Elm.PreProcess.ThemeMaker || {};
+Elm.PreProcess.ThemeMaker.make = function (_elm) {
+   "use strict";
+   _elm.PreProcess = _elm.PreProcess || {};
+   _elm.PreProcess.ThemeMaker = _elm.PreProcess.ThemeMaker || {};
+   if (_elm.PreProcess.ThemeMaker.values)
+   return _elm.PreProcess.ThemeMaker.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "PreProcess.ThemeMaker";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var PreProcess = PreProcess || {};
+   PreProcess.RawThemeMaker = Elm.PreProcess.RawThemeMaker.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Themes = Themes || {};
+   Themes.BaseMapping = Elm.Themes.BaseMapping.make(_elm);
+   var Themes = Themes || {};
+   Themes.GetTheme = Elm.Themes.GetTheme.make(_elm);
+   var Themes = Themes || {};
+   Themes.SizeSettings = Elm.Themes.SizeSettings.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Intermediate = Elm.Types.Intermediate.make(_elm);
+   var Types = Types || {};
+   Types.Naive = Elm.Types.Naive.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Naive = Elm.Utils.Naive.make(_elm);
+   var Utils = Utils || {};
+   Utils.Theme = Elm.Utils.Theme.make(_elm);
+   var _op = {};
+   var naiveToThemeSection = function (naiveSection) {
+      return _U.insert("route",
+      List.map(Utils.Naive.toConcreteInt)(A2(String.split,
+      ".",
+      naiveSection.id)),
+      _U.remove("id",naiveSection));
+   };
+   var toTheme = function (themeInfo) {
+      return function () {
+         var symbolSizeInfo = Themes.SizeSettings.symbolSizeInfo;
+         var componentSizeInfo = Themes.SizeSettings.componentSizeInfo;
+         var baseMapping = Themes.BaseMapping.mapping;
+         var normalFontSize = Utils.Theme.getNormalFontSize;
+         var fonts = function () {
+            var _v0 = themeInfo.themes.font;
+            switch (_v0.ctor)
+            {case "::": switch (_v0._0)
+                 {case "": switch (_v0._1.ctor)
+                      {case "[]":
+                         return _L.fromArray(["Times New Roman"
+                                             ,"serif"]);}
+                      break;}
+                 break;}
+            return themeInfo.themes.font;
+         }();
+         var styleTheme = Themes.GetTheme.style(themeInfo.themes.style);
+         var layoutTheme = Themes.GetTheme.layout(themeInfo.themes.layout);
+         var layoutInfo = Basics.fst(layoutTheme);
+         var mergedLayoutInfo = A2(PreProcess.RawThemeMaker.applyLayout,
+         themeInfo,
+         layoutInfo);
+         var mappingAfterLayout = Utils.Theme.updateMapping(baseMapping)(Basics.snd(layoutTheme));
+         var rawTemplateDict = PreProcess.RawThemeMaker.applyTemplate(themeInfo);
+         var rawParentDict = PreProcess.RawThemeMaker.applyTheme(themeInfo);
+         var styleInfo = A4(styleTheme,
+         fonts,
+         normalFontSize,
+         rawParentDict,
+         mappingAfterLayout);
+         var mergedStyleInfo = {_: {}
+                               ,inner: A2(Utils.Theme.mergeWithRaw,
+                               rawTemplateDict,
+                               styleInfo.inner)
+                               ,outer: A2(Utils.Theme.mergeWithRaw,
+                               rawTemplateDict,
+                               styleInfo.outer)
+                               ,slideBackground: styleInfo.slideBackground
+                               ,symbol: A2(Utils.Theme.mergeSymbolWithRaw,
+                               rawTemplateDict,
+                               styleInfo.symbol)};
+         var styleInfoAfterFontSize = A2(Utils.Theme.adjustFontSize,
+         Themes.SizeSettings.changeFontSizingList,
+         mergedStyleInfo);
+         return {_: {}
+                ,componentSize: componentSizeInfo
+                ,layout: mergedLayoutInfo
+                ,style: styleInfoAfterFontSize
+                ,symbolSize: symbolSizeInfo};
+      }();
+   };
+   _elm.PreProcess.ThemeMaker.values = {_op: _op
+                                       ,toTheme: toTheme
+                                       ,naiveToThemeSection: naiveToThemeSection};
+   return _elm.PreProcess.ThemeMaker.values;
+};

@@ -1,0 +1,1184 @@
+{
+  var textMode = false;
+  var slideType = {normal: "normal", plain:"plain", supportbin:"supportbin"};
+  var listLevel =0;
+  var maxTick =0;  
+
+  var sectionNum = 0;
+  var subsectionNum = 0;
+  var subsubsectionNum = 0;
+  var slideNum = 0;
+  var sectionList = [];
+
+  var smartItemNum = 0;
+  var smartSubItemNum = 0;
+  var smartSubsubItemNum = 0;
+ 
+
+  var supportbinList = [];
+  var quizList = [];
+
+  var templateCanvas = [];
+  var templateColors =[];
+  var templateFonts = [];
+  var guidingCanvas = []
+  var guidingColors = [];
+  var guidingFonts = [];
+  var templateLayout = [];
+  var defThemes = { layout: ""
+                  , style: ""
+                  , font: [""]
+                  }
+
+  function makeOptions(firstOption, rest, def){
+    def[firstOption[0]] = firstOption[1];
+    for(var i=0;i<rest.length;i++){
+        def[rest[i][1][0]] = rest[i][1][1];
+    } 
+  }
+  function makeSlideOptions(firstOption, rest){
+    var defSlide = { plain: "false"
+                   , supportbin: ""
+                   , quiz:""
+                   };
+    makeOptions(firstOption, rest, defSlide);
+    return defSlide;  
+  }
+  function makeColumnOptions(firstOption, rest){
+    var defColumn = { align: "c"
+                    , placement: "center"
+                    };
+    makeOptions(firstOption, rest, defColumn);
+    return defColumn;  
+  }
+  function makeImageOptions(firstOption, rest){
+    var defImage = {  width: ""
+                    , height: ""
+                    , scale: ""
+                    };
+    makeOptions(firstOption, rest, defImage);
+    return defImage;  
+  }
+  function makeInfo(infoList){
+    var defInfo =  { title: ""
+                , subtitle: ""
+                , authors:""
+                , institute:""
+                , date: ""
+                , logo: ""
+                , titlegraphic: ""
+                , sectiongraphic: ""
+                , subsectiongraphic: ""
+                }
+    for(var i=0;i<infoList.length;i++){
+        defInfo[infoList[i][0]] = infoList[i][1];
+    } 
+    return defInfo;  
+  }
+  function makeCanvasOptions(firstOption, rest){
+    var defCanvas =  { border: ""
+              , borderstyle: ""
+              , leftpadding: ""
+              , rightpadding: ""
+              , toppadding: ""
+              , bottompadding: ""
+              }
+    function set(op){
+       if (op[0] == "border")
+       {defCanvas.border = op[1];
+        defCanvas.borderstyle = op[2];
+       }
+       else if (op[0] == "padding")
+       {defCanvas.leftpadding = op[1];
+        defCanvas.toppadding = op[2];
+        defCanvas.rightpadding = op[3];
+        defCanvas.bottompadding = op[4];
+       }
+
+    }
+    set(firstOption);
+    for(var i=0;i<rest.length;i++){
+        set(rest[i][1]);
+    } 
+    return defCanvas;  
+  }
+//------------------------------------------------------
+  function makeColorOptions(firstOption, rest){
+    var defColor =  { bg: ""
+              , fg:""
+              , border: ""
+              , leftpadding: ""
+              , rightpadding: ""
+              , toppadding: ""
+              , bottompadding: ""
+              };
+    function set(op){
+       if (op[0] == "border")
+       {defColor.border = op[1];
+       }
+       else if (op[0] == "padding")
+       {defColor.leftpadding = op[1];
+        defColor.toppadding = op[2];
+        defColor.rightpadding = op[3];
+        defColor.bottompadding = op[4];
+       }
+       else if (op[0] == "bg")
+       {defColor.bg = op[1];
+       }
+       else if (op[0] == "fg")
+       {defColor.fg = op[1];
+       }
+
+    }
+    set(firstOption);
+    for(var i=0;i<rest.length;i++){
+        set(rest[i][1]);
+    } 
+    return defColor;  
+  }
+  function makeFontOptions(firstOption, rest){
+    var defFont =  { size: ""
+                , shape: ""
+                , align: ""
+                , family: ""
+                };
+    
+    defFont[firstOption[0]]=firstOption[1];
+    for(var i=0;i<rest.length;i++){
+        defFont[rest[i][1][0]]=rest[i][1][1];
+    } 
+    return defFont;  
+  }
+  
+}
+
+presentation 
+  = BEGIN PRES Ignore_ ps:presentationSpec END PRES Ignore_ {return ps;}
+
+presentationSpec 
+  = aspec:appearanceSpec? Ignore_ ispec:infoSpec? Ignore_ cs:contentSpec Ignore_ 
+    { var dummyAppear = { themes: defThemes
+                 , guidingCanvas: guidingCanvas
+                 , guidingColors: guidingColors
+                 , guidingFonts: guidingFonts
+                 , templateCanvas: templateCanvas
+                 , templateColors: templateColors
+                 , templateFonts: templateFonts
+                 , templateLayout: templateLayout
+                 };
+      var dummyInfo = makeInfo([]);
+      var pInfo = (ispec != null) ? ispec : dummyInfo
+      pInfo["sections"] = sectionList;
+      return { appearanceInfo:((aspec != null) ? aspec : dummyAppear)
+            , presInfo:  pInfo
+            , supportbin: supportbinList
+            , quizes: quizList
+            , content: cs   
+            };
+    }
+
+////////////////////////////////////////////////////////////////////////
+appearanceSpec 
+  = BEGIN APPEARANCE Ignore_ 
+      ae:appearanceElement+
+    END APPEARANCE Ignore_ 
+   {return       { themes: defThemes
+                 , guidingCanvas: guidingCanvas
+                 , guidingColors: guidingColors
+                 , guidingFonts: guidingFonts
+                 , templateCanvas: templateCanvas
+                 , templateColors: templateColors
+                 , templateFonts: templateFonts
+                 , templateLayout: templateLayout
+                 };
+   }
+appearanceElement
+ = setCanvas/ setColor / setFont /
+   setGuideCanvas/ setGuideColor / setGuideFont /
+   useStyleTheme / useFontTheme / useLayoutTheme / 
+   setLayout
+//**********************************************************************
+useStyleTheme
+  = USE STYLE THEME LCURLY t:styleThemeName RCURLY Ignore_
+    { defThemes.style = t;
+      return "";
+    }
+useFontTheme
+  = USE FONT THEME LCURLY f:CommaSepString RCURLY Ignore_
+    { fonts = f.split(",");
+      defThemes.font = fonts;
+      return "";
+    }
+useLayoutTheme
+  = USE LAYOUT THEME LCURLY t:layoutThemeName RCURLY Ignore_
+    { defThemes.layout = t;
+      return "";
+    }
+//--------------------------------------------------------------------
+styleThemeName
+  = "default" / "sober" / "striking"
+layoutThemeName
+ = simpleLayoutTheme / parametericLayoutTheme
+simpleLayoutTheme
+  = "infolines"/ "leftsidebar"/ "rightsidebar"/ "split"/ "tree" 
+parametericLayoutTheme
+  = "miniframes" _ WITH _
+     op:("author-title"/"institute-title"/"author-institute-title"/"no-foot") 
+    {return ("miniframes:" + op.replace("-",""));}   
+    / "miniframes" {return "miniframes:nofoot"}
+//**********************************************************************
+setLayout
+  = SET LAYOUT LCURLY cn:componentNames RCURLY LCURLY Ignore_
+      lc:layoutContent
+    RCURLY Ignore_
+    { templateLayout.push( { id:cn
+             , layoutContent: lc
+             });
+      return "";
+    }
+layoutContent 
+  = columnedLayoutContent 
+    / ins:(insert)*
+    { return [{ width: "1"
+             , columnAlign: "c"
+             , inColumnAlign: "center"
+             , columnContent: ins
+             }]
+    } 
+columnedLayoutContent
+  = BEGIN COLUMNS Ignore_ 
+      lcc:(layoutColumnContent)+
+    END COLUMNS Ignore_
+    {return lcc;}
+layoutColumnContent 
+  = BEGIN COLUMN co:columnOptions? LCURLY w:width RCURLY Ignore_
+     ins:(insert)*
+    END COLUMN Ignore_
+    { return { width: w
+             , columnAlign: (co != null) ? co.align : "c"
+             , inColumnAlign: (co != null) ? co.placement : "center"
+             , columnContent: ins
+             }
+    }                
+insert 
+  = simpleInsert / parametericInsert
+  
+
+simpleInsert
+ = INSERT LCURLY si:simpleInsertNames RCURLY Ignore_
+   {return si.replace(" ", "");}
+
+simpleInsertNames
+  = "navigation vertical"/"navigation" /
+    "section navigation vertical" /"section navigation" / 
+    "subsection navigation vertical" / "subsection navigation" / 
+    "tree section" / "tree subsection" / 
+    "section" / "subsection" / "subsubsection"/
+    "logo" / "slide number and total" / "slide number" / 
+    "title" / "subtitle"/ "author" / "institute" / "date" / "image" /
+    "slide navigation"
+    "back forward" /
+    "support" / "zoom" / "quiz" /"scribble"
+parametericInsert
+  = INSERT LCURLY "toc" RCURLY op:tocOptions? Ignore_
+   {if (op!=null)
+    {return ("toc:" + op);}
+     return ("toc:");
+   }
+tocOptions 
+ = LSQUARE to:tocOption Ignore_ rest:commaSepTOCOption* RSQUARE 
+    {if (rest.length == 0)
+      {return to;}
+     return (to + "-" + rest.join("-"));
+    }
+commaSepTOCOption 
+  = (COMMA t:tocOption) {return t;}
+tocOption 
+  = o:(PAUSESECTIONS/PAUSESUBSECTIONS) EQ v:(TRUE/FALSE) Ignore_
+    { return (o+"="+v);}
+    /
+    o:(SECTIONSTYLE) EQ v:(tocStyle EXCLAIM tocStyle) Ignore_
+    { return (o+"="+v.join(""));}
+    /
+    o:(SUBSECTIONSTYLE) EQ 
+          v:(tocStyle EXCLAIM tocStyle EXCLAIM tocStyle) Ignore_
+    { return (o+"="+v.join(""));}
+tocStyle 
+  = SHOW / HIDE / SHADED 
+
+componentNames
+  = c:("headline"/ "footline" / "right sidebar" / 
+    "left sidebar"/ "navigational symbols"/ "modechange symbols" /
+    "title slide" / "toc slide" / "atbeginsection slide" /
+    "atbeginsubsection slide")
+    {return c.replace(" ", "");}
+//**********************************************************************
+setColor
+  = SET COLOR LCURLY tn:templateName RCURLY co:colorOptions 
+                       cad:colorAddditionalOptions? Ignore_
+    { templateColors.push( { id:tn.id
+             , container: tn.container
+             , colorInfo: co
+             , options: (cad!=null)? cad: []
+             });
+      return "";
+    }
+setGuideColor
+  = SET GUIDE COLOR LCURLY gn:guideName RCURLY co:colorOptions 
+                       cad:colorAddditionalOptions? Ignore_
+    { guidingColors.push( { id:gn.id
+             , container: gn.container
+             , colorInfo: co
+             , options: (cad!=null)? cad: []
+             });
+      return "";
+    }
+colorOptions
+  = LSQUARE co:colorOption Ignore_ rest:(COMMA colorOption)* RSQUARE 
+    {return makeColorOptions(co,rest);}
+colorOption 
+  = o:(BORDER/BG/FG) EQ c:colorString Ignore_
+    { return [o,c];}
+    / 
+    o:PADDING EQ 
+         l:(colorString?) EXCLAIM t:(colorString)? 
+           EXCLAIM r:(colorString)? EXCLAIM b:(colorString)? Ignore_
+    { var left = (l!=null)?l:"";
+      var top = (t!=null)?t:"";
+      var right = (r!=null)?r:"";
+      var bottom = (b!=null)?b:"";
+      return [o,left, top, right, bottom];}
+
+colorAddditionalOptions 
+  = LSQUARE fo:colorAddditionalOption Ignore_  rest:restcolorAddditionalOption* RSQUARE
+    { rest.push(fo);
+     return rest;
+    }
+restcolorAddditionalOption 
+  = (COMMA c:colorAddditionalOption) {return c;}
+colorAddditionalOption 
+  = o:FILL EQ v:colorString
+    {return {option: o
+            ,value: v
+            }  
+    }
+    /
+    o:ALPHA EQ v:$Float
+    {return {option: o
+            ,value: v
+            }  
+    }
+//**********************************************************************
+setCanvas
+  = SET CANVAS LCURLY tn:templateName RCURLY co:canvasOptions 
+                       cad:canvasAddditionalOptions? Ignore_
+    { templateCanvas.push( { id:tn.id
+             , container: tn.container
+             , canvas: co
+             , options: (cad!=null)? cad: []
+             });
+      return "";
+    }
+setGuideCanvas
+  = SET GUIDE CANVAS LCURLY gn:guideName RCURLY co:canvasOptions 
+                       cad:canvasAddditionalOptions? Ignore_
+    { guidingCanvas.push( { id:gn.id
+             , container: gn.container
+             , canvas: co
+             , options: (cad!=null)? cad: []
+             });
+      return "";
+    }
+canvasOptions
+  = LSQUARE co:canvasOption Ignore_ rest:(COMMA canvasOption)* RSQUARE 
+    {return makeCanvasOptions(co,rest);}
+canvasOption 
+  = o:BORDER EQ size:(THIN/MEDIUM/THICK/NONE/$Number) 
+                   opt:(EXCLAIM (SOLID/DASHED/DOTTED))? Ignore_
+    { var shape = (opt!=null)? opt[1] : "";
+      return [o,size,shape];
+    }
+    / 
+    o:PADDING EQ 
+         l:(paddingThick?) EXCLAIM t:(paddingThick)? 
+           EXCLAIM r:(paddingThick)? EXCLAIM b:(paddingThick)? Ignore_
+    { var left = (l!=null)?l:"";
+      var top = (t!=null)?t:"";
+      var right = (r!=null)?r:"";
+      var bottom = (b!=null)?b:"";
+      return [o,left, top, right, bottom];}
+
+paddingThick
+  = THIN/THICK/MEDIUM/$Number 
+
+canvasAddditionalOptions 
+  = LSQUARE fo:canvasAddditionalOption+ Ignore_ RSQUARE
+    { return fo;}
+canvasAddditionalOption 
+  = o:SHAPE EQ v:(CIRCLE/ TICK/ SQUARE/ RECTANGLE/ TRIANGLE) 
+    {return {option: o
+            ,value: v
+            }  
+    }
+
+//**********************************************************************
+
+setFont
+  = SET FONT LCURLY tn:templateName RCURLY fo:fontOptions Ignore_
+    { templateFonts.push( { id:tn.id
+             , container: tn.container
+             , fontInfo: fo
+             });
+      return "";
+    }
+setGuideFont
+  = SET GUIDE FONT LCURLY tn:guideName RCURLY fo:fontOptions Ignore_
+    { guidingFonts.push( { id:gn.id
+             , container: gn.container
+             , fontInfo: fo
+             });
+      return "";
+    }
+
+fontOptions
+  = LSQUARE co:fontOption Ignore_ rest:(COMMA fontOption)* RSQUARE 
+    {return makeFontOptions(co,rest);}
+fontOption 
+  = o:(SIZE) EQ v:(TINY/SCRIPTSIZE/FOOTNOTESIZE/VERYSMALL
+                  /SMALL/NORMALSIZE/LARGE/VERYLARGE/HUGE) Ignore_
+    { return [o,v];}
+    / 
+    o:SHAPE EQ v:(NORMAL/BOLD/ITALIC/BOLDITALIC) Ignore_
+    { return [o,v];}
+    / 
+    o:ALIGN EQ v:(LEFT/RIGHT/CENTER/JUSTIFY) Ignore_
+    { return [o,v];}
+    / 
+    o:FAMILY EQ v:(StringLine) Ignore_
+    { return [o,v];}
+
+
+
+//--------------------------------------------------------------------
+templateName
+  = t:template op:( _ IN _ container )? 
+    { return { id: t.replace(" ","")
+             , container: (op!=null)?op[3]:"none"
+             }
+    }
+
+template 
+  = "navigational symbols"/ "dimmed navigational symbols"/ 
+     "modechange symbols"/ "dimmed modechange symbols"/ 
+     "current section"/ "current subsection"/ "other section"/ "other subsection"/
+     "section projection"/ "shaded section projection"/
+     "subsection projection"/ "shaded subsection projection"/ 
+     "subsubsection projection"/ "shaded subsubsection projection"/
+     "itemize item projection"/ "itemize subitem projection"/ 
+     "itemize subsubitem projection"/ 
+     "enumerate item projection"/ "enumerate subitem projection"/ 
+     "enumerate subsubitem projection"/ 
+     "description item projection"/ "description subitem projection"/ 
+     "description subsubitem projection"/
+    "title"/ "subtitle"/ "author" / "date"/ "institute"/ "slide number"/
+    "title graphic"/ "section graphic"/ "subsection graphic"/ 
+    "slide title"/"slide subtitle"
+    "section"/ "subsection"/ "subsubsection"/ "shaded section"/ 
+    "shaded subsection"/ "shaded subsubsection"/
+     "headline"/ "footline" / "left sidebar" /"right sidebar"/ 
+     "miniframes" / "logo"/
+      
+     "block"/ "framebox"/ "imagebox"/ "alertedblock"/ "quiz"/
+     "block title"/ "normal"/ "highlight"/ "alert"/ 
+     "itemize item"/ "itemize subitem"/"itemize subsubitem"/ 
+     "enumerate item"/"enumerate subitem"/ "enumerate subsubitem"/ 
+     "description item"/ "description subitem"/ "description subsubitem"/
+     "caption"/ "caption nameandnumber"/ "toc"
+
+     
+
+
+container
+  = "headline"/ "footline" / "sidebar" /
+     "block" / "alertedblock" / "imagebox" / "toc"
+     "miniframes"
+
+guideName
+  = g:guide 
+    { return { id: g.replace(" ","")
+             , container: "none"
+             }
+    }
+guide
+  =  "Outer Elements" / "Inner Elements" / "Outer" / "Inner" /
+    "Title Like" / "Normal Text" / "Alert Text" / "Highlight Text" /
+    "Item" / "Subitem"/ "Subsubitem" /
+    "Item Projection" / "Subitem Projection" / "Subsubitem Projection"
+              
+////////////////////////////////////////////////////////////////////////
+infoSpec 
+  = BEGIN INFORMATION Ignore_ 
+      i:infoElement+
+    END INFORMATION Ignore_ 
+    {return makeInfo(i);}
+infoElement 
+  =   e:(infoElementType1 / infoElementType2) Ignore_ {return e;}
+infoElementType1
+  = BSLASH e:(TITLE/SUBTITLE/AUTHORS/INSTITUTE) t:inCurlyText 
+    {return [e,t];}
+
+// Date is made up of character like filename:Numbers or . or /
+infoElementType2
+  = BSLASH e:(DATE/LOGO/TITLEGRAPHIC/SECTIONGRAPHIC/SUBSECTIONGRAPHIC) 
+    LCURLY t:FileName RCURLY 
+    {return [e,t];}
+////////////////////////////////////////////////////////////////////////
+contentSpec 
+  = BEGIN CONTENT Ignore_ s:(contentPart)+ END CONTENT Ignore_
+    {return [].concat.apply([], s);}
+//**********************************************************************
+contentPart
+  = (section/subsection/subsubsection)* s:(slide/supportbin/quiz)+
+    {return s;}
+section 
+  = SECTION short:inCurlyText long:inCurlyText? Ignore_
+    { sectionNum++;
+      subsectionNum=0;
+      subsubsectionNum=0;
+      sectionList.push({ id: sectionNum.toString()
+                       , shortName: short
+                       , longName: (long!=null)?long:short
+                       });
+      return "";
+    }
+subsection 
+  = SUBSECTION short:inCurlyText long:inCurlyText? Ignore_
+    { subsectionNum++;
+      subsubsectionNum=0;
+      sectionList.push({ id: sectionNum.toString() 
+                                    +"."+subsectionNum.toString()
+                       , shortName: short
+                       , longName: (long!=null)?long:short
+                       });
+      return "";
+    }
+subsubsection 
+  = SUBSUBSECTION short:inCurlyText long:inCurlyText? Ignore_
+    { subsubsectionNum++;
+      sectionList.push({ id: sectionNum.toString() 
+                                    +"."+subsectionNum.toString()
+                                    +"."+subsubsectionNum.toString()
+                       , shortName: short
+                       , longName: (long!=null)?long:short
+                       });
+      return "";
+    }
+slide 
+  = BEGIN SLIDE so:slideOptions? st:inCurlyText? sub:inCurlyText? Ignore_ 
+      sc:slidecontent
+    END SLIDE Ignore_
+    { slideNum++;
+      var tempMaxTick = maxTick;
+      maxTick =0;
+      var secId = (sectionNum!=0)?sectionNum.toString():"";
+      var subsecId = (subsectionNum!=0)?"."+subsectionNum.toString():"";
+      var subsubsecId = (subsubsectionNum!=0)?
+                          "."+subsubsectionNum.toString():"";
+      return { id:slideNum
+            , partOf: secId +subsecId+subsubsecId
+            , maxTick: tempMaxTick
+            , type: (so != null && so.plain == "true") ? 
+                                        slideType.plain :slideType.normal
+            , title:  (st != null) ? st : ""
+            , subtitle:  (sub != null) ? sub : ""
+            , supportbin: (so != null) ? so.supportbin : ""
+            , quiz: (so != null) ? so.quiz : ""
+            , slidecontent: sc   
+            }
+    }
+
+slideOptions 
+  = LSQUARE so:slideOption Ignore_ rest:(COMMA slideOption)* RSQUARE 
+    {return makeSlideOptions(so,rest);}
+slideOption 
+  = (o:PLAIN EQ v:(TRUE / FALSE) {return [o,v];})
+    / (o:SUPBIN EQ v:Label {return [o,v];})
+    / (o:QUIZLABEL EQ v:Label {return [o,v];})
+
+slidecontent 
+  = columnedSlideContent 
+    / 
+   se:(slideElement)*
+   { return [{ width: "1"
+             , columnAlign: "c"
+             , inColumnAlign: "center"
+             , columnContent: se
+             }]
+    }          
+columnedSlideContent
+  = BEGIN COLUMNS Ignore_ 
+      cc:(columnContent)*
+    END COLUMNS Ignore_
+    {return cc;}
+columnContent 
+  = BEGIN COLUMN co:columnOptions? LCURLY w:width RCURLY Ignore_
+     se:(slideElement)*
+    END COLUMN Ignore_
+    { return { width: w
+             , columnAlign: (co != null) ? co.align : "c"
+             , inColumnAlign: (co != null) ? co.placement : "center"
+             , columnContent: se
+             }
+    }                
+columnOptions
+  = LSQUARE co:columnOption Ignore_ rest:(COMMA columnOption)* RSQUARE 
+    {return makeColumnOptions(co,rest);}
+columnOption 
+  = (o:ALIGN EQ v:(B / T / C) {return [o,v];})
+    / (o:PLACEMENT EQ v:(LEFT/RIGHT/CENTER) {return [o,v];})
+slideElement 
+  = block / imagebox / simpleTextbox / framebox / slateList / smartList
+
+block 
+  = BEGIN bn:blockName a:splAnimation? Ignore_ 
+      t:blockTitle? Ignore_
+      s:simpleText Ignore_
+    END en:blockName Ignore_
+    { if (bn != en)
+      { error("begin doesnt match with end \n begin:" + bn + ", end:" +en); }
+      return { type: "block"
+             , isAlerted: (bn == "block")? "false" : "true"
+             , title: (t!=null) ? t : ""
+             , body: s
+             , animationInfo: a
+             }
+    }
+blockName = BLOCK / ALERTBLOCK
+blockTitle 
+  = BSLASH TITLE s:inCurlyText Ignore_ {return s;}
+
+framebox 
+  = BEGIN FRAMEBOX a:splAnimation? Ignore_ 
+     s:simpleText Ignore_
+    END FRAMEBOX Ignore_
+    { return { type: "framebox"
+             , body: s
+             , animationInfo: a
+             }
+    }
+
+imagebox 
+  = BEGIN IMAGEBOX a:splAnimation? io:imageOptions? Ignore_
+      BSLASH INCLUDEGRAPHICS LCURLY f:FileName RCURLY Ignore_
+      c:caption?
+    END IMAGEBOX Ignore_
+    { return { type: "imagebox"
+             , caption: (c!=null) ? c : ""
+             , imageFile: f
+             , imageOptions: (io!=null)?io:[]
+             , animationInfo: a
+             }
+    }
+caption 
+  = BSLASH CAPTION LCURLY s:stringText RCURLY Ignore_
+    {return s;}
+imageOptions
+  = LSQUARE io:imageOption Ignore_ rest:(commaimageOption)* RSQUARE 
+    { rest.push(io);
+      return rest; }
+commaimageOption
+  = COMMA i:imageOption {return i;}
+imageOption 
+  = o:(WIDTH / HEIGHT / SCALE) EQ v:$Number 
+    {return {option: o
+            ,value: v
+            }  
+    }
+    
+
+
+slateList 
+  = bl:beginList a:listAnimation? Ignore_
+      li:listItems*
+    el:endist Ignore_
+    { if (bl != el) 
+      { error("List types begin and end don't match.\n begin type:" + bl + ",  end type:" + el);}
+      return { type: "slateList"
+             , listType: bl
+             , items: li
+             , animationInfo: a
+             }
+    }
+beginList 
+  = BEGIN bl:listType 
+    { listLevel++;
+      if (listLevel > 3)
+      {error("Nesting of list can't be more than 3 levels");}
+      return bl;
+    }
+endist 
+  = END el:listType
+    { listLevel--;
+      return el;
+    } 
+listType
+  = ENUMERATE / ITEMIZE / DESCRIPTION
+listItems 
+  = BSLASH ITEM a:splAnimation?  lo:listItemOption? _ s:simpleText? 
+    {return { type: "simpleItem"
+            , text: (s != null)? s :[] 
+            , animationInfo: a
+            , listOption: lo
+            }
+    }
+    / s:slateList {return s;}
+ 
+listItemOption
+  = LSQUARE s:StringLine RSQUARE {return s;}
+
+
+
+smartList 
+  = BEGIN SMARTLIST LCURLY st:smartListType RCURLY a:splAnimation? Ignore_
+      li:smartListItems+
+    END SMARTLIST  Ignore_
+    {   smartItemNum = 0;
+        smartSubItemNum = 0;
+        smartSubsubItemNum = 0;
+      return { type: "smartList"
+             , sdType: st
+             , items: li
+             , animationInfo: a
+             }
+    }
+smartListType 
+  = CIRCLEFULL / CIRCLEHALF / CIRCLECONE / 
+    PLUSEQUALHORIZONTAL / PLUSEQUALVERTICAL /
+    PLUSMINUS / PARAGRAPHLIST /
+    CHECKBOXCOMPARISION / CONTAINERLIST / FRAMEDLIST
+
+smartListItems 
+  = BSLASH i:smartItemType _ s:stringText? 
+    {return { id: i
+            , body: (s != null)? s :""
+            }
+    }
+
+smartItemType
+  = ITEM 
+    { ++smartItemNum;
+      smartSubItemNum = 0;
+      smartSubsubItemNum = 0;
+      return (smartItemNum.toString());
+    }
+    /SUBITEM
+    { ++smartSubItemNum;
+      smartSubsubItemNum = 0;
+      return (smartItemNum.toString() 
+             +"."+smartSubItemNum.toString());
+    }
+    /SUBSUBITEM 
+    { ++smartSubsubItemNum;
+      return (smartItemNum.toString() 
+             +"."+smartSubItemNum.toString()
+             +"."+smartSubsubItemNum.toString());
+    }
+
+
+
+//--------------------------------------------------------------------
+simpleTextbox
+  = s:simpleText Ignore_
+    { return { animtype: "noAnimation"
+             , text: s
+             , type: "simpleTextbox"
+             }
+    }
+    / com:oneParamAnimationCommands a:animation 
+                                    LCURLY s:simpleText RCURLY Ignore_
+      { return { animtype: com
+               , text: s
+               , animation: a
+               , type: "simpleTextbox"
+               }
+      }
+    / alt a:animation 
+          LCURLY f:simpleText RCURLY 
+          LCURLY s:simpleText RCURLY Ignore_
+      { return { animtype: "alt"
+               , text: f
+               , altText: s
+               , animation: a
+               , type: "simpleTextbox"
+               }
+      }
+    / temporal a:animation 
+               LCURLY f:simpleText RCURLY 
+               LCURLY s:simpleText RCURLY 
+               LCURLY t:simpleText RCURLY Ignore_
+      { return { animtype: "temporal"
+               , beforeText: f
+               , text: s
+               , afterText: t
+               , animation: a
+               , type: "simpleTextbox"
+               }
+      }
+oneParamAnimationCommands 
+  = (only / visible / invisible )
+only
+  = BSLASH ONLY  {return "only";}
+visible 
+  = BSLASH VISIBLE  {return "visible";}
+invisible 
+  = BSLASH INVISIBLE  {return "invisible";}
+alt 
+  = BSLASH ALT  {return "alt";}
+temporal 
+  = BSLASH TEMPORAL  {return "temporal";}
+//--------------------------------------------------------------------
+simpleText = textPart+
+textPart = s: stringText 
+             {return { type: "normal"
+                      , stringText: s
+                      }                    
+              }
+            / com:inTextCommands a:animation? tex:inCurlyText  Ignore_
+              {return { type: com
+                      , stringText: tex
+                      , animation: a
+                      }                    
+              }
+inTextCommands 
+  = (alert / highlight / textit / textbf / underline / colorCommand)
+alert
+  = BSLASH ALERT  {return "alert";}
+highlight 
+  = BSLASH HIGHLIGHT  {return "highlight";}
+textit 
+  = BSLASH TEXTIT  {return "italic";}
+textbf 
+  = BSLASH TEXTBF  {return "bold";}
+underline 
+  = BSLASH UNDERLINE  {return "underline";}
+colorCommand 
+  = BSLASH COLOR LCURLY c:colorString RCURLY  {return c;}
+
+
+//**********************************************************************
+supportbin 
+  = BEGIN SUPPORTBIN LCURLY l:Label RCURLY Ignore_ 
+      se:(slideElement)*
+    END SUPPORTBIN Ignore_
+    { supportbinList.push({supportbinId:l
+                          , content: se
+                          });
+    }
+//**********************************************************************
+quiz 
+  = BEGIN QUIZ LCURLY l:Label RCURLY Ignore_ 
+      q:question
+      ca:correctanswers?
+      ao:answeroption*
+      ex:explanation?
+    END QUIZ Ignore_
+    { quizList.push({id:l
+                    , qtype: (q.type!=null)?q.type:"simple"
+                    , question: q.ques
+                    , options: ao
+                    , correctAns: (ca!=null)?ca:[]
+                    , explanation: (ex!=null)?ex:""
+            });
+    }
+question 
+  = QUESTION  LCURLY q:stringText RCURLY qt:questionType? Ignore_
+     {return {ques:q, type:qt};}
+questionType
+  =LCURLY t:(SIMPLE/MCQ) RCURLY {return t;}
+
+correctanswers 
+  = CORRECTANSWERS LCURLY s:stringText RCURLY Ignore_ 
+    {return s.split(",");}
+    
+answeroption 
+  = ANSWEROPTION LCURLY s:stringText RCURLY 
+     LCURLY t:(TRUE/FALSE)RCURLY Ignore_ 
+   {return {option:s, isCorrect:t};}
+explanation 
+  = EXPLANATION LCURLY s:stringText RCURLY Ignore_ {return s;}
+
+/////////////////////////////////////////////////////////////
+listAnimation 
+  = LANGLE a:$(PLUS HYPHEN) b:(BAR COVERED)? RANGLE 
+    {return {animation:a, covered:(b!=null)?true:false}}
+    / splAnimation
+splAnimation 
+  = LANGLE a:$(startAnimation 
+                 (COMMA startAnimation)*
+               ) 
+           b:(BAR COVERED)?
+    RANGLE 
+   {return {animation:a, covered:(b!=null)?true:false}}
+animation 
+  = LANGLE a:$(startAnimation 
+                 (COMMA startAnimation)*
+               ) 
+    RANGLE {return a;}
+startAnimation = a:Number HYPHEN b:Number {maxTick=(a>maxTick)?a:maxTick;
+                                           maxTick=(b>maxTick)?b:maxTick;
+                                           }
+                 /a:Number HYPHEN {maxTick=(a>maxTick)?a:maxTick;}
+                 / a:Number {maxTick=(a>maxTick)?a:maxTick;}
+                 / HYPHEN a:Number {maxTick=(a>maxTick)?a:maxTick;}
+
+
+width = f:$Float PERCENT {return f;}
+colorString 
+  = namedColor
+    /colorCode 
+colorCode 
+  = $(("rgb" /"hsl") COLON Number COLON Number COLON Number) 
+    / $ (("rgba" /"hsla") COLON Number COLON Number COLON Number COLON Number)
+      
+namedColor 
+    = "red" / "orange"/ "yellow"/ "green"/ "blue"/ "purple" / 
+      "brown"/ "lightred"/ "lightorange"/ "lightyellow"/ "lightgreen" / 
+      "lightblue" / "lightbrown"/ "darkred"/ "darkorange"/ "darkyellow"/
+      "darkgreen"/ "darkblue"/ "darkpurple"/ "darkbrown" / "white"
+      "lightgrey" / "grey"/ "darkgrey"/ "lightcharcoal"
+      "charcoal"/ "darkcharcoal"/ "black"/"transparent"
+
+//////////////////////////////////////////////////////
+inCurlyText
+  = LCURLY s:stringText RCURLY {return s;}
+
+stringText = startText t:text {return t;}
+startText = &Letter {textMode=true;}
+text =  rest:(inText)* {return rest.join("");}
+
+inText = &{return textMode;} c:inTextChar {return c;}
+inTextChar =       BSLASH BSLASH {return "\n";}
+                 / BSLASH TILDE {return " "}
+                 / BSLASH w:SpecChar {return w;}
+                 / w:_ {return w;}
+                 / w:Letter
+                 / &RCURLY {textMode=false;return "";}
+                 / &BSLASH {textMode=false;return "";}
+//////////////////////////////////////////////////////////
+/**
+* Define tokens
+*/
+
+
+TRUE = "true"
+FALSE = "false"
+
+/**** TOC Options****/
+PAUSESECTIONS = t:"pausesections" Ignore_ {return t;}
+PAUSESUBSECTIONS = t:"pausesubsections" Ignore_ {return t;}
+SECTIONSTYLE = t:"sectionstyle" Ignore_ {return t;}
+SUBSECTIONSTYLE = t:"subsectionstyle" Ignore_ {return t;}
+
+SHOW =  t:"show"  {return t;}
+HIDE = t:"hide"  {return t;}
+SHADED = t:"shaded" {return t;}
+
+/**** Color Options ****/
+BG = t:"bg" Ignore_ {return t;}
+FG = t:"fg" Ignore_ {return t;}
+ALPHA = t:"alpha" Ignore_ {return t;}
+FILL = t:"fill" Ignore_ {return t;}
+
+/**** Font Options ****/
+SIZE = t:"size" Ignore_ {return t;}
+SHAPE = t:"shape" Ignore_ {return t;}
+FAMILY = t:"family" Ignore_ {return t;}
+TINY="tiny"
+SCRIPTSIZE = "scriptsize"
+FOOTNOTESIZE = "footnotesize"
+VERYSMALL = "verysmall"
+SMALL = "small"
+NORMALSIZE = "normalsize"
+LARGE = "large"
+VERYLARGE = "verylarge"
+HUGE = "huge"
+BOLD = "bold"
+ITALIC = "italic"
+NORMAL = "normal"
+BOLDITALIC = "bolditalic"
+JUSTIFY = "justify"
+
+/**** Canvas Options ****/
+BORDER = t:"border" Ignore_ {return t;}
+PADDING = t:"padding" Ignore_ {return t;}
+SHAPE = t:"shape" Ignore_ {return t;}
+THIN = "thin"
+THICK = "thick"
+MEDIUM = "medium"
+NONE = "none"
+SOLID = "solid"
+DASHED = "dashed"
+DOTTED = "dotted"
+TRIANGLE = "triangle"
+CIRCLE = "circle"
+TICK ="tick"
+SQUARE = "square"
+RECTANGLE = "rectangle"
+
+/**** Slide Options ****/
+PLAIN = t:"plain" Ignore_ {return t;}
+SUPBIN = t:"supportbin" Ignore_ {return t;}
+QUIZLABEL = t:"quiz" Ignore_ {return t;}
+
+/**** Quiz Options ****/
+SIMPLE = t:"simple"  {return t;}
+MCQ = t:"mcq"  {return t;}
+
+
+/**** Column Options ****/
+ALIGN = t:"align" Ignore_ {return t;}
+PLACEMENT = t:"placement" Ignore_ {return t;}
+B = t:"b" Ignore_ {return t;}
+T = t:"t" Ignore_ {return t;}
+C = t:"c" Ignore_ {return t;}
+LEFT = t:"left" Ignore_ {return t;}
+RIGHT = t:"right" Ignore_ {return t;}
+CENTER = t:"center" Ignore_ {return t;} 
+
+
+/**** Image Options****/
+WIDTH =  t:"width" Ignore_ {return t;}
+HEIGHT = t:"height" Ignore_ {return t;}
+SCALE = t:"scale" Ignore_ {return t;}
+
+/**** Commands ****/
+BEGIN = BSLASH "begin" {return "";}
+END = BSLASH "end" {return "";}
+SET = BSLASH "set" {return "";}
+USE = BSLASH "use" {return "";}
+INSERT = BSLASH "insert" {return "";}
+STYLE = "style" {return "";}
+LAYOUT = "layout" {return "";}
+THEME = "theme" {return "";}
+WITH = "with" {return "";}
+
+
+IN = "in" {return "";} 
+CANVAS = "canvas" {return "";}
+FONT = "font" {return "";}
+GUIDE = "guide"{return ""}
+ONLY = "only"
+VISIBLE = "visible"
+INVISIBLE = "invisible"
+ALT = "alt"
+TEMPORAL = "temporal"
+
+SECTION = BSLASH "section" {return "";}
+SUBSECTION = BSLASH "subsection" {return "";}
+SUBSUBSECTION = BSLASH "subsubsection" {return "";} 
+
+ITEM = t:"item" {return t;}
+TITLE = t:"title" {return t;}
+ALERT = "alert"
+HIGHLIGHT = "highlight"
+TEXTIT = "textit"
+TEXTBF = "textbf"
+UNDERLINE = "underline"
+COLOR = "color"
+INCLUDEGRAPHICS = t:"includegraphics" {return t;}
+CAPTION = "caption"
+
+SUBITEM = t:"subitem" {return t;}
+SUBSUBITEM = t:"subsubitem" {return t;}
+CIRCLEFULL = "circle-full" {return "circlefull";}
+CIRCLEHALF =  "circle-half" {return "circlehalf";}
+CIRCLECONE =  "circle-cone" {return "circlecone";}
+PLUSEQUALHORIZONTAL =  "plus-equal-horizontal" {return "plusequalhorizontal";}
+PLUSEQUALVERTICAL =  "plus-equal-vertical" {return "plusequalvetical";}
+PLUSMINUS =  "plus-minus" {return "plusminus";}
+PARAGRAPHLIST =  "paragraphlist" {return "paragraphlist";}
+CHECKBOXCOMPARISION =  "checkbox-comparision" {return "checkboxcomparision";}
+CONTAINERLIST =  "containerlist" {return "containerlist";}
+FRAMEDLIST =  "framedlist" {return "framedlist";}
+
+
+
+QUESTION = BSLASH "question"  {return "";} 
+CORRECTANSWERS = BSLASH "correctanswers"  {return "";} 
+ANSWEROPTION = BSLASH "answeroption"  {return "";} 
+EXPLANATION = BSLASH "explanation"  {return "";} 
+
+SUBTITLE = "subtitle"
+LOGO = "logo"
+AUTHORS = "authors"
+INSTITUTE = "institute"
+DATE = "date"
+TITLEGRAPHIC = "titlegraphic"
+SECTIONGRAPHIC = "sectiongraphic"
+SUBSECTIONGRAPHIC = "subsectiongraphic"
+
+COVERED = "covered"
+
+/**** CONTAINERS ****/
+PRES = LCURLY "presentation" RCURLY {return "";}
+APPEARANCE = LCURLY "appearance" RCURLY {return "";}
+INFORMATION = LCURLY "information" RCURLY {return "";}
+CONTENT = LCURLY "content" RCURLY {return "";}
+
+SLIDE = LCURLY "slide" RCURLY {return "";} 
+COLUMNS = LCURLY "columns" RCURLY {return "";}
+COLUMN = LCURLY "column" RCURLY {return "";}
+
+
+SUPPORTBIN = LCURLY "supportbin" RCURLY {return "";}
+QUIZ =  LCURLY "quiz" RCURLY {return "";}
+BLOCK = LCURLY "block" RCURLY {return "";}
+ALERTBLOCK = LCURLY "alertedblock" RCURLY {return "";}
+FRAMEBOX = LCURLY "framebox" RCURLY {return "";}
+IMAGEBOX = LCURLY "imagebox" RCURLY {return "";}
+ENUMERATE = LCURLY t:"enumerate" RCURLY {return t;} 
+ITEMIZE = LCURLY t:"itemize" RCURLY {return t;} 
+DESCRIPTION = LCURLY t:"description" RCURLY {return t;} 
+SMARTLIST = LCURLY "smartlist" RCURLY {return "";}
+
+/**** SPECIAL CHAR ****/
+EQ = t:"=" Ignore_ {return t;} 
+COMMA = t:"," Ignore_ {return t;} 
+LCURLY = t:"{" {return t;}
+RCURLY = t:"}" {return t;}
+LSQUARE = t:"[" Ignore_ {return t;}
+RSQUARE = t:"]" Ignore_ {return t;}
+LANGLE = t:"<" {return t;}
+RANGLE = t:">" {return t;}
+BSLASH "BackSlash" = t:"\\" {return t;}
+
+PERCENT = t:"%" {return t;} 
+COLON = ":"
+HYPHEN = "-"
+PLUS = "+"
+EXCLAIM = "!"
+BAR = "|"
+TILDE = "~"
+/**
+* Define regex
+*/
+
+Char = [a-z A-Z]
+
+White = [\  \t \r \n]
+SpecChar "Special" = [{ } < > \[ \] \\ ]
+NonLetter "NonLetter" = White / SpecChar
+Letter "letter" = !NonLetter c:.  {return c;}
+_ = White+ {return " ";}
+Ignore_ = White* {return "";}
+
+Digit = [0-9]
+Number = n:$(Digit+) {return parseInt(n);}
+Float = f: $(a:Digit+ "."? b:Digit*) {return parseFloat(f);}
+LabelStartChar = Char / "_"
+LabelChar = LabelStartChar / Digit 
+Label = ls:LabelStartChar rest:LabelChar*  {return ls+rest.join(""); }
+StringLine = $(Char/_)+  
+FileName = $(LabelChar / "/" / "\\"/ "."/",")+ 
+CommaSepString = $(Char/_/",")+ 
+

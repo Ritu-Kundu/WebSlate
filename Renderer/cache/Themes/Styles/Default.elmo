@@ -1,0 +1,264 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.Styles = Elm.Themes.Styles || {};
+Elm.Themes.Styles.Default = Elm.Themes.Styles.Default || {};
+Elm.Themes.Styles.Default.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.Styles = _elm.Themes.Styles || {};
+   _elm.Themes.Styles.Default = _elm.Themes.Styles.Default || {};
+   if (_elm.Themes.Styles.Default.values)
+   return _elm.Themes.Styles.Default.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.Styles.Default";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Themes = Themes || {};
+   Themes.MapStyling = Elm.Themes.MapStyling.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Intermediate = Elm.Types.Intermediate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Theme = Elm.Utils.Theme.make(_elm);
+   var _op = {};
+   var defaultTheme = F4(function (fontFamily,
+   normalFontSize,
+   rawParentDict,
+   mapping) {
+      return function () {
+         var slideBackground = {_: {}
+                               ,normal: Types.Theme.SingleColored(Color.white)
+                               ,section: Types.Theme.SingleColored(Color.white)
+                               ,supportbin: Types.Theme.SingleColored(Color.white)
+                               ,title: Types.Theme.SingleColored(Color.white)};
+         var updatedMapping = mapping;
+         var blendedBlue = A3(Color.rgb,
+         51,
+         51,
+         180);
+         var defaultSinglePad = {_: {}
+                                ,fillcolor: Types.Theme.Transparent
+                                ,thickness: 5};
+         var defaultPadding = {_: {}
+                              ,bottom: defaultSinglePad
+                              ,left: defaultSinglePad
+                              ,right: defaultSinglePad
+                              ,top: defaultSinglePad};
+         var defaultBackground = Types.Theme.SingleColored(Color.white);
+         var defaultTextStyle = {_: {}
+                                ,bold: false
+                                ,color: Color.black
+                                ,height: normalFontSize
+                                ,italic: false
+                                ,line: Maybe.Nothing
+                                ,typeface: fontFamily};
+         var defaultText = {_: {}
+                           ,align: Text.justified
+                           ,style: defaultTextStyle};
+         var defaultStyling = {_: {}
+                              ,background: defaultBackground
+                              ,border: Types.Theme.None
+                              ,padding: defaultPadding
+                              ,text: defaultText};
+         var defaultSymbol = {_: {}
+                             ,general: defaultStyling
+                             ,symbolAlpha: 1
+                             ,symbolFill: Types.Theme.Transparent
+                             ,symbolShape: Types.Theme.Circle};
+         var updateSymbolWithRaw = Utils.Theme.getUpdatedSymbolStyler(rawParentDict);
+         var updateWithRaw = Utils.Theme.getUpdatedStyler(rawParentDict);
+         var inner = updateWithRaw("Inner")(A2(Utils.Theme.setTextColor,
+         defaultStyling,
+         blendedBlue));
+         var innerElements = updateWithRaw("InnerElements")(inner);
+         var shadingTocPallette = {_: {}
+                                  ,primary: A2(Utils.Theme.shadeTextColor,
+                                  innerElements,
+                                  0.4)
+                                  ,quaternary: A2(Utils.Theme.shadeTextColor,
+                                  innerElements,
+                                  0.4)
+                                  ,secondary: A2(Utils.Theme.shadeTextColor,
+                                  innerElements,
+                                  0.4)
+                                  ,tertiary: A2(Utils.Theme.shadeTextColor,
+                                  innerElements,
+                                  0.4)};
+         var framebox = A2(Utils.Theme.setBorder,
+         innerElements,
+         Types.Theme.Border(Graphics.Collage.solid(Color.black)));
+         var styleLists = {_: {}
+                          ,inner: _L.fromArray([{ctor: "_Tuple2"
+                                                ,_0: {ctor: "_Tuple2"
+                                                     ,_0: "framebox"
+                                                     ,_1: "none"}
+                                                ,_1: framebox}])
+                          ,outer: _L.fromArray([])
+                          ,symbol: _L.fromArray([])};
+         var normalText = updateWithRaw("TitleLike")(inner);
+         var alertText = updateWithRaw("AlertText")(A2(Utils.Theme.setTextColor,
+         normalText,
+         Color.red));
+         var highlightText = updateWithRaw("HighlightText")(Utils.Theme.setTextBold(normalText));
+         var item = updateWithRaw("Item")(innerElements);
+         var setFontSize = F2(function (symbolicSize,
+         s) {
+            return A2(Utils.Theme.setTextSize,
+            s,
+            A2(Utils.Theme.getRealFontSize,
+            symbolicSize,
+            normalFontSize));
+         });
+         var outer = updateWithRaw("Outer")(setFontSize(Types.Theme.Tiny)(A2(Utils.Theme.setTextColor,
+         defaultStyling,
+         blendedBlue)));
+         var headFootPallette = {_: {}
+                                ,primary: outer
+                                ,quaternary: A2(Utils.Theme.setTextColor,
+                                outer,
+                                Color.black)
+                                ,secondary: A3(Utils.Theme.blendTextColor,
+                                outer,
+                                Color.black,
+                                0.75)
+                                ,tertiary: A3(Utils.Theme.blendTextColor,
+                                outer,
+                                Color.black,
+                                0.5)};
+         var shadingPallette = {_: {}
+                               ,primary: A2(Utils.Theme.shadeTextColor,
+                               headFootPallette.primary,
+                               0.4)
+                               ,quaternary: A2(Utils.Theme.shadeTextColor,
+                               headFootPallette.quaternary,
+                               0.4)
+                               ,secondary: A2(Utils.Theme.shadeTextColor,
+                               headFootPallette.secondary,
+                               0.4)
+                               ,tertiary: A2(Utils.Theme.shadeTextColor,
+                               headFootPallette.tertiary,
+                               0.4)};
+         var sidebarPallette = {_: {}
+                               ,primary: inner
+                               ,quaternary: outer
+                               ,secondary: outer
+                               ,tertiary: outer};
+         var shadingSidebarPallette = {_: {}
+                                      ,primary: A2(Utils.Theme.shadeTextColor,
+                                      sidebarPallette.primary,
+                                      0.4)
+                                      ,quaternary: A2(Utils.Theme.shadeTextColor,
+                                      sidebarPallette.quaternary,
+                                      0.4)
+                                      ,secondary: A2(Utils.Theme.shadeTextColor,
+                                      sidebarPallette.secondary,
+                                      0.4)
+                                      ,tertiary: A2(Utils.Theme.shadeTextColor,
+                                      sidebarPallette.tertiary,
+                                      0.4)};
+         var miniframeSymbol = {_: {}
+                               ,general: outer
+                               ,symbolAlpha: 1
+                               ,symbolFill: Types.Theme.Transparent
+                               ,symbolShape: Types.Theme.Circle};
+         var shadedMiniframeSymbol = A2(Utils.Theme.setSymbolAlpha,
+         miniframeSymbol,
+         0.5);
+         var outerElements = updateWithRaw("OuterElements")(setFontSize(Types.Theme.Small)(outer));
+         var generalSymbol = {_: {}
+                             ,general: outerElements
+                             ,symbolAlpha: 0.7
+                             ,symbolFill: Types.Theme.Transparent
+                             ,symbolShape: Types.Theme.Circle};
+         var shadedGeneralSymbol = A2(Utils.Theme.setSymbolAlpha,
+         generalSymbol,
+         0.2);
+         var titleLike = updateWithRaw("TitleLike")(setFontSize(Types.Theme.Large)(outerElements));
+         var subitem = updateWithRaw("Subitem")(setFontSize(Types.Theme.Small)(item));
+         var subsubitem = updateWithRaw("Subsubitem")(setFontSize(Types.Theme.FootnoteSize)(subitem));
+         var itemProjection = updateSymbolWithRaw("ItemProjection")({_: {}
+                                                                    ,general: setFontSize(Types.Theme.Tiny)(A2(Utils.Theme.setTextColor,
+                                                                    defaultStyling,
+                                                                    Color.white))
+                                                                    ,symbolAlpha: 1
+                                                                    ,symbolFill: Types.Theme.SingleColored(item.text.style.color)
+                                                                    ,symbolShape: Types.Theme.Triangle});
+         var subitemProjection = updateSymbolWithRaw("SubitemProjection")(A2(Utils.Theme.setSymbolShape,
+         itemProjection,
+         Types.Theme.Square));
+         var subsubitemProjection = updateSymbolWithRaw("SubsubitemProjection")(A2(Utils.Theme.setSymbolShape,
+         itemProjection,
+         Types.Theme.Circle));
+         var sectionProjection = itemProjection;
+         var shadedSectionProjection = A2(Utils.Theme.setSymbolAlpha,
+         sectionProjection,
+         0.5);
+         var button = {_: {}
+                      ,general: setFontSize(Types.Theme.Tiny)(A2(Utils.Theme.setTextColor,
+                      innerElements,
+                      Color.white))
+                      ,symbolAlpha: 1
+                      ,symbolFill: function (_) {
+                         return _.background;
+                      }(A3(Utils.Theme.blendBackground,
+                      innerElements,
+                      innerElements.text.style.color,
+                      0.4))
+                      ,symbolShape: Types.Theme.Rectangle};
+         var symbolBoard = {_: {}
+                           ,button: button
+                           ,generalSymbol: generalSymbol
+                           ,miniframeSymbol: miniframeSymbol
+                           ,sectionProjection: sectionProjection
+                           ,shadedGeneralSymbol: shadedGeneralSymbol
+                           ,shadedMiniframeSymbol: shadedMiniframeSymbol
+                           ,shadedSectionProjection: shadedSectionProjection};
+         var styleGuide = {_: {}
+                          ,alertText: alertText
+                          ,headFootPallette: headFootPallette
+                          ,highlightText: highlightText
+                          ,inner: inner
+                          ,innerElements: innerElements
+                          ,item: item
+                          ,itemProjection: itemProjection
+                          ,normalText: normalText
+                          ,outer: outer
+                          ,outerElements: outerElements
+                          ,shadingPallette: shadingPallette
+                          ,shadingSidebarPallette: shadingSidebarPallette
+                          ,shadingTocPallette: shadingTocPallette
+                          ,sidebarPallette: sidebarPallette
+                          ,subitem: subitem
+                          ,subitemProjection: subitemProjection
+                          ,subsubitem: subsubitem
+                          ,subsubitemProjection: subsubitemProjection
+                          ,symbolBoard: symbolBoard
+                          ,titleLike: titleLike};
+         return Utils.Theme.updateStyleInfo(styleLists)(A3(Themes.MapStyling.toStyleInfo,
+         styleGuide,
+         updatedMapping,
+         slideBackground));
+      }();
+   });
+   _elm.Themes.Styles.Default.values = {_op: _op
+                                       ,defaultTheme: defaultTheme};
+   return _elm.Themes.Styles.Default.values;
+};

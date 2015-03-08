@@ -1,0 +1,64 @@
+module PreProcess.ThemeMaker where
+{- |
+   This module builds the Theme structure from Intermediate theme structures
+ -}
+import Types.Theme as T
+import Types.Naive as Naive
+import Types.Intermediate as I
+
+import Utils.Theme as U
+import Utils.Naive (..)
+
+import PreProcess.RawThemeMaker as PreRaw
+import Themes.GetTheme as GetTheme
+import Themes.BaseMapping as BaseMapping
+
+import Themes.SizeSettings as SizeSettings
+
+-- Convert Naive theme to Slate Theme
+toTheme: Naive.ThemeInfo -> T.Theme
+toTheme themeInfo =
+  let rawParentDict = PreRaw.applyTheme themeInfo
+      rawTemplateDict = PreRaw.applyTemplate themeInfo
+      layoutTheme = GetTheme.layout themeInfo.themes.layout
+      styleTheme = GetTheme.style themeInfo.themes.style
+      fonts = case themeInfo.themes.font of
+                [""] -> [ "Times New Roman", "serif" ]
+                otherwise -> themeInfo.themes.font
+      normalFontSize = U.getNormalFontSize
+      
+      layoutInfo = fst  layoutTheme
+      mergedLayoutInfo = PreRaw.applyLayout themeInfo layoutInfo
+
+      baseMapping = BaseMapping.mapping 
+      mappingAfterLayout = U.updateMapping baseMapping <| snd layoutTheme
+     
+      styleInfo = styleTheme fonts normalFontSize rawParentDict mappingAfterLayout
+      mergedStyleInfo = { outer = U.mergeWithRaw rawTemplateDict styleInfo.outer
+                        , inner = U.mergeWithRaw rawTemplateDict styleInfo.inner
+                        , symbol = U.mergeSymbolWithRaw rawTemplateDict styleInfo.symbol
+                        , slideBackground = styleInfo.slideBackground
+                        }
+
+      styleInfoAfterFontSize = U.adjustFontSize SizeSettings.changeFontSizingList
+                                                mergedStyleInfo
+
+      componentSizeInfo = SizeSettings.componentSizeInfo
+      symbolSizeInfo = SizeSettings.symbolSizeInfo
+
+  in
+      { style = styleInfoAfterFontSize
+      , componentSize = componentSizeInfo
+      , symbolSize = symbolSizeInfo
+      , layout = mergedLayoutInfo
+      }
+     
+      
+
+--------------------------------------------------------------------------------------
+------------------------------------PresInfo------------------------------------------
+--------------------------------------------------------------------------------------
+naiveToThemeSection: Naive.Section -> T.Section
+naiveToThemeSection naiveSection =
+  { naiveSection - id | route = map toConcreteInt <| String.split "." naiveSection.id}
+  

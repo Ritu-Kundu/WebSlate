@@ -1,0 +1,1566 @@
+Elm.Builders = Elm.Builders || {};
+Elm.Builders.Outer = Elm.Builders.Outer || {};
+Elm.Builders.Outer.make = function (_elm) {
+   "use strict";
+   _elm.Builders = _elm.Builders || {};
+   _elm.Builders.Outer = _elm.Builders.Outer || {};
+   if (_elm.Builders.Outer.values)
+   return _elm.Builders.Outer.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Builders.Outer";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.Context = Elm.Builders.Context.make(_elm);
+   var Builders = Builders || {};
+   Builders.ElementMaker = Elm.Builders.ElementMaker.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Naive = Elm.Types.Naive.make(_elm);
+   var Types = Types || {};
+   Types.Slate = Elm.Types.Slate.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Utils = Utils || {};
+   Utils.Builder = Elm.Utils.Builder.make(_elm);
+   var Utils = Utils || {};
+   Utils.Content = Elm.Utils.Content.make(_elm);
+   var Utils = Utils || {};
+   Utils.Naive = Elm.Utils.Naive.make(_elm);
+   var _op = {};
+   var getCompleteComponent = F3(function (layoutDetails,
+   _v0,
+   toIntermediateElement) {
+      return function () {
+         switch (_v0.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var columnAlignList = List.map(Utils.Builder.getColumnPosition)(A2(List.map,
+                 function (_) {
+                    return _.colAlign;
+                 },
+                 layoutDetails.columns));
+                 var intermedateList = A2(List.map,
+                 function (x) {
+                    return {ctor: "_Tuple2"
+                           ,_0: x.column
+                           ,_1: toIntermediateElement(x)};
+                 },
+                 layoutDetails.inserts);
+                 var columnElementList = A2(Utils.Builder.partitionColWise,
+                 List.length(layoutDetails.columns),
+                 intermedateList);
+                 var maxColHeight = List.maximum(A2(List.map,
+                 Graphics.Element.heightOf,
+                 columnElementList));
+                 var scaleCol = function (col) {
+                    return function () {
+                       var scaleFactor = Basics.toFloat(maxColHeight) / Basics.toFloat(Graphics.Element.heightOf(col));
+                       var newW = Basics.truncate(Basics.toFloat(Graphics.Element.widthOf(col)) * scaleFactor);
+                       return A3(Graphics.Collage.collage,
+                       newW,
+                       maxColHeight,
+                       _L.fromArray([Graphics.Collage.scale(scaleFactor)(Graphics.Collage.toForm(col))]));
+                    }();
+                 };
+                 var columnList = List.map(function (_v4) {
+                    return function () {
+                       switch (_v4.ctor)
+                       {case "_Tuple2":
+                          return A4(Graphics.Element.container,
+                            Graphics.Element.widthOf(_v4._1),
+                            maxColHeight,
+                            _v4._0,
+                            _v4._1);}
+                       _E.Case($moduleName,
+                       "on line 620, column 43 to 91");
+                    }();
+                 })(A2(List.zip,
+                 columnAlignList,
+                 A2(List.map,
+                 scaleCol,
+                 columnElementList)));
+                 var component = A2(Graphics.Element.flow,
+                 Graphics.Element.right,
+                 columnElementList);
+                 var scaledComponenet = Graphics.Collage.scale(Basics.toFloat(_v0._0) / Basics.toFloat(Graphics.Element.widthOf(component)))(Graphics.Collage.toForm(component));
+                 return A3(Graphics.Element.container,
+                 _v0._0,
+                 _v0._1,
+                 Graphics.Element.middle)(A3(Graphics.Collage.collage,
+                 _v0._0,
+                 _v0._1,
+                 _L.fromArray([scaledComponenet])));
+              }();}
+         _E.Case($moduleName,
+         "between lines 608 and 628");
+      }();
+   });
+   var getElementText = F2(function (elementType,
+   presInfo) {
+      return function () {
+         switch (elementType)
+         {case "author":
+            return A2(List.join,
+              " , ",
+              presInfo.authors);
+            case "date":
+            return presInfo.date;
+            case "institute":
+            return A2(List.join,
+              " , ",
+              presInfo.institute);
+            case "subtitle":
+            return presInfo.presSubTitle;
+            case "title":
+            return presInfo.presTitle;}
+         _E.Case($moduleName,
+         "between lines 599 and 604");
+      }();
+   });
+   var getLayout = F2(function (componentType,
+   layoutInfo) {
+      return function () {
+         switch (componentType)
+         {case "footline":
+            return layoutInfo.footline;
+            case "headline":
+            return layoutInfo.headline;
+            case "leftsidebar":
+            return layoutInfo.leftSidebar;
+            case "modechangesymbols":
+            return layoutInfo.modechangeSymbols;
+            case "navigationalsymbols":
+            return layoutInfo.navigationalSymbols;
+            case "rightsidebar":
+            return layoutInfo.rightSidebar;}
+         _E.Case($moduleName,
+         "between lines 588 and 594");
+      }();
+   });
+   var getImageName = function (picType) {
+      return function () {
+         var name = function (str) {
+            return _L.append("Symbols/",
+            _L.append(str,".gif"));
+         };
+         return function () {
+            switch (picType)
+            {case "next":
+               return name("Next");
+               case "pvs":
+               return name("Previous");
+               case "quiz":
+               return name("Quiz");
+               case "scribble":
+               return name("Scribble");
+               case "section":
+               return name("Section");
+               case "slide":
+               return name("Slide");
+               case "subsection":
+               return name("Subsection");
+               case "support":
+               return name("Supportbin");
+               case "tick":
+               return name("Tick");
+               case "zoom":
+               return name("Zoom");}
+            _E.Case($moduleName,
+            "between lines 406 and 416");
+         }();
+      }();
+   };
+   var buildSingleSymbol = F5(function (h,
+   sectionList,
+   currentRoute,
+   tickDict,
+   symbolType) {
+      return function () {
+         var getTick = A3(Utils.Builder.getNextOrPvsTick,
+         tickDict,
+         currentRoute,
+         sectionList);
+         var drawButton = F3(function (handle,
+         val,
+         img) {
+            return A5(Graphics.Input.customButton,
+            handle,
+            val,
+            img,
+            A2(Graphics.Element.opacity,
+            0.5,
+            img),
+            img);
+         });
+         var draw = function (img) {
+            return A3(Graphics.Element.fittedImage,
+            h,
+            h,
+            getImageName(img));
+         };
+         var drawSymbol = function (sym) {
+            return function () {
+               switch (sym)
+               {case "quiz":
+                  return A2(drawButton,
+                    Builders.Context.modeClicks.handle,
+                    Types.Context.QuizMode)(draw("quiz"));
+                  case "scribble":
+                  return A2(drawButton,
+                    Builders.Context.modeClicks.handle,
+                    Types.Context.ScribbleMode)(draw("scribble"));
+                  case "section":
+                  return List.isEmpty(sectionList) || _U.cmp(List.length(currentRoute),
+                    1) < 0 ? Graphics.Element.flow(Graphics.Element.right)(A2(List.map,
+                    draw,
+                    _L.fromArray(["pvs"
+                                 ,"section"
+                                 ,"next"]))) : A2(Graphics.Element.flow,
+                    Graphics.Element.right,
+                    _L.fromArray([A2(Graphics.Input.clickable,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.Asyn(A2(getTick,
+                                 1,
+                                 -1)))(draw("pvs"))
+                                 ,draw("section")
+                                 ,A2(Graphics.Input.clickable,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.Asyn(A2(getTick,
+                                 1,
+                                 1)))(draw("next"))]));
+                  case "slide":
+                  return A2(Graphics.Element.flow,
+                    Graphics.Element.right,
+                    _L.fromArray([A2(drawButton,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.Dec)(draw("pvs"))
+                                 ,draw("slide")
+                                 ,A2(drawButton,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.Inc)(draw("next"))]));
+                  case "subsection":
+                  return List.isEmpty(sectionList) || _U.cmp(List.length(currentRoute),
+                    2) < 0 ? Graphics.Element.flow(Graphics.Element.right)(A2(List.map,
+                    draw,
+                    _L.fromArray(["pvs"
+                                 ,"subsection"
+                                 ,"next"]))) : A2(Graphics.Element.flow,
+                    Graphics.Element.right,
+                    _L.fromArray([A2(Graphics.Input.clickable,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.Asyn(A2(getTick,
+                                 2,
+                                 -1)))(draw("pvs"))
+                                 ,draw("subsection")
+                                 ,A2(Graphics.Input.clickable,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.Asyn(A2(getTick,
+                                 2,
+                                 1)))(draw("next"))]));
+                  case "supportbin":
+                  return A2(drawButton,
+                    Builders.Context.modeClicks.handle,
+                    Types.Context.BeginSupportBinMode)(draw("support"));
+                  case "tick":
+                  return A2(Graphics.Element.flow,
+                    Graphics.Element.right,
+                    _L.fromArray([A2(drawButton,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.DecTick)(draw("pvs"))
+                                 ,draw("tick")
+                                 ,A2(drawButton,
+                                 Builders.Context.asynClicks.handle,
+                                 Types.Context.IncTick)(draw("next"))]));
+                  case "zoom":
+                  return A2(drawButton,
+                    Builders.Context.modeClicks.handle,
+                    Types.Context.BeginZoomMode)(draw("zoom"));}
+               _E.Case($moduleName,
+               "between lines 344 and 392");
+            }();
+         };
+         var makeSymbol = function (sym) {
+            return A4(Graphics.Element.container,
+            3 * h + 2,
+            h + 1,
+            Graphics.Element.middle,
+            drawSymbol(sym));
+         };
+         return function () {
+            switch (symbolType)
+            {case "backforward":
+               return makeSymbol("tick");
+               case "sectionnavigation":
+               return makeSymbol("section");
+               case "slidenavigation":
+               return makeSymbol("slide");
+               case "subsectionnavigation":
+               return makeSymbol("subsection");}
+            return makeSymbol(symbolType);
+         }();
+      }();
+   });
+   var buildSymbolPanel = F7(function (layoutDetails,
+   theme,
+   h,
+   panelType,
+   sectionList,
+   currentRoute,
+   tickDict) {
+      return function () {
+         var panel = Graphics.Element.flow(Graphics.Element.right)(List.map(A4(buildSingleSymbol,
+         h,
+         sectionList,
+         currentRoute,
+         tickDict))(A2(List.map,
+         function (_) {
+            return _.id;
+         },
+         layoutDetails.inserts)));
+         var symbolStyle = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: panelType
+         ,_1: "none"},
+         theme.style);
+         return Graphics.Element.opacity(symbolStyle.symbolAlpha)(A3(Builders.ElementMaker.buildCompleteElement,
+         Graphics.Element.sizeOf(panel),
+         symbolStyle.general,
+         panel));
+      }();
+   });
+   var buildComponentTextElement = F6(function (elementType,
+   containerType,
+   elementText,
+   styleInfo,
+   w,
+   placement) {
+      return function () {
+         var slateContainer = function () {
+            switch (containerType)
+            {case "leftsidebar":
+               return "sidebar";
+               case "rightsidebar":
+               return "sidebar";}
+            return containerType;
+         }();
+         var bodyStyling = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: elementType
+         ,_1: slateContainer},
+         styleInfo);
+         var bodyText = A2(Builders.ElementMaker.buildText,
+         bodyStyling,
+         elementText);
+         var h = Graphics.Element.heightOf(bodyText);
+         var body = A4(Graphics.Element.container,
+         w,
+         h,
+         placement,
+         bodyText);
+         return A3(Builders.ElementMaker.buildCompleteElement,
+         {ctor: "_Tuple2",_0: w,_1: h},
+         bodyStyling,
+         body);
+      }();
+   });
+   var buildTitle = F4(function (theme,
+   _v14,
+   titleStr,
+   subtitleStr) {
+      return function () {
+         switch (_v14.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var subtitle = A6(buildComponentTextElement,
+                 "slidesubtitle",
+                 "none",
+                 subtitleStr,
+                 theme.style,
+                 _v14._0,
+                 Graphics.Element.middle);
+                 var title = A6(buildComponentTextElement,
+                 "slidetitle",
+                 "none",
+                 titleStr,
+                 theme.style,
+                 _v14._0,
+                 Graphics.Element.middle);
+                 return Graphics.Element.height(_v14._1)(A2(Graphics.Element.flow,
+                 Graphics.Element.down,
+                 _L.fromArray([title
+                              ,subtitle])));
+              }();}
+         _E.Case($moduleName,
+         "between lines 425 and 431");
+      }();
+   });
+   var buildToc = F6(function (theme,
+   w,
+   placement,
+   sectionList,
+   currentRoute,
+   tocOptions) {
+      return function () {
+         var marker = function (markerStyling) {
+            return A3(Builders.ElementMaker.buildSymbol,
+            markerStyling,
+            theme.symbolSize.sectionProjection,
+            Maybe.Nothing);
+         };
+         var offset = Basics.truncate(theme.symbolSize.sectionProjection.offset * Basics.toFloat(w));
+         var shadedSubsectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "shadedsubsectionprojection"
+         ,_1: "toc"},
+         theme.style);
+         var subsectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "subsectionprojection"
+         ,_1: "toc"},
+         theme.style);
+         var shadedSectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "shadedsectionprojection"
+         ,_1: "toc"},
+         theme.style);
+         var sectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "sectionprojection"
+         ,_1: "toc"},
+         theme.style);
+         var makeMarker = function (markerType) {
+            return function () {
+               switch (markerType)
+               {case "section":
+                  return marker(sectionProjection);
+                  case "shadedsection":
+                  return marker(shadedSectionProjection);
+                  case "shadedsubsection":
+                  return marker(shadedSubsectionProjection);
+                  case "subsection":
+                  return marker(subsectionProjection);}
+               _E.Case($moduleName,
+               "between lines 531 and 536");
+            }();
+         };
+         var makeHead = F3(function (elem,
+         txt,
+         level) {
+            return function () {
+               var sectionName = A6(buildComponentTextElement,
+               elem,
+               "toc",
+               txt,
+               theme.style,
+               w,
+               Graphics.Element.midLeft);
+               return A5(Builders.ElementMaker.buildTabbedElement,
+               {ctor: "_Tuple2"
+               ,_0: w
+               ,_1: Graphics.Element.heightOf(sectionName)},
+               level,
+               offset,
+               makeMarker(elem),
+               sectionName);
+            }();
+         });
+         var makeTocHead = F3(function (tocStyle,
+         txt,
+         level) {
+            return function () {
+               var _v19 = {ctor: "_Tuple2"
+                          ,_0: tocStyle
+                          ,_1: level};
+               switch (_v19.ctor)
+               {case "_Tuple2":
+                  switch (_v19._0.ctor)
+                    {case "Shade": switch (_v19._1)
+                         {case 1: return A3(makeHead,
+                              "shadedsection",
+                              txt,
+                              1);
+                            case 2: return A3(makeHead,
+                              "shadedsubsection",
+                              txt,
+                              2);}
+                         break;
+                       case "Show": switch (_v19._1)
+                         {case 1: return A3(makeHead,
+                              "section",
+                              txt,
+                              1);
+                            case 2: return A3(makeHead,
+                              "subsection",
+                              txt,
+                              2);}
+                         break;}
+                    break;}
+               return Graphics.Element.empty;
+            }();
+         });
+         var makeSection = function (section) {
+            return A2(Utils.Builder.isCurrentSection,
+            currentRoute,
+            section) || List.isEmpty(currentRoute) ? A3(makeTocHead,
+            tocOptions.currentSection,
+            section.shortName,
+            1) : A3(makeTocHead,
+            tocOptions.otherSection,
+            section.shortName,
+            1);
+         };
+         var makeSubsection = function (section) {
+            return A2(Utils.Builder.isCurrentSection,
+            currentRoute,
+            section) || List.isEmpty(currentRoute) ? A2(Utils.Builder.isCurrentSubsection,
+            currentRoute,
+            section) || List.isEmpty(currentRoute) ? A3(makeTocHead,
+            tocOptions.currentSubsectionOfCurrentSection,
+            section.shortName,
+            2) : A3(makeTocHead,
+            tocOptions.otherSubsectionOfCurrentSection,
+            section.shortName,
+            2) : A3(makeTocHead,
+            tocOptions.subsectionOfOtherSection,
+            section.shortName,
+            2);
+         };
+         var tocCollection = Utils.Builder.levelwiseRouteMap(_L.fromArray([makeSection
+                                                                          ,makeSubsection]))(Utils.Builder.filterOutSectionAndSubsection(sectionList));
+         var tickList = tocOptions.pauseSections ? tocOptions.pauseSubsections ? _L.range(1,
+         List.length(tocCollection)) : function () {
+            var sectionwise = Utils.Builder.partitionInSection(tocCollection);
+            var repeatTimes = A2(List.map,
+            List.length,
+            sectionwise);
+            var tickValue = _L.range(1,
+            List.length(sectionwise));
+            return List.concatMap(function (_v22) {
+               return function () {
+                  switch (_v22.ctor)
+                  {case "_Tuple2":
+                     return A2(List.repeat,
+                       _v22._1,
+                       _v22._0);}
+                  _E.Case($moduleName,
+                  "on line 569, column 55 to 65");
+               }();
+            })(A2(List.zip,
+            tickValue,
+            repeatTimes));
+         }() : A2(List.repeat,
+         List.length(tocCollection),
+         1);
+         var maxTick = List.maximum(tickList);
+         var getTickLife = function (start) {
+            return _L.range(start,
+            maxTick);
+         };
+         return List.map(function (_v26) {
+            return function () {
+               switch (_v26.ctor)
+               {case "_Tuple2": return {_: {}
+                                       ,animation: {_: {}
+                                                   ,tickLife: getTickLife(_v26._0)}
+                                       ,element: _v26._1};}
+               _E.Case($moduleName,
+               "between lines 576 and 578");
+            }();
+         })(A2(List.zip,
+         tickList,
+         A2(List.map,
+         Basics.snd,
+         tocCollection)));
+      }();
+   });
+   var buildImage = F4(function (imageType,
+   imgFile,
+   w,
+   theme) {
+      return function () {
+         switch (imgFile)
+         {case "":
+            return Graphics.Element.empty;}
+         return function () {
+            var img = A3(Graphics.Element.fittedImage,
+            w,
+            w,
+            imgFile);
+            var style = A2(Utils.Content.getStyling,
+            {ctor: "_Tuple2"
+            ,_0: imageType
+            ,_1: "none"},
+            theme.style);
+            return A3(Builders.ElementMaker.buildCompleteElement,
+            {ctor: "_Tuple2",_0: w,_1: w},
+            style,
+            img);
+         }();
+      }();
+   });
+   var buildTitleSlide = F3(function (theme,
+   _v31,
+   presInfo) {
+      return function () {
+         switch (_v31.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var layoutDetails = function () {
+                    var _v35 = theme.layout.titleSlide;
+                    switch (_v35.ctor)
+                    {case "Layout": return _v35._0;}
+                    _E.Case($moduleName,
+                    "between lines 441 and 443");
+                 }();
+                 var cols = layoutDetails.columns;
+                 var getCol = function (id) {
+                    return List.head(A2(List.filter,
+                    function (x) {
+                       return _U.eq(x.id,id);
+                    },
+                    cols));
+                 };
+                 var getColWidth = function (id) {
+                    return function (_) {
+                       return _.width;
+                    }(getCol(id));
+                 };
+                 var toIntermediateElement = function (ins) {
+                    return function () {
+                       var placement = Graphics.Element.middle;
+                       var width = Basics.truncate(getColWidth(ins.column) * Basics.toFloat(_v31._0));
+                       return function () {
+                          var _v37 = ins.id;
+                          switch (_v37)
+                          {case "image":
+                             return A4(buildImage,
+                               "titlegraphic",
+                               presInfo.titleGraphic,
+                               width,
+                               theme);}
+                          return A6(buildComponentTextElement,
+                          ins.id,
+                          "none",
+                          A2(getElementText,
+                          ins.id,
+                          presInfo),
+                          theme.style,
+                          width,
+                          placement);
+                       }();
+                    }();
+                 };
+                 var getColPlacement = function (id) {
+                    return function (_) {
+                       return _.placement;
+                    }(getCol(id));
+                 };
+                 return A3(getCompleteComponent,
+                 layoutDetails,
+                 {ctor: "_Tuple2"
+                 ,_0: _v31._0
+                 ,_1: _v31._1},
+                 toIntermediateElement);
+              }();}
+         _E.Case($moduleName,
+         "between lines 441 and 461");
+      }();
+   });
+   var buildTreeSubsection = F8(function (theme,
+   w,
+   placement,
+   sectionList,
+   currentRoute,
+   tickDict,
+   containerType,
+   sectionType) {
+      return function () {
+         var clickable = F2(function (sec,
+         elem) {
+            return A3(Utils.Builder.makeClickable,
+            tickDict,
+            sec,
+            elem);
+         });
+         var getSectionish = function () {
+            switch (sectionType)
+            {case "section":
+               return Utils.Builder.getCurrentSection;
+               case "subsection":
+               return Utils.Builder.getCurrentSubsection;}
+            _E.Case($moduleName,
+            "between lines 274 and 277");
+         }();
+         var sectionish = A2(getSectionish,
+         currentRoute,
+         sectionList);
+         var treeSymbolWidth = function () {
+            switch (sectionType)
+            {case "section": return 15;
+               case "subsection": return 30;}
+            _E.Case($moduleName,
+            "between lines 271 and 274");
+         }();
+         var makeHead = function (txt) {
+            return A6(buildComponentTextElement,
+            sectionType,
+            containerType,
+            txt,
+            theme.style,
+            w - treeSymbolWidth,
+            placement);
+         };
+         var sectionHead = function () {
+            switch (sectionish.ctor)
+            {case "Just":
+               return clickable(sectionish._0.route)(makeHead(sectionish._0.shortName));
+               case "Nothing":
+               return makeHead(" ");}
+            _E.Case($moduleName,
+            "between lines 281 and 284");
+         }();
+         var treeSymbolHeight = Basics.truncate(Basics.toFloat(Graphics.Element.heightOf(sectionHead)) / 2);
+         var elemContainer = function () {
+            switch (containerType)
+            {case "leftsidebar":
+               return "sidebar";
+               case "rightsidebar":
+               return "sidebar";}
+            return containerType;
+         }();
+         var style = A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: sectionType
+         ,_1: elemContainer},
+         theme.style);
+         var treeSymbolColor = function (_) {
+            return _.color;
+         }(function (_) {
+            return _.style;
+         }(function (_) {
+            return _.text;
+         }(style)));
+         var treeSymbolVerticalBar = Graphics.Element.color(treeSymbolColor)(A2(Graphics.Element.spacer,
+         2,
+         treeSymbolHeight));
+         var treeSymbolHorizontalBar = Graphics.Element.color(treeSymbolColor)(A2(Graphics.Element.spacer,
+         10,
+         2));
+         var treeSymbol = A3(Graphics.Element.container,
+         treeSymbolWidth,
+         Graphics.Element.heightOf(sectionHead),
+         Graphics.Element.midTop)(A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         _L.fromArray([treeSymbolVerticalBar
+                      ,treeSymbolHorizontalBar])));
+         var completeElem = A2(Graphics.Element.flow,
+         Graphics.Element.right,
+         _L.fromArray([treeSymbol
+                      ,sectionHead]));
+         return A3(Builders.ElementMaker.buildCompleteElement,
+         Graphics.Element.sizeOf(completeElem),
+         style,
+         completeElem);
+      }();
+   });
+   var buildSectionType = F8(function (theme,
+   w,
+   placement,
+   sectionList,
+   currentRoute,
+   tickDict,
+   containerType,
+   sectionType) {
+      return function () {
+         var getSectionish = function () {
+            switch (sectionType)
+            {case "section":
+               return Utils.Builder.getCurrentSection;
+               case "subsection":
+               return Utils.Builder.getCurrentSubsection;
+               case "subsubsection":
+               return Utils.Builder.getCurrentSubsubsection;}
+            _E.Case($moduleName,
+            "between lines 253 and 257");
+         }();
+         var sectionish = A2(getSectionish,
+         currentRoute,
+         sectionList);
+         var clickable = F2(function (sec,
+         elem) {
+            return A3(Utils.Builder.makeClickable,
+            tickDict,
+            sec,
+            elem);
+         });
+         var makeHead = function (txt) {
+            return A6(buildComponentTextElement,
+            sectionType,
+            containerType,
+            txt,
+            theme.style,
+            w,
+            placement);
+         };
+         return function () {
+            switch (sectionish.ctor)
+            {case "Just":
+               return clickable(sectionish._0.route)(makeHead(sectionish._0.shortName));
+               case "Nothing":
+               return makeHead(" ");}
+            _E.Case($moduleName,
+            "between lines 259 and 261");
+         }();
+      }();
+   });
+   var buildSectionishSlide = F7(function (theme,
+   _v46,
+   presInfo,
+   sectionList,
+   currentRoute,
+   tickDict,
+   sectionishType) {
+      return function () {
+         switch (_v46.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var sectionLayout = function () {
+                    switch (sectionishType)
+                    {case "section":
+                       return theme.layout.atBeginSectionSlide;
+                       case "subsection":
+                       return theme.layout.atBeginSubsectionSlide;
+                       case "tocslide":
+                       return theme.layout.tocSlide;}
+                    _E.Case($moduleName,
+                    "between lines 468 and 472");
+                 }();
+                 var layoutDetails = function () {
+                    var _v51 = Basics.fst(sectionLayout);
+                    switch (_v51.ctor)
+                    {case "Layout": return _v51._0;}
+                    _E.Case($moduleName,
+                    "between lines 472 and 474");
+                 }();
+                 var cols = layoutDetails.columns;
+                 var getCol = function (id) {
+                    return List.head(A2(List.filter,
+                    function (x) {
+                       return _U.eq(x.id,id);
+                    },
+                    cols));
+                 };
+                 var getColWidth = function (id) {
+                    return function (_) {
+                       return _.width;
+                    }(getCol(id));
+                 };
+                 var getColPlacement = function (id) {
+                    return function (_) {
+                       return _.placement;
+                    }(getCol(id));
+                 };
+                 var tocOptions = Basics.snd(sectionLayout);
+                 var toIntermediateElement = function (ins) {
+                    return function () {
+                       var toColAndContentElement = function (elem) {
+                          return {ctor: "_Tuple2"
+                                 ,_0: ins.column
+                                 ,_1: _L.fromArray([{_: {}
+                                                    ,animation: {_: {}
+                                                                ,tickLife: _L.fromArray([0])}
+                                                    ,element: elem}])};
+                       };
+                       var placement = getColPlacement(ins.column);
+                       var width = Basics.truncate(getColWidth(ins.column) * Basics.toFloat(_v46._0));
+                       var sectionType = A7(buildSectionType,
+                       theme,
+                       width,
+                       placement,
+                       sectionList,
+                       currentRoute,
+                       tickDict,
+                       "none");
+                       return function () {
+                          var _v53 = ins.id;
+                          switch (_v53)
+                          {case "image":
+                             return function () {
+                                  switch (sectionishType)
+                                  {case "section":
+                                     return toColAndContentElement(A4(buildImage,
+                                       "section",
+                                       presInfo.sectionGraphic,
+                                       width,
+                                       theme));
+                                     case "subsection":
+                                     return toColAndContentElement(A4(buildImage,
+                                       "subsection",
+                                       presInfo.subsectionGraphic,
+                                       width,
+                                       theme));}
+                                  _E.Case($moduleName,
+                                  "between lines 496 and 499");
+                               }();
+                             case "logo":
+                             return toColAndContentElement(A4(buildImage,
+                               "logo",
+                               presInfo.logo,
+                               width,
+                               theme));
+                             case "section":
+                             return toColAndContentElement(sectionType("section"));
+                             case "subsection":
+                             return toColAndContentElement(sectionType("subsection"));
+                             case "toc": return function () {
+                                  var t = A6(buildToc,
+                                  theme,
+                                  width,
+                                  placement,
+                                  sectionList,
+                                  currentRoute,
+                                  tocOptions);
+                                  return function () {
+                                     switch (sectionishType)
+                                     {case "tocslide":
+                                        return {ctor: "_Tuple2"
+                                               ,_0: ins.column
+                                               ,_1: {ctor: "::"
+                                                    ,_0: {_: {}
+                                                         ,animation: {_: {}
+                                                                     ,tickLife: _L.fromArray([0])}
+                                                         ,element: Graphics.Element.color(Color.grey)(A3(Graphics.Element.container,
+                                                         _v46._0,
+                                                         40,
+                                                         Graphics.Element.middle)(Text.centered(Text.color(Color.red)(Text.height(34)(Text.bold(Text.toText("Table of Contents")))))))}
+                                                    ,_1: t}};}
+                                     return {ctor: "_Tuple2"
+                                            ,_0: ins.column
+                                            ,_1: t};
+                                  }();
+                               }();}
+                          _E.Case($moduleName,
+                          "between lines 495 and 517");
+                       }();
+                    }();
+                 };
+                 return A2(Utils.Builder.partitionColWiseContentElement,
+                 List.length(cols),
+                 A2(List.map,
+                 toIntermediateElement,
+                 layoutDetails.inserts));
+              }();}
+         _E.Case($moduleName,
+         "between lines 468 and 518");
+      }();
+   });
+   var buildSidebarToc = F7(function (theme,
+   w,
+   placement,
+   sectionList,
+   currentRoute,
+   tickDict,
+   containerType) {
+      return function () {
+         var clickable = F2(function (sec,
+         elem) {
+            return A3(Utils.Builder.makeClickable,
+            tickDict,
+            sec,
+            elem);
+         });
+         var marker = function (markerStyling) {
+            return A3(Builders.ElementMaker.buildSymbol,
+            markerStyling,
+            theme.symbolSize.sectionProjection,
+            Maybe.Nothing);
+         };
+         var offset = Basics.truncate(theme.symbolSize.sectionProjection.offset * Basics.toFloat(w));
+         var shadedSubsectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "shadedsubsectionprojection"
+         ,_1: "none"},
+         theme.style);
+         var subsectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "subsectionprojection"
+         ,_1: "none"},
+         theme.style);
+         var shadedSectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "shadedsectionprojection"
+         ,_1: "none"},
+         theme.style);
+         var sectionProjection = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "sectionprojection"
+         ,_1: "none"},
+         theme.style);
+         var makeMarker = function (markerType) {
+            return function () {
+               switch (markerType)
+               {case "section":
+                  return marker(sectionProjection);
+                  case "shadedsection":
+                  return marker(shadedSectionProjection);
+                  case "shadedsubsection":
+                  return marker(shadedSubsectionProjection);
+                  case "subsection":
+                  return marker(subsectionProjection);}
+               _E.Case($moduleName,
+               "between lines 220 and 225");
+            }();
+         };
+         var makeHead = F3(function (elem,
+         txt,
+         level) {
+            return function () {
+               var sectionName = A6(buildComponentTextElement,
+               elem,
+               containerType,
+               txt,
+               theme.style,
+               w,
+               Graphics.Element.midLeft);
+               return A5(Builders.ElementMaker.buildTabbedElement,
+               {ctor: "_Tuple2"
+               ,_0: w
+               ,_1: Graphics.Element.heightOf(sectionName)},
+               level,
+               offset,
+               makeMarker(elem),
+               sectionName);
+            }();
+         });
+         var makeSection = function (section) {
+            return clickable(section.route)(A3(makeHead,
+            "shadedsection",
+            section.shortName,
+            1));
+         };
+         var makeSubsection = function (section) {
+            return clickable(section.route)(A2(Utils.Builder.isCurrentSection,
+            currentRoute,
+            section) && A2(Utils.Builder.isCurrentSubsection,
+            currentRoute,
+            section) ? A3(makeHead,
+            "subsection",
+            section.shortName,
+            2) : A3(makeHead,
+            "shadedsubsection",
+            section.shortName,
+            2));
+         };
+         var tocCollection = Utils.Builder.toElementMap(_L.fromArray([makeSection
+                                                                     ,makeSubsection]))(Utils.Builder.filterOutSectionAndSubsection(sectionList));
+         return A2(Graphics.Element.flow,
+         Graphics.Element.down,
+         tocCollection);
+      }();
+   });
+   var buildSubsectionNavigation = F8(function (theme,
+   w,
+   placement,
+   sectionList,
+   currentRoute,
+   tickDict,
+   containerType,
+   direction) {
+      return function () {
+         var subsectionOfCurrentSection = A2(Utils.Builder.filterOutSubsectionOfCurrentSection,
+         List.head(currentRoute),
+         sectionList);
+         var dummyMakeSection = function (section) {
+            return Graphics.Element.empty;
+         };
+         var clickable = F2(function (sec,
+         elem) {
+            return A3(Utils.Builder.makeClickable,
+            tickDict,
+            sec,
+            elem);
+         });
+         var numCols = A2(Utils.Builder.getNumberOfSubsections,
+         List.head(currentRoute),
+         sectionList);
+         var width = function () {
+            switch (direction.ctor)
+            {case "Horizontal":
+               return Basics.truncate(Basics.toFloat(w) / Basics.toFloat(numCols));
+               case "Vertical": return w;}
+            _E.Case($moduleName,
+            "between lines 190 and 193");
+         }();
+         var makeHead = F2(function (elem,
+         txt) {
+            return A6(buildComponentTextElement,
+            elem,
+            containerType,
+            txt,
+            theme.style,
+            width,
+            placement);
+         });
+         var makeSubsection = function (section) {
+            return clickable(section.route)(A2(Utils.Builder.isCurrentSubsection,
+            currentRoute,
+            section) ? A2(makeHead,
+            "subsection",
+            section.shortName) : A2(makeHead,
+            "shadedsubsection",
+            section.shortName));
+         };
+         var subsectionCollection = List.isEmpty(subsectionOfCurrentSection) ? _L.fromArray([A2(makeHead,
+         "subsection",
+         " ")]) : A2(Utils.Builder.toElementMap,
+         _L.fromArray([dummyMakeSection
+                      ,makeSubsection]),
+         sectionList);
+         return function () {
+            switch (direction.ctor)
+            {case "Horizontal":
+               return A2(Graphics.Element.flow,
+                 Graphics.Element.right,
+                 subsectionCollection);
+               case "Vertical":
+               return A2(Graphics.Element.flow,
+                 Graphics.Element.down,
+                 subsectionCollection);}
+            _E.Case($moduleName,
+            "between lines 205 and 208");
+         }();
+      }();
+   });
+   var buildSectionNavigation = F8(function (theme,
+   w,
+   placement,
+   sectionList,
+   currentRoute,
+   tickDict,
+   containerType,
+   direction) {
+      return function () {
+         var sections = Utils.Builder.filterOutSection(sectionList);
+         var clickable = F2(function (sec,
+         elem) {
+            return A3(Utils.Builder.makeClickable,
+            tickDict,
+            sec,
+            elem);
+         });
+         var numCols = Utils.Builder.getNumberOfSections(sectionList);
+         var width = function () {
+            switch (direction.ctor)
+            {case "Horizontal":
+               return Basics.truncate(Basics.toFloat(w) / Basics.toFloat(numCols));
+               case "Vertical": return w;}
+            _E.Case($moduleName,
+            "between lines 167 and 170");
+         }();
+         var makeHead = F2(function (elem,
+         txt) {
+            return A6(buildComponentTextElement,
+            elem,
+            containerType,
+            txt,
+            theme.style,
+            width,
+            placement);
+         });
+         var makeSection = function (section) {
+            return clickable(section.route)(A2(Utils.Builder.isCurrentSection,
+            currentRoute,
+            section) ? A2(makeHead,
+            "section",
+            section.shortName) : A2(makeHead,
+            "shadedsection",
+            section.shortName));
+         };
+         var sectionCollection = List.isEmpty(sections) ? _L.fromArray([A2(makeHead,
+         "section",
+         " ")]) : A2(Utils.Builder.toElementMap,
+         _L.fromArray([makeSection]),
+         sectionList);
+         return function () {
+            switch (direction.ctor)
+            {case "Horizontal":
+               return A2(Graphics.Element.flow,
+                 Graphics.Element.right,
+                 sectionCollection);
+               case "Vertical":
+               return A2(Graphics.Element.flow,
+                 Graphics.Element.down,
+                 sectionCollection);}
+            _E.Case($moduleName,
+            "between lines 181 and 183");
+         }();
+      }();
+   });
+   var buildMiniframes = F8(function (theme,
+   w,
+   placement,
+   sectionList,
+   currentRoute,
+   tickDict,
+   containerType,
+   direction) {
+      return function () {
+         var makeSubsection = function (section) {
+            return Graphics.Element.empty;
+         };
+         var makeMiniframe = function (styling) {
+            return A3(Builders.ElementMaker.buildSymbol,
+            styling,
+            theme.symbolSize.miniframe,
+            Maybe.Nothing);
+         };
+         var clickable = F2(function (sec,
+         elem) {
+            return A3(Utils.Builder.makeClickable,
+            tickDict,
+            sec,
+            elem);
+         });
+         var offsetSpacerWidth = Basics.truncate(theme.symbolSize.miniframe.offset);
+         var offsetSpacer = A2(Graphics.Element.spacer,
+         offsetSpacerWidth,
+         theme.symbolSize.miniframe.height);
+         var toSubsectionFrameCollection = function (routeAndElemList) {
+            return Graphics.Element.flow(Graphics.Element.right)(List.intersperse(offsetSpacer)(Basics.snd(List.unzip(routeAndElemList))));
+         };
+         var toSectionFrameCollection = function (secList) {
+            return Graphics.Element.flow(Graphics.Element.down)(List.map(toSubsectionFrameCollection)(Utils.Builder.partitionInSubsection(secList)));
+         };
+         var numCols = Utils.Builder.getNumberOfSections(sectionList);
+         var width = function () {
+            switch (direction.ctor)
+            {case "Horizontal":
+               return Basics.truncate(Basics.toFloat(w) / Basics.toFloat(numCols));
+               case "Vertical": return w;}
+            _E.Case($moduleName,
+            "between lines 117 and 120");
+         }();
+         var makeHead = F2(function (elem,
+         txt) {
+            return A6(buildComponentTextElement,
+            elem,
+            containerType,
+            txt,
+            theme.style,
+            width,
+            placement);
+         });
+         var makeSection = function (section) {
+            return clickable(section.route)(A2(Utils.Builder.isCurrentSection,
+            currentRoute,
+            section) ? A2(makeHead,
+            "section",
+            section.shortName) : A2(makeHead,
+            "shadedsection",
+            section.shortName));
+         };
+         var othersectionFrame = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "othersection"
+         ,_1: "miniframes"},
+         theme.style);
+         var othersubsectionFrame = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "othersubsection"
+         ,_1: "miniframes"},
+         theme.style);
+         var currentsubsectionFrame = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "currentsubsection"
+         ,_1: "miniframes"},
+         theme.style);
+         var currentFrame = A2(Utils.Content.getSymbolStyling,
+         {ctor: "_Tuple2"
+         ,_0: "current"
+         ,_1: "miniframes"},
+         theme.style);
+         var makeSubsubsection = function (section) {
+            return clickable(section.route)(A2(Utils.Builder.isCurrentSection,
+            currentRoute,
+            section) ? A2(Utils.Builder.isCurrentSubsection,
+            currentRoute,
+            section) ? A2(Utils.Builder.isCurrentSubsubsection,
+            currentRoute,
+            section) ? makeMiniframe(currentFrame) : makeMiniframe(currentsubsectionFrame) : makeMiniframe(othersubsectionFrame) : makeMiniframe(othersectionFrame));
+         };
+         var routeAndElementList = A2(Utils.Builder.levelwiseRouteMap,
+         _L.fromArray([makeSection
+                      ,makeSubsection
+                      ,makeSubsubsection]),
+         sectionList);
+         var sectionwiseList = Utils.Builder.partitionInSection(routeAndElementList);
+         var sectionCollection = List.map(function (_v62) {
+            return function () {
+               switch (_v62.ctor)
+               {case "_Tuple2":
+                  return A2(Graphics.Element.above,
+                    _v62._0,
+                    _v62._1);}
+               _E.Case($moduleName,
+               "on line 148, column 43 to 52");
+            }();
+         })(A2(List.zip,
+         A2(List.map,
+         function (x) {
+            return Basics.snd(List.head(x));
+         },
+         sectionwiseList),
+         A2(List.map,
+         toSectionFrameCollection,
+         sectionwiseList)));
+         var miniframes = function () {
+            switch (direction.ctor)
+            {case "Horizontal":
+               return A2(Graphics.Element.flow,
+                 Graphics.Element.right,
+                 sectionCollection);
+               case "Vertical":
+               return A2(Graphics.Element.flow,
+                 Graphics.Element.down,
+                 sectionCollection);}
+            _E.Case($moduleName,
+            "between lines 153 and 157");
+         }();
+         return A3(Builders.ElementMaker.buildCompleteElement,
+         {ctor: "_Tuple2"
+         ,_0: w
+         ,_1: Graphics.Element.heightOf(miniframes)},
+         A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: "miniframes"
+         ,_1: "none"},
+         theme.style),
+         miniframes);
+      }();
+   });
+   var buildConcreteComponent = F9(function (layoutDetails,
+   theme,
+   presInfo,
+   w,
+   h,
+   componentType,
+   sectionList,
+   currentInfo,
+   tickDict) {
+      return function () {
+         var currentRoute = currentInfo.route;
+         var cols = layoutDetails.columns;
+         var getCol = function (id) {
+            return List.head(A2(List.filter,
+            function (x) {
+               return _U.eq(x.id,id);
+            },
+            cols));
+         };
+         var getColWidth = function (id) {
+            return function (_) {
+               return _.width;
+            }(getCol(id));
+         };
+         var getColPlacement = function (id) {
+            return function (_) {
+               return _.placement;
+            }(getCol(id));
+         };
+         var toIntermediateElement = function (ins) {
+            return function () {
+               var placement = getColPlacement(ins.column);
+               var width = Basics.truncate(getColWidth(ins.column) * Basics.toFloat(w));
+               var partialBuilder = function (func) {
+                  return A7(func,
+                  theme,
+                  width,
+                  placement,
+                  sectionList,
+                  currentRoute,
+                  tickDict,
+                  componentType);
+               };
+               var miniframes = partialBuilder(buildMiniframes);
+               var sectionNavigation = partialBuilder(buildSectionNavigation);
+               var subsectionNavigation = partialBuilder(buildSubsectionNavigation);
+               var toc = partialBuilder(buildSidebarToc);
+               var sectionType = partialBuilder(buildSectionType);
+               var treesubsection = partialBuilder(buildTreeSubsection);
+               var simple = F2(function (elem,
+               t) {
+                  return A6(buildComponentTextElement,
+                  elem,
+                  componentType,
+                  t,
+                  theme.style,
+                  width,
+                  placement);
+               });
+               return function () {
+                  var _v67 = ins.id;
+                  switch (_v67)
+                  {case "logo":
+                     return A4(buildImage,
+                       "logo",
+                       presInfo.logo,
+                       width,
+                       theme);
+                     case "navigation":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : miniframes(Types.Theme.Horizontal);
+                     case "navigationvertical":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : miniframes(Types.Theme.Vertical);
+                     case "section":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : sectionType("section");
+                     case "sectionnavigation":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : sectionNavigation(Types.Theme.Horizontal);
+                     case "sectionnavigationvertical":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : sectionNavigation(Types.Theme.Vertical);
+                     case "slidenumber":
+                     return A2(simple,
+                       "slidenumber",
+                       currentInfo.currentSlideNumber);
+                     case "slidenumberandtotal":
+                     return A2(simple,
+                       "slidenumber",
+                       _L.append(currentInfo.currentSlideNumber,
+                       _L.append("/",
+                       currentInfo.maxSlideNumber)));
+                     case "subsection":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : sectionType("subsection");
+                     case "subsectionnavigation":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : subsectionNavigation(Types.Theme.Horizontal);
+                     case "subsectionnavigationvertical":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : subsectionNavigation(Types.Theme.Vertical);
+                     case "subsubsection":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : sectionType("subsubsection");
+                     case "toc":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : toc;
+                     case "treesection":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : treesubsection("section");
+                     case "treesubsection":
+                     return List.isEmpty(sectionList) ? Graphics.Element.empty : treesubsection("subsection");}
+                  return A2(simple,
+                  _v67,
+                  A2(getElementText,
+                  _v67,
+                  presInfo));
+               }();
+            }();
+         };
+         return A3(Builders.ElementMaker.buildCompleteElement,
+         {ctor: "_Tuple2",_0: w,_1: h},
+         A2(Utils.Content.getStyling,
+         {ctor: "_Tuple2"
+         ,_0: componentType
+         ,_1: "none"},
+         theme.style),
+         A3(getCompleteComponent,
+         layoutDetails,
+         {ctor: "_Tuple2",_0: w,_1: h},
+         toIntermediateElement));
+      }();
+   });
+   var buildOuterComponent = F7(function (theme,
+   _v68,
+   componentType,
+   presInfo,
+   sectionList,
+   currentInfo,
+   tickDict) {
+      return function () {
+         switch (_v68.ctor)
+         {case "_Tuple2":
+            return function () {
+                 var componentLayout = A2(getLayout,
+                 componentType,
+                 theme.layout);
+                 return function () {
+                    switch (componentLayout.ctor)
+                    {case "Empty":
+                       return Graphics.Element.empty;
+                       case "Layout":
+                       return function () {
+                            switch (componentType)
+                            {case "modechangesymbols":
+                               return A7(buildSymbolPanel,
+                                 componentLayout._0,
+                                 theme,
+                                 _v68._1,
+                                 "modechangesymbols",
+                                 sectionList,
+                                 currentInfo.route,
+                                 tickDict);
+                               case "navigationalsymbols":
+                               return A7(buildSymbolPanel,
+                                 componentLayout._0,
+                                 theme,
+                                 _v68._1,
+                                 "navigationalsymbols",
+                                 sectionList,
+                                 currentInfo.route,
+                                 tickDict);}
+                            return A9(buildConcreteComponent,
+                            componentLayout._0,
+                            theme,
+                            presInfo,
+                            _v68._0,
+                            _v68._1,
+                            componentType,
+                            sectionList,
+                            currentInfo,
+                            tickDict);
+                         }();}
+                    _E.Case($moduleName,
+                    "between lines 24 and 42");
+                 }();
+              }();}
+         _E.Case($moduleName,
+         "between lines 22 and 42");
+      }();
+   });
+   _elm.Builders.Outer.values = {_op: _op
+                                ,buildOuterComponent: buildOuterComponent
+                                ,buildConcreteComponent: buildConcreteComponent
+                                ,buildMiniframes: buildMiniframes
+                                ,buildSectionNavigation: buildSectionNavigation
+                                ,buildSubsectionNavigation: buildSubsectionNavigation
+                                ,buildSidebarToc: buildSidebarToc
+                                ,buildSectionType: buildSectionType
+                                ,buildTreeSubsection: buildTreeSubsection
+                                ,buildImage: buildImage
+                                ,buildComponentTextElement: buildComponentTextElement
+                                ,buildSymbolPanel: buildSymbolPanel
+                                ,buildSingleSymbol: buildSingleSymbol
+                                ,getImageName: getImageName
+                                ,buildTitle: buildTitle
+                                ,buildTitleSlide: buildTitleSlide
+                                ,buildSectionishSlide: buildSectionishSlide
+                                ,buildToc: buildToc
+                                ,getLayout: getLayout
+                                ,getElementText: getElementText
+                                ,getCompleteComponent: getCompleteComponent};
+   return _elm.Builders.Outer.values;
+};

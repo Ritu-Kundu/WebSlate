@@ -1,0 +1,614 @@
+Elm.Themes = Elm.Themes || {};
+Elm.Themes.BaseMapping = Elm.Themes.BaseMapping || {};
+Elm.Themes.BaseMapping.make = function (_elm) {
+   "use strict";
+   _elm.Themes = _elm.Themes || {};
+   _elm.Themes.BaseMapping = _elm.Themes.BaseMapping || {};
+   if (_elm.Themes.BaseMapping.values)
+   return _elm.Themes.BaseMapping.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Themes.BaseMapping";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Dict = Elm.Dict.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var _op = {};
+   var mapping = function () {
+      var symbolList = _L.fromArray([{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "navigationalsymbols"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.GeneralSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "dimmednavigationalsymbols"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ShadedGeneralSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "modechangesymbols"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.GeneralSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "dimmedmodechangesymbols"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ShadedGeneralSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "current"
+                                          ,_1: "miniframes"}
+                                     ,_1: Types.Theme.MiniframeSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "currentsubsection"
+                                          ,_1: "miniframes"}
+                                     ,_1: Types.Theme.MiniframeSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "othersection"
+                                          ,_1: "miniframes"}
+                                     ,_1: Types.Theme.ShadedMiniframeSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "othersubsection"
+                                          ,_1: "miniframes"}
+                                     ,_1: Types.Theme.ShadedMiniframeSymbol}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "sectionprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "shadedsectionprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ShadedSectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "sectionprojection"
+                                          ,_1: "toc"}
+                                     ,_1: Types.Theme.SectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "shadedsectionprojection"
+                                          ,_1: "toc"}
+                                     ,_1: Types.Theme.ShadedSectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "subsectionprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "shadedsubsectionprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ShadedSectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "subsectionprojection"
+                                          ,_1: "toc"}
+                                     ,_1: Types.Theme.SectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "shadedsubsectionprojection"
+                                          ,_1: "toc"}
+                                     ,_1: Types.Theme.ShadedSectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "subsubsectionprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "shadedsubsubsectionprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ShadedSectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "subsubsectionprojection"
+                                          ,_1: "toc"}
+                                     ,_1: Types.Theme.SectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "shadedsubsubsectionprojection"
+                                          ,_1: "toc"}
+                                     ,_1: Types.Theme.ShadedSectionProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "itemizeitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ItemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "itemizesubitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SubitemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "itemizesubsubitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SubsubitemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "enumerateitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ItemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "enumeratesubitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SubitemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "enumeratesubsubitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SubsubitemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "descriptionitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.ItemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "descriptionsubitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SubitemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "descriptionsubsubitemprojection"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.SubsubitemProjection}
+                                    ,{ctor: "_Tuple2"
+                                     ,_0: {ctor: "_Tuple2"
+                                          ,_0: "button"
+                                          ,_1: "none"}
+                                     ,_1: Types.Theme.Button}]);
+      var innerList = _L.fromArray([{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "block"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Inner}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "framebox"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Inner}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "imagebox"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Inner}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "alertedblock"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Inner}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "quiz"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Inner}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "blocktitle"
+                                         ,_1: "block"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "blocktitle"
+                                         ,_1: "alertedblock"}
+                                    ,_1: Types.Theme.AlertText}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "normal"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.InnerElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "highlight"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.HighlightText}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "alert"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.AlertText}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "itemizeitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Item}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "itemizesubitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Subitem}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "itemizesubsubitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Subsubitem}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "enumerateitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Item}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "enumeratesubitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Subitem}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "enumeratesubsubitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Subsubitem}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "descriptionitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Item}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "descriptionsubitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Subitem}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "descriptionsubsubitem"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Subsubitem}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "caption"
+                                         ,_1: "imagebox"}
+                                    ,_1: Types.Theme.InnerElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "captionnameandnumber"
+                                         ,_1: "imagebox"}
+                                    ,_1: Types.Theme.InnerElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "toc"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Inner}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "section"
+                                         ,_1: "toc"}
+                                    ,_1: Types.Theme.InnerElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsection"
+                                         ,_1: "toc"}
+                                    ,_1: Types.Theme.InnerElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsubsection"
+                                         ,_1: "toc"}
+                                    ,_1: Types.Theme.InnerElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsection"
+                                         ,_1: "toc"}
+                                    ,_1: Types.Theme.PrimaryTocShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsection"
+                                         ,_1: "toc"}
+                                    ,_1: Types.Theme.SecondaryTocShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsubsection"
+                                         ,_1: "toc"}
+                                    ,_1: Types.Theme.TertiaryTocShading}]);
+      var outerList = _L.fromArray([{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "headline"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Outer}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "footline"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Outer}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "leftsidebar"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Outer}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "rightsidebar"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Outer}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "miniframes"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Outer}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "logo"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.Outer}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "title"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "title"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "title"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "title"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.QuaternarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subtitle"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subtitle"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subtitle"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subtitle"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.QuaternarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "author"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.OuterElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "author"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Primary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "author"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Primary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "author"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.TertiarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "date"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.OuterElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "date"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Secondary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "date"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Secondary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "date"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.TertiarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "institute"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.OuterElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "institute"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Tertiary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "institute"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Tertiary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "institute"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.TertiarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "slidenumber"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.OuterElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "slidenumber"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "slidenumber"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "slidenumber"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.QuaternarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "titlegraphic"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.OuterElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "sectiongraphic"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.OuterElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsectiongraphic"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.OuterElements}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "slidetitle"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "slidesubtitle"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "section"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "section"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Tertiary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "section"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Tertiary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "section"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.SecondarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsection"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsection"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsection"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsection"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.PrimarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsubsection"
+                                         ,_1: "none"}
+                                    ,_1: Types.Theme.TitleLike}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsubsection"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsubsection"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.Quaternary}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "subsubsection"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.PrimarySidebar}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsection"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.TertiaryShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsection"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.TertiaryShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsection"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.SecondarySidebarShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsection"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.QuaternaryShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsection"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.QuaternaryShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsection"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.PrimarySidebarShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsubsection"
+                                         ,_1: "headline"}
+                                    ,_1: Types.Theme.QuaternaryShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsubsection"
+                                         ,_1: "footline"}
+                                    ,_1: Types.Theme.QuaternaryShading}
+                                   ,{ctor: "_Tuple2"
+                                    ,_0: {ctor: "_Tuple2"
+                                         ,_0: "shadedsubsubsection"
+                                         ,_1: "sidebar"}
+                                    ,_1: Types.Theme.PrimarySidebarShading}]);
+      return {_: {}
+             ,inner: Dict.fromList(innerList)
+             ,outer: Dict.fromList(outerList)
+             ,symbol: Dict.fromList(symbolList)};
+   }();
+   _elm.Themes.BaseMapping.values = {_op: _op
+                                    ,mapping: mapping};
+   return _elm.Themes.BaseMapping.values;
+};

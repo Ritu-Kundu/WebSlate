@@ -1,0 +1,18 @@
+<html>
+ 
+  <head>
+    <title>Slate</title>
+    
+    <script type="text/javascript" src="JSLIB/Underscore.js"></script>
+    <script type="text/javascript" src="Converter.js"></script>
+    <script type="text/javascript" src="Reader.js"></script>		
+  </head>
+  <body>
+	<form action='#' onsubmit="return false;">
+		<input type='button' id='btnLoad' value='Load' onclick=trySplit();>		
+	</form>
+   	<div id="SlishoPresen" > </div>
+    <div style="visibility:hidden" id="SlishoError"> </div>
+  </body>
+       
+ </html>

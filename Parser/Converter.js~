@@ -1,0 +1,571 @@
+
+
+var SlateConverter = function(pres){
+
+//////////////////////////////////////////////////////////////////////
+var listLevels = {itemize:0,enumerate:0,description:0};
+var alphabetArray = ["a","b","c","d","e","f","g","h","i","j","k","l",
+             "m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+var romanArray = ["i","ii","iii","iv","v","vi","vii","viii","ix","x",
+                 "xi","xii","xiii","xiv","xv","xvi","xvii","xviii","xix",
+                 "xx","xxi","xxii","xxiii","xxiv","xxv"]; 
+
+/////////////////////////////////////////////////////////////////////
+
+var slatePres = { presInfo: null
+                , themeInfo: null
+                , quizes:[]
+                , supportbin:[]
+                , slides: []
+                }
+print("entered");return;
+// Fill presInfo
+slatePres.themeInfo = pres.appearanceInfo;
+
+// Fill presInfo
+var pa =pres.presInfo;
+slatePres.presInfo = { presTitle: pa.title
+                      , presSubTitle: pa.subtitle
+                      , authors:(pa.authors!="")?pa.authors.split(","):[]
+                      , institute:(pa.institute!="")?pa.institute.split(","):[]
+                      , date: pa.date
+                      , logo: pa.logo
+                      , titleGraphic: pa.titlegraphic
+                      , sectionGraphic: pa.sectiongraphic
+                      , subsectionGraphic: pa.subsectiongraphic
+                      , sections: pa.sections
+                      }
+
+print("layout");
+convertLayout(pres.appearanceInfo.templateLayout);
+print("starting content");
+convertContent(_.compact(pres.content));
+// convert supportbin
+slatePres.supportbin = _.map(pres.supportbin,convertSupportbin);
+print(pres.supportbin);
+print(slatePres.supportbin);
+// cfill quiz
+slatePres.quizes = pres.quizes;
+return slatePres;
+
+// Convert Layout of Appearance
+function convertLayout(templateLayout){
+  var convertedTemplateLayout = [];
+  for(var i=0; i< templateLayout.length; i++){
+    var layoutRec = templateLayout[i];
+    var layout = { id: layoutRec.id
+                 , columns: []
+                 , inserts: []
+                 };
+    var layoutContent = layoutRec.layoutContent;
+	  for(var j=0; j< layoutContent.length; j++){
+      var layoutCol = layoutContent[j];
+      var col =   { id: j+1
+                  , width: layoutCol.width
+                  , columnAlign: layoutCol.columnAlign
+                  , inColumnAlign: layoutCol.inColumnAlign
+                  }
+      layout.columns.push(col);
+      var inserts = layoutCol.columnContent;
+      for(var k=0; k< inserts.length; k++){
+        layout.inserts.push( {name:inserts[k]
+                             ,columnid:j+1
+                             }
+                            );
+      }
+    }
+    convertedTemplateLayout.push(layout);    
+  }   
+  slatePres.themeInfo.templateLayout = convertedTemplateLayout;
+}
+// convert Supportbin
+function convertSupportbin(supportbin){
+    var inserts = supportbin.content
+    function toSupportText(simpleTex){
+      var parts = [];
+      var inlinestyle = [];
+      function process(texpart){
+        parts.push(texpart.stringText); 
+        inlinestyle.push(texpart.type);    
+      } 
+      _.map(simpleTex,process);
+      return { parts:parts
+           , inlinestyle:inlinestyle
+           , animation: { tickLife: [0]
+                        }
+           };
+    }
+    var convertedSlide = { id: supportbin.supportbinId
+                         , slideContent: { blocks: []
+                             , simpletextboxes: []
+                             , frameboxes: []
+                             , imageboxes: []
+                             , slateLists: []
+                             , smartLists: []
+                             }
+                          };
+    for(var k=0; k< inserts.length; k++){
+        var layout = {containerColumn:1
+                     ,inColumnnPos:k+1
+                     };
+        var elem = inserts[k];
+        switch(elem.type){
+          case "block":
+               var otherLife = "dead";
+               convertedSlide.slideContent.blocks.push(
+               { layout: layout
+               , isAlerted: elem.isAlerted
+               , title: elem.title
+               , body: [toSupportText(elem.body)]
+               , otherLife: otherLife               
+               });
+               break;
+          case "framebox":
+               var otherLife = "dead";
+               convertedSlide.slideContent.frameboxes.push(
+               { layout: layout
+               , body: [toSupportText(elem.body)]
+               , otherLife: otherLife
+               });
+               break;
+          case "imagebox":
+               var otherLife = "dead";
+               convertedSlide.slideContent.imageboxes.push(
+               { layout: layout
+               , imageFile: elem.imageFile
+               , imageOptions: elem.imageOptions
+               , caption: elem.caption
+               , animation: {tickLife:[0]}              
+               , otherLife: otherLife
+               });
+               break;
+          case "simpleTextbox":
+               var otherLife = "dead";
+               convertedSlide.slideContent.simpletextboxes.push(
+               { layout: layout
+               , body: [toSupportText(elem.text)]
+               , otherLife: otherLife
+               });
+               break;
+           case "slateList":
+               convertedSlide.slideContent.slateLists.push(
+               { layout: layout
+               , items: convertList(elem,"",20,0)
+               });
+               break;
+           case "smartList":
+               convertedSlide.slideContent.smartLists.push(
+               { layout: layout
+               , sdType: elem.sdType
+               , items: elem.items
+               , animation: {tickLife:[0]}              
+               , otherLife: "dead" 
+               });
+               break;
+
+       
+        }
+                           
+      }
+return convertedSlide;
+}
+
+// convertContent
+function convertContent(content){
+  var convertedContent = [];
+  
+  for(var i=0; i< content.length; i++){print(i);
+    var slide = content[i];
+    var convertedSlide = { id: slide.id
+             , slideType: slide.type
+             , partOf: slide.partOf
+             , slideTitle:slide.title
+             , slideSubtitle: slide.subtitle
+             , supportbin: slide.supportbin
+             , quiz: slide.quiz
+             , columns: []
+             , slideContent: { blocks: []
+                             , simpletextboxes: []
+                             , frameboxes: []
+                             , imageboxes: []
+                             , slateLists: []
+                             , quizes: []
+                             , buttons: []
+                             }
+             };
+    var slideContent = slide.slidecontent;
+	  for(var j=0; j< slideContent.length; j++){
+      var slideCol = slideContent[j];
+      var col =   { id: j+1
+                  , width: slideCol.width
+                  , columnAlign: slideCol.columnAlign
+                  , inColumnAlign: slideCol.inColumnAlign
+                  }
+      convertedSlide.columns.push(col);
+      var inserts = slideCol.columnContent;
+      for(var k=0; k< inserts.length; k++){
+        var layout = {containerColumn:j+1
+                     ,inColumnnPos:k+1
+                     };
+        var elem = inserts[k];
+        switch(elem.type){
+          case "block":
+               var animInfo = elem.animationInfo;
+               var anim = (animInfo!=null)?expandTick(animInfo.animation,slide.maxTick,0):addRange(0,slide.maxTick)
+               var otherLife = (animInfo!=null && animInfo.covered)?"covered":"dead"
+               convertedSlide.slideContent.blocks.push(
+               { layout: layout
+               , isAlerted: elem.isAlerted
+               , title: elem.title
+               , body: toSlateText(elem.body,anim)
+               , otherLife: otherLife               
+               });
+               break;
+          case "framebox":
+               var animInfo = elem.animationInfo;
+               var anim = (animInfo!=null)?expandTick(animInfo.animation,slide.maxTick,0):addRange(0,slide.maxTick)
+               var otherLife = (animInfo!=null && animInfo.covered)?"covered":"dead"
+               convertedSlide.slideContent.frameboxes.push(
+               { layout: layout
+               , body: toSlateText(elem.body,anim)
+               , otherLife: otherLife
+               });
+               break;
+          case "imagebox":
+               var animInfo = elem.animationInfo;
+               var anim = (animInfo!=null)?expandTick(animInfo.animation,slide.maxTick,0):addRange(0,slide.maxTick)
+               var otherLife = (animInfo!=null && animInfo.covered)?"covered":"dead"
+               convertedSlide.slideContent.imageboxes.push(
+               { layout: layout
+               , imageFile: elem.imageFile
+               , imageOptions: elem.imageOptions
+               , caption: elem.caption
+               , animation: {tickLife:anim}              
+               , otherLife: otherLife
+               });
+               break;
+          case "simpleTextbox":
+               var tboxList = convertSimpleTextbox(elem,slide.maxTick);
+               for (var i=0; i<tboxList.length;i++){
+                 var covertedTbox = tboxList[i];
+                 covertedTbox["layout"] = layout;
+                 convertedSlide.slideContent.simpletextboxes.push(covertedTbox);
+               }
+               break;
+           case "slateList":
+               convertedSlide.slideContent.slateLists.push(
+               { layout: layout
+               , items: convertList(elem,"",slide.maxTick,0)
+               });
+               break;
+           case "smartList":
+               var animInfo = elem.animationInfo;
+               var anim = (animInfo!=null)?expandTick(animInfo.animation,slide.maxTick,0):addRange(0,slide.maxTick)
+               var otherLife = (animInfo!=null && animInfo.covered)?"covered":"dead"
+
+               convertedSlide.slideContent.smartLists.push(
+               { layout: layout
+               , sdType: elem.sdType
+               , items: elem.items
+               , animation: {tickLife:anim}              
+               , otherLife: otherLife
+               });
+               break;
+
+       
+        }
+                           
+      }
+    }
+    convertedContent.push(convertedSlide);       
+  }   
+  slatePres.slides = convertedContent;
+}
+
+function convertList(ls, prependStr, maxTick, minTick){
+  increaseListLevel(ls.listType);
+  var animInfo = ls.animationInfo;
+  var anim = (animInfo!=null)?expandTick(animInfo.animation,maxTick,minTick):addRange(minTick,maxTick);
+  var otherLife = (animInfo!=null && animInfo.covered)?"covered":"dead";
+  var parentMax = _.max(anim);
+  var parentMin = _.min(anim);
+  var listItems = [];
+  var localItemNum = 0;
+  print(ls.items.length);
+  for (var i=0; i< ls.items.length; i++){
+    var item = ls.items[i];
+
+    function getItemInfo(){ switch(ls.listType){
+                               case "itemize": return "";
+                               case "enumerate": return getEnumerateInfo(localItemNum);
+                               case "description": return item.listOption
+                          } 
+    }
+    switch(item.type){
+      case "simpleItem":
+           ++localItemNum; 
+           var itemAnimInfo = item.animationInfo;
+           var itemAnim = (itemAnimInfo!=null)?tickIntersect(anim
+                                                            ,expandTick(itemAnimInfo.animation,parentMax,parentMin)
+                                                            ):anim;
+           var itemOtherLife = (itemAnimInfo!=null && itemAnimInfo.covered)?"covered":otherLife;
+           var itemid = (prependStr!="")?(prependStr+"."+localItemNum.toString()):localItemNum.toString();
+           var itemInfo = getItemInfo();
+           print(itemid);
+           var converterItem =  { id:itemid
+                                , itemType: getItemType(ls.listType)
+                                , itemInfo: itemInfo
+                                , body: toSlateText(item.text,itemAnim)
+                                , otherLife: itemOtherLife
+                                }
+           listItems.push(converterItem);
+           break;
+      case "slateList": 
+           var itemid = (prependStr!="")?(prependStr+"."+localItemNum.toString()):localItemNum.toString();
+           var convertedSublist = convertList(item, itemid, parentMax, parentMin);
+           return;
+           for (var j=0; j<convertedSublist.length;j++){
+                 listItems.push(convertedSublist[j]);
+           } 
+    }
+
+  }
+  decreaseListLevel(ls.listType);  
+  return listItems;
+}
+
+function increaseListLevel(listType){
+
+switch (listType){
+   case "itemize":
+        ++(listLevels.itemize);
+        break;
+   case "enumerate":
+        ++(listLevels.enumerate);
+        break;
+   case "description":
+        ++(listLevels.description);
+        break;
+  }
+}
+function decreaseListLevel(listType){
+switch (listType){
+   case "itemize":
+        --(listLevels.itemize);
+        break;
+   case "enumerate":
+        --(listLevels.enumerate);
+        break;
+   case "description":
+        --(listLevels.description);
+        break;
+  }
+}
+function getItemType(listType){
+  function get(lvl){
+    switch(lvl){
+      case 1: return "item";
+      case 2: return "subitem";
+      case 3: return "subsubitem";
+    }
+  }
+  switch (listType){
+   case "itemize":
+        return (listType + get(listLevels.itemize));
+        break;
+   case "enumerate":
+        return (listType + get(listLevels.enumerate));
+        break;
+   case "description":
+        return (listType + get(listLevels.description));
+        break;
+  }
+}
+function getEnumerateInfo(num){
+    switch(listLevels.enumerate){
+      case 1: return num.toString() + ".";
+      case 2: return "("+alphabetArray[num-1] +")";
+      case 3: return "(" +romanArray[num-1] + ")";
+    }
+  }
+
+function convertSimpleTextbox(tbox, maxTick){
+  var parentanimation = addRange(0,maxTick);
+  var bodyAnimation = (tbox.animation!=null)?expandTick(tbox.animation, maxTick,0):[];
+  var ls = {};
+  switch(tbox.animtype){
+      
+      case "noAnimation": ls=
+            [{body:toSlateText(tbox.text,parentanimation)
+            ,otherLife:"covered"
+            }];
+            break;
+      case "only":ls=
+            [{body:toSlateText(tbox.text,bodyAnimation)
+            ,otherLife:"dead"
+            }];
+            break;
+      case "visible":ls=
+            [{body:toSlateText(tbox.text,bodyAnimation)
+            ,otherLife:"covered"
+            }];
+            break;
+      case "invisible":ls=
+            [{body: toSlateText(tbox.text,tickDiff(parentanimation,bodyAnimation))
+             ,otherLife:"covered"
+             }];                    
+            break;
+     case "alt":ls=
+            [{body: toSlateText(tbox.text,bodyAnimation)
+             ,otherLife:"dead"
+             }
+            ,
+             {body: toSlateText(tbox.text,tickDiff(parentanimation,bodyAnimation))
+             ,otherLife:"dead"
+             }] ;                    
+            break;
+     case "temporal":
+             var others = tickDiff(parentanimation,bodyAnimation);
+             var at = bodyAnimation;
+             var maxAt = _.max(at);
+             var partitioned = _.partition(others,function(n){return n<max;})
+             ls=
+            [{body: toSlateText(tbox.text,at)
+             ,otherLife:"dead"
+             }
+            ,
+             {body: toSlateText(tbox.text,partitioned[0])
+             ,otherLife:"dead"
+             }
+            ,
+             {body: toSlateText(tbox.text,partitioned[1])
+             ,otherLife:"dead"
+             }]  ;                   
+            break;
+
+  };
+  return ls;
+}
+
+function toSlateText(bodyText,parentAnimation){
+  var parentMaxTick = _.max(parentAnimation);
+  var parentMinTick = _.min(parentAnimation);
+  
+  
+  function toAnimation(simpleText){
+    
+    switch(simpleText.type){
+      case "normal":
+           return [{animation:parentAnimation
+                   , type:"normal"
+                   , stringText:simpleText.stringText
+                   }
+                  ];
+           break;
+      default : 
+           var anim =(simpleText.animation!=null)
+                        ?tickIntersect(parentAnimation,expandTick(simpleText.animation,parentMaxTick,parentMinTick))
+                        :parentAnimation;
+           return [{animation:anim
+                   , type:simpleText.type
+                   , stringText:simpleText.stringText
+                   }
+                   ,
+                   {animation:tickDiff(parentAnimation,anim)
+                   , type:"normal"
+                   , stringText:simpleText.stringText
+                   }
+                  ]
+    }
+    
+  }
+  function toText(grpNTick){
+    var grp = grpNTick.group;
+    var indexList = _.map(grp.split(","), function(n){return parseInt(n);});
+    var parts = [];
+    var inlinestyle = [];
+    function process(ind){
+      parts.push(simpleTextList[ind].stringText); 
+      inlinestyle.push(simpleTextList[ind].type);    
+    } 
+    _.map(indexList,process);
+    return { parts:parts
+           , inlinestyle:inlinestyle
+           , animation: { tickLife: grpNTick.tickLife
+                        }
+           };
+  }
+  var simpleTextList = _.flatten(_.map(bodyText,toAnimation));
+  var animOfText = _.map(simpleTextList,function(r){return r.animation;});
+  var textgroupAndTickLife = toTickLife(animOfText,parentMaxTick,parentMinTick);
+  var convertedBodyText =  _.map(textgroupAndTickLife, toText);
+  
+  return convertedBodyText;
+}
+
+function expandTick(tickString,maxTick,minTick){
+  var result = [];
+  var a = tickString.split(",");
+  
+  for(var i=0; i < a.length; i++){
+    var hyphenAt = a[i].indexOf("-");
+    var last = a[i].length-1;
+    if(hyphenAt < 0)
+    {result.push([parseInt(a[i])]);}
+    else if (hyphenAt == 0)
+    {result.push(addRange(minTick,parseInt(a[i].slice(1))));}
+    else if (hyphenAt == last)
+    {result.push(addRange(parseInt(a[i].slice(0,last)),maxTick));}
+    else
+    {result.push(addRange(parseInt(a[i].slice(0,hyphenAt)),parseInt(a[i].slice(hyphenAt+1))));}
+  }
+
+  return (_.flatten(result));
+}
+// calculate a-b
+function tickDiff(a,b){
+  return _.difference(a,b);
+}
+
+function tickIntersect(a,b){
+  return _.intersection(a,b);
+}
+function addRange(start,end){
+    if (start<=end){start1=start;end1=end;}
+    return _.range(start1,end1+1,1);
+}
+function toTickLife(animArray, maxTick, minTick){
+  var zippedAnimPart = _.zip(animArray,_.range(0,animArray.length,1));
+  var tickLook = [];
+  var partIndexAndTickLife = [];
+  for(var i=minTick;i<=maxTick;i++){
+    var ithTick = _.map(
+                         _.filter(zippedAnimPart
+                         ,function(ls){return _.contains(ls[0],i);}
+                         )
+                       , function(pr){return pr[1];}
+                       );
+    tickLook.push(ithTick.toString());
+  }
+
+  var possibleLooks = _.without(_.uniq(tickLook),"");
+  var zippedLookTick = _.zip(tickLook,_.range(minTick,maxTick+1,1));
+  for(var j=0;j<possibleLooks.length;j++){
+    var tickLife = _.map(
+                          _.filter(zippedLookTick
+                                   ,function(t){return t[0] == possibleLooks[j]}
+                                  )
+                         ,function(pr){return pr[1];}
+                        );
+    partIndexAndTickLife.push({ group:possibleLooks[j]
+                              , tickLife:tickLife 
+                              }
+                              );
+  }
+  return(partIndexAndTickLife);
+}
+function print(a){
+  console.log(JSON.stringify(a));
+}
+}
+

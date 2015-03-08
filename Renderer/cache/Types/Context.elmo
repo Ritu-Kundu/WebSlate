@@ -1,0 +1,104 @@
+Elm.Types = Elm.Types || {};
+Elm.Types.Context = Elm.Types.Context || {};
+Elm.Types.Context.make = function (_elm) {
+   "use strict";
+   _elm.Types = _elm.Types || {};
+   _elm.Types.Context = _elm.Types.Context || {};
+   if (_elm.Types.Context.values)
+   return _elm.Types.Context.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Types.Context";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Graphics.Input || {};
+   Graphics.Input.Field = Elm.Graphics.Input.Field.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var _op = {};
+   var SlateContext = function (a) {
+      return function (b) {
+         return function (c) {
+            return function (d) {
+               return function (e) {
+                  return function (f) {
+                     return function (g) {
+                        return function (h) {
+                           return function (i) {
+                              return function (j) {
+                                 return {_: {}
+                                        ,currentSlideIndex: c
+                                        ,currentTick: e
+                                        ,mode: f
+                                        ,mousePosition: h
+                                        ,previousSlideIndex: d
+                                        ,quizButton: i
+                                        ,quizContent: j
+                                        ,windowHeight: b
+                                        ,windowWidth: a
+                                        ,zoomElem: g};
+                              };
+                           };
+                        };
+                     };
+                  };
+               };
+            };
+         };
+      };
+   };
+   var SlideContext = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,current: a
+             ,currentTick: c
+             ,previous: b};
+   });
+   var InZoomMode = {ctor: "InZoomMode"};
+   var BeginZoomMode = {ctor: "BeginZoomMode"};
+   var ScribbleMode = {ctor: "ScribbleMode"};
+   var SupportBinZoomMode = {ctor: "SupportBinZoomMode"};
+   var BeginSupportBinMode = {ctor: "BeginSupportBinMode"};
+   var QuizMode = {ctor: "QuizMode"};
+   var NormalMode = {ctor: "NormalMode"};
+   var Asyn = function (a) {
+      return {ctor: "Asyn",_0: a};
+   };
+   var DecTick = {ctor: "DecTick"};
+   var IncTick = {ctor: "IncTick"};
+   var Dec = {ctor: "Dec"};
+   var Inc = {ctor: "Inc"};
+   _elm.Types.Context.values = {_op: _op
+                               ,Inc: Inc
+                               ,Dec: Dec
+                               ,IncTick: IncTick
+                               ,DecTick: DecTick
+                               ,Asyn: Asyn
+                               ,NormalMode: NormalMode
+                               ,QuizMode: QuizMode
+                               ,BeginSupportBinMode: BeginSupportBinMode
+                               ,SupportBinZoomMode: SupportBinZoomMode
+                               ,ScribbleMode: ScribbleMode
+                               ,BeginZoomMode: BeginZoomMode
+                               ,InZoomMode: InZoomMode
+                               ,SlideContext: SlideContext
+                               ,SlateContext: SlateContext};
+   return _elm.Types.Context.values;
+};

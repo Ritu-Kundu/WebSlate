@@ -1,0 +1,115 @@
+Elm.Slate = Elm.Slate || {};
+Elm.Slate.make = function (_elm) {
+   "use strict";
+   _elm.Slate = _elm.Slate || {};
+   if (_elm.Slate.values)
+   return _elm.Slate.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Slate";
+   var Basics = Elm.Basics.make(_elm);
+   var Builders = Builders || {};
+   Builders.Context = Elm.Builders.Context.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Displayers = Displayers || {};
+   Displayers.Main = Elm.Displayers.Main.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Input = Elm.Graphics.Input.make(_elm);
+   var JavaScript = JavaScript || {};
+   JavaScript.Experimental = Elm.JavaScript.Experimental.make(_elm);
+   var Json = Elm.Json.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Context = Elm.Types.Context.make(_elm);
+   var Types = Types || {};
+   Types.Naive = Elm.Types.Naive.make(_elm);
+   var _op = {};
+   var initialBg = Graphics.Element.layers(_L.fromArray([A3(Graphics.Collage.collage,
+                                                        800,
+                                                        800,
+                                                        _L.fromArray([Graphics.Collage.filled(Color.grey)(A2(Graphics.Collage.rect,
+                                                        800,
+                                                        800))]))
+                                                        ,Text.justified(Text.color(Color.white)(Text.height(40)(Text.toText("SLATE: Press Right Arrow to start"))))]));
+   var pen = A3(Graphics.Collage.collage,
+   5,
+   5,
+   _L.fromArray([Graphics.Collage.filled(Color.red)(Graphics.Collage.circle(5))]));
+   var portParsedStr = Native.Ports.portIn("portParsedStr",
+   function (v) {
+      return typeof v === "string" || typeof v === "object" && v instanceof String ? v : _E.raise("invalid input, expecting JSString but got " + v);
+   });
+   var tojson = Json.fromString(portParsedStr);
+   var naive = function () {
+      switch (tojson.ctor)
+      {case "Just":
+         return JavaScript.Experimental.toRecord(JavaScript.Experimental.fromJson(tojson._0));}
+      _E.Case($moduleName,
+      "between lines 19 and 20");
+   }();
+   var showMain = F2(function (context,
+   elem) {
+      return function () {
+         var _v2 = context.mode;
+         switch (_v2.ctor)
+         {case "ScribbleMode":
+            return function () {
+                 var closeSign = A3(Graphics.Element.fittedImage,
+                 30,
+                 30,
+                 "Symbols/Close.gif");
+                 var closeButton = A5(Graphics.Input.customButton,
+                 Builders.Context.modeClicks.handle,
+                 Types.Context.NormalMode,
+                 closeSign,
+                 Graphics.Element.opacity(0.5)(closeSign),
+                 closeSign);
+                 var base = A4(Graphics.Element.container,
+                 context.windowWidth,
+                 context.windowHeight,
+                 Graphics.Element.topRight,
+                 closeButton);
+                 return Graphics.Element.layers(_L.fromArray([elem
+                                                             ,base
+                                                             ,A4(Graphics.Element.container,
+                                                             context.windowWidth,
+                                                             context.windowHeight,
+                                                             A2(Graphics.Element.middleAt,
+                                                             Graphics.Element.absolute(Basics.fst(context.mousePosition)),
+                                                             Graphics.Element.absolute(Basics.snd(context.mousePosition))),
+                                                             pen)]));
+              }();}
+         return A2(Displayers.Main.showPresentation,
+         naive,
+         context);
+      }();
+   });
+   var main = A3(Signal.foldp,
+   showMain,
+   initialBg,
+   Builders.Context.contextSignal);
+   _elm.Slate.values = {_op: _op
+                       ,tojson: tojson
+                       ,naive: naive
+                       ,pen: pen
+                       ,showMain: showMain
+                       ,initialBg: initialBg
+                       ,main: main};
+   return _elm.Slate.values;
+};

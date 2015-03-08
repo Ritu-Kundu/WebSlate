@@ -1,0 +1,57 @@
+module Utils.Builder where
+
+import Types.Theme as T
+import Types.Slate as S
+
+levelwiseMap: [(T.Section -> Element)] -> T.SectionList -> [Element]
+levelwiseMap funcList sectionList =
+  let 
+    toElement section = (last <| take (length <| section.route) funcList) section
+    onlyRoute section = seection.route
+  in
+    zip (map onlyRoute sectionList) (map toElement sectionList)
+
+
+levelwiseSelectiveMap: [(T.Section -> Bool)] -> [(T.Section -> Element)] -> [(T.Section -> Element)] -> [T.Section] -> [Element]
+levelwiseSelectiveMap checkFuncList trueFuncList falseFuncList sectionList =
+  let 
+    aptLevel section funcList = (last <| take (length section.route) funcList) section
+    convert section = if (aptLevel section checkFuncList)
+                      then aptLevel section trueFuncList
+                      else aptLevel section falseFuncList
+  in
+    map (aptLevel) sectionList
+
+
+isCurrentSection: T.Route -> T.Section -> Bool
+isCurrentSection currentRoute section =
+  (getSectionFromRoute currentRoute == getSectionFromRoute section.route)
+
+isCurrentSubsection: T.Route -> T.Section -> Bool
+isCurrentSubsection currentRoute section =
+  (getSubsectionFromRoute currentRoute == getSubsectionFromRoute section.route)
+
+isCurrentSubsubsection: T.Route -> T.Section -> Bool
+isCurrentSubsubsection currentRoute section =
+  (getSubsubsectionFromRoute currentRoute == getSubsubsectionFromRoute section.route)
+
+
+getLevelNumber: Int -> T.Route -> Int
+getLevelNumber level route =
+  if (level > (length roue))
+  then -1
+  else last <| take level route
+
+getSectionFromRoute: Route -> Int
+getSectionFromRoute route = getLevelNumber 1 route
+ 
+getSubsectionFromRoute: Route -> Int
+getSubsectionFromRoute route = getLevelNumber 2 route
+  
+getSubsubsectionFromRoute: Route -> Int
+getSubsubsectionFromRoute route = getLevelNumber 3 route
+   
+
+getNumberOfSections: T.SectionList -> Int
+getNumberOfSections sectionList = 
+   length <| filter (\x -> x == 1) <| map (\x -> length x.route) sectionList

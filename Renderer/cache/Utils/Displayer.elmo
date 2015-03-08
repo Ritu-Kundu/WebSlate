@@ -1,0 +1,57 @@
+Elm.Utils = Elm.Utils || {};
+Elm.Utils.Displayer = Elm.Utils.Displayer || {};
+Elm.Utils.Displayer.make = function (_elm) {
+   "use strict";
+   _elm.Utils = _elm.Utils || {};
+   _elm.Utils.Displayer = _elm.Utils.Displayer || {};
+   if (_elm.Utils.Displayer.values)
+   return _elm.Utils.Displayer.values;
+   var _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   _A = _N.Array.make(_elm),
+   _E = _N.Error.make(_elm),
+   $moduleName = "Utils.Displayer";
+   var Basics = Elm.Basics.make(_elm);
+   var Color = Elm.Color.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Collage = Elm.Graphics.Collage.make(_elm);
+   var Graphics = Graphics || {};
+   Graphics.Element = Elm.Graphics.Element.make(_elm);
+   var List = Elm.List.make(_elm);
+   var Maybe = Elm.Maybe.make(_elm);
+   var Native = Native || {};
+   Native.Json = Elm.Native.Json.make(_elm);
+   var Native = Native || {};
+   Native.Ports = Elm.Native.Ports.make(_elm);
+   var Signal = Elm.Signal.make(_elm);
+   var String = Elm.String.make(_elm);
+   var Text = Elm.Text.make(_elm);
+   var Time = Elm.Time.make(_elm);
+   var Types = Types || {};
+   Types.Theme = Elm.Types.Theme.make(_elm);
+   var Window = Elm.Window.make(_elm);
+   var _op = {};
+   var getNthFromList = F2(function (n,
+   _v0) {
+      return function () {
+         switch (_v0.ctor)
+         {case "::": return function () {
+                 var nmod = A2(Basics.mod,
+                 n,
+                 List.length({ctor: "::"
+                             ,_0: _v0._0
+                             ,_1: _v0._1}));
+                 return _U.eq(nmod,
+                 0) ? _v0._0 : A2(getNthFromList,
+                 nmod - 1,
+                 _v0._1);
+              }();}
+         _E.Case($moduleName,
+         "between lines 10 and 12");
+      }();
+   });
+   _elm.Utils.Displayer.values = {_op: _op
+                                 ,getNthFromList: getNthFromList};
+   return _elm.Utils.Displayer.values;
+};
